@@ -187,6 +187,20 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
+            <span>Setting</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{ url('setting') }}"><i class="fa fa-list"></i>Data Setting</a></li>
+            
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
             <span>Penjualan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

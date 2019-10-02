@@ -74,7 +74,7 @@
           <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
           <td>{{ $m->jumlahBarang }}</td>
 
-          @if($m->status==1)
+          @if($m->status==1 or $m->status==7)
 
           <td>{{ "Sortir" }}</td>
 
@@ -82,7 +82,7 @@
 
           <td>{{ "Selesai Sortir" }}</td>
 
-          @elseif($m->status==3)
+          @elseif($m->status==3 or $m->status==8)
 
           <td>{{ "Pengeringan" }}</td>
 

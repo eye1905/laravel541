@@ -140,7 +140,7 @@ class DetailprosesController extends Controller
             $detailproses->save();
 
             $data = [];
-            $data["status"] = 5;
+            $data["status"] = 8;
             $update = DetailProses::where("iddetail", $detail->iddetail)->update($data);
 
         }
@@ -170,6 +170,7 @@ class DetailprosesController extends Controller
             $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
 
             $jumlah = $total = 0;
+
             foreach ($detail as $key => $value) {
                 if ($value["status"]==0) {
                     $total += $value["jumlahBarang"];
@@ -186,9 +187,10 @@ class DetailprosesController extends Controller
             }else{
                 $detailproses->save();
             }
+
             $detail = [];
             $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
-
+            //dd($detail);
             $jumlah = $total = 0;
             foreach ($detail as $key => $value) {
                 if ($value["status"]==0) {
@@ -227,9 +229,14 @@ class DetailprosesController extends Controller
             return redirect()->back()->with('error','jumlah terlalu besar');
         }else{
             $detailproses->save();
-
+            
             $data = [];
-            $data["jumlahBarang"] = $detail->jumlahBarang-$request->e_jumlah;
+            $data["status"] = 1;
+            //dd($data);
+            if ($request->e_jumlah==$detail->jumlahBarang) {
+                $data["status"] = 7;
+            }
+
             $update = DetailProses::where("iddetail", $request->e_idproses)->update($data);
         }
         //var_dump($update); die;
@@ -257,7 +264,7 @@ class DetailprosesController extends Controller
         }else{
             $detailproses->save();
 
-            $data = array('status' => 5);
+            $data = array('status' => 8);
             $update = DetailProses::where("iddetail", $request->k_idproses)->update($data);
 
         }
