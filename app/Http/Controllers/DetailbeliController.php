@@ -141,6 +141,20 @@ class DetailbeliController extends Controller
         //
     }
 
+    public function updateharga(Request $request)
+    {
+        $data = [];
+        $data["id_beli"] = $request->beli;
+        $data["id_barang"] = $request->barang;
+        $data["berat"] = $request->berat;
+        $data["harga"] = $request->harga;
+        $data["subTotal"] = $data["harga"]*$data["berat"];
+
+        Detailbeli::where("id_barang", $request->barang)->where("id_beli", $request->beli)->update($data);
+
+        return redirect()->back()->with('Harga Berhasil Ditambahkan');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

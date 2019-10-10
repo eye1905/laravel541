@@ -112,7 +112,6 @@ class DetailprosesController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -343,7 +342,7 @@ class DetailprosesController extends Controller
                     $detail->total = 0;
                     $detail->save();
                 }
-                
+
                 // untuk proses
                 $data = array('status' => 1);
                 Proses::where("id", $id)->update($data);

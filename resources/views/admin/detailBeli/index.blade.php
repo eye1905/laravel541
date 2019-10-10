@@ -53,7 +53,21 @@
           <td>{{ $m->subTotal }}</td>
           <!-- jika harga barang kosong -->
           <td>
-           
+             @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
+             <button class="btn btn-sm btn-primary" onclick="pilih({{ $m->id_barang }}, {{ $m->berat }})">
+                <i class="fa fa-pencil"></i> Tambahkan harga
+             </button>
+            {{-- @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
+            <a href="{{ url('detailbeli/pengeringan')."/".$id."/".$m->id_barang }}" class="btn btn-info btn-sm">
+                Pengeringan
+            </a> --}}
+            @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw") <!-- 
+            <button type="button" onclick="pilih('{{ $m->id_barang }}', '{{ $m->berat }}')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">
+                Sortir
+            </button> -->
+            @else
+            -
+            @endif
           </td>
 
           </tr>
@@ -62,11 +76,10 @@
        @if($data->status!=1)
 
       <tr>
-        <form class="form-horizontal" method="POST" action="{{ url('detailbeli') }}">
+        <form class="form-horizontal" method="POST" action="{{ url('detailbeli') }}" id="myform">
                 {{ csrf_field() }}
-        <td>  </td>
+        <td><input type="hidden" name="beli" value="{{ $id }}"/></td>
         <td>  
-          <input type="hidden" name="beli" value="{{ $id }}"/>
           <select id="barang" class="form-control" name="barang" required>
               @foreach($masterbarangs as $key => $m)
                 <option value = "{{ $m->id }}">
@@ -86,7 +99,6 @@
           <button class="btn btn-sm btn-success" type="submit">
             Simpan
           </button>
-
         </td>
       </form>
       </tr>
@@ -111,7 +123,7 @@
 <!-- <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
-    <!-- Modal content-->
+  Modal content-->
     <div class="modal-content">
       <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
         {{ csrf_field() }}
@@ -187,8 +199,9 @@
   });
 
 function pilih(id, berat) {
-    $("#pberat").val(berat);
-    $("#jumlahBarang").val(berat);
+    $("#myform").attr('action', "{{ url('detailbeli/updateharga') }}");
+    $("#barang").val(id);
+    $("#berat").val(berat);
 }
 
 </script>
