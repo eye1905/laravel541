@@ -53,17 +53,7 @@
           <td>{{ $m->subTotal }}</td>
           <!-- jika harga barang kosong -->
           <td>
-            @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
-            <a href="{{ url('proses/pengeringan')."/".$id."/".$m->id_barang }}" class="btn btn-info btn-sm">
-                Pengeringan
-            </a>
-            @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw") <!-- 
-            <button type="button" onclick="pilih('{{ $m->id_barang }}', '{{ $m->berat }}')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal">
-                Sortir
-            </button> -->
-            @else
-            -
-            @endif
+           
           </td>
 
           </tr>

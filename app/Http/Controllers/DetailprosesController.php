@@ -301,11 +301,18 @@ class DetailprosesController extends Controller
     public function endproses($id)
     {   
         $barang = Barang::where("namaBarang", "Raw")->get()->first();
-        $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)
+        // select total raw barang
+        $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)->where("status", 5)
                 ->groupBy("id_barang")->get()->first();
+
+        // select proses jika ada
         $proses = Proses::findOrFail($id);
 
-        if ($count->jumlah>0) {
+        // select total barang yang sudah melalui sortir dan pengeringan
+        $jumlah = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("status", 4)->get()->first();
+
+        // bandingkan jika total raw dan total barang yang melalui sortir dan pengeringan
+        if ($count>$jumlah) {
             return redirect()->back()->with('error','Raw Barang Belum Kosong, Transaksi Tidak Bisa Dilanjut');
         }else{
             try {
@@ -316,11 +323,26 @@ class DetailprosesController extends Controller
                 $beli->id_supplier = $proses->id_supplier;
                 $beli->id_karyawan = $proses->id_karyawan;
                 $beli->status = 0;
-               //var_dump($beli);die;
+
+                // pembuatan kode nota beli
                 $beli->save();
                 $data = [];
                 $data['noNotaBeli'] = 'B0000'.$beli->id;
                 Beli::where('id',$beli->id)->update($data);
+                
+                // create detail beli
+                $data = DB::select("select id_proses,id_barang,sum(jumlahBarang) as jumlah from detailproses where status='5' or status='4' group by id_proses,id_barang"); 
+                // iterasi insert to detail belis
+                foreach ($data as $key => $value) {
+                    $detail = new Detailbeli();
+                    $detail->id_beli = $beli->id;
+                    $detail->id_barang = $value->id_barang;
+                    $detail->berat = (Int) $value->jumlah;
+                    $detail->harga = 0;
+                    $detail->subtotal = $value->jumlah*$detail->harga;
+                    $detail->total = 0;
+                    $detail->save();
+                }
                 
                 // untuk proses
                 $data = array('status' => 1);
