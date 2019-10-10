@@ -9,6 +9,8 @@ use App\Barang;
 use DB;
 use App\Beli;
 use App\Detailbeli;
+use App\HistorySortir;
+use App\HistoryPengeringan;
 
 class DetailprosesController extends Controller
 {
@@ -91,10 +93,11 @@ class DetailprosesController extends Controller
         $data["masterdetailprosess"] = Detailproses::where("id_proses", $id)->get();
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
-        $data["detail"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
-                    ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get();
-
-        //dd($data["detail"]);
+        $data["raw"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
+                    ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get()->first();
+        $data["barang"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
+                    ->where("id_proses", $id)->where("status", "4")->groupBy("id_barang")->get()->toArray();
+        //dd($data["barang"]);
         return view('admin.detailproses.index', $data);
     }
 
@@ -124,6 +127,7 @@ class DetailprosesController extends Controller
     public function pengeringan(Request $request)
     {   
         $detail = DetailProses::where("iddetail", $request->idproses)->get()->first();
+        $history = (Int) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
         //dd($detail);
         DB::beginTransaction();
         $detailproses = new DetailProses();
@@ -134,15 +138,26 @@ class DetailprosesController extends Controller
 
         //dd($detail);
         /// cek untuk ambil barang dan proses raw
-        if ($request->jumlah>$detail->jumlahBarang) {
+        if ($history>0 and $request->jumlah>$history) {
             return redirect()->back()->with('error','jumlah terlalu besar');
         }else{
+            // simpan detail proses
             $detailproses->save();
 
-            $data = [];
-            $data["status"] = 8;
-            $update = DetailProses::where("iddetail", $detail->iddetail)->update($data);
+            // simpan ke pengeringan
+            $history = new HistoryPengeringan();
+            $history->jumlah = $detailproses->jumlahBarang;
+            $history->iddetail = $detail->iddetail;
+            $history->save();
 
+            $history = HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
+            $jumlah = (Int) $detail->jumlahBarang;
+
+            if ($history==$detail->jumlahBarang) {
+                $data = [];
+                $data["status"] = 8;
+                $update = DetailProses::where("iddetail", $detail->iddetail)->update($data);
+            }
         }
         //var_dump($update); die;
         DB::commit();
@@ -216,29 +231,39 @@ class DetailprosesController extends Controller
     public function endsortir(Request $request)
     {
         $detail = DetailProses::where("iddetail", $request->e_idproses)->get()->first();
-
+        $history = (Int) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah");
+        
         DB::beginTransaction();
         $detailproses = new DetailProses();
         $detailproses->id_proses = $detail->id_proses;
         $detailproses->id_barang = $request->e_idbarang;
         $detailproses->jumlahBarang = $request->e_jumlah;
         $detailproses->status =2;
-
         /// cek untuk ambil barang dan proses raw
-        if ($request->e_jumlah>$detail->jumlahBarang) {
+        if ($history>0 && $request->e_jumlah>$history) {
             return redirect()->back()->with('error','jumlah terlalu besar');
         }else{
             $detailproses->save();
             
             $data = [];
             $data["status"] = 1;
-            //dd($data);
-            if ($request->e_jumlah==$detail->jumlahBarang) {
-                $data["status"] = 7;
-            }
 
-            $update = DetailProses::where("iddetail", $request->e_idproses)->update($data);
+            // insert ke history sortir 
+            $history = new HistorySortir();
+            $history->jumlah = $detailproses->jumlahBarang;
+            $history->iddetail = $detail->iddetail;
+            $history->save();
+
+            // cek history lagi setelah di simpan
+            $history = (Int) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah"); 
+
+            // update status barang awal
+            if ($detail->jumlahBarang==$history) {
+                $data["status"] = 7;
+                $update = DetailProses::where("iddetail", $request->e_idproses)->update($data);
+            }
         }
+
         //var_dump($update); die;
         DB::commit();
         return redirect()->back()->with('success','Proses Selesai Sortir Berhasil Ditambahkan !');

@@ -66,6 +66,7 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+            {{-- {{ dd(bcrypt("admin123")) }} --}}
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
@@ -76,12 +77,12 @@
                     @endif
                 </div>
             @endif
-
+            
             <div class="content">
                 <div class="title m-b-md">
                     Laravel
                 </div>
-
+                
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>

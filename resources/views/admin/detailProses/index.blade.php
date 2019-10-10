@@ -36,16 +36,18 @@
                 @php
                   $total = 0;
                 @endphp
-                @foreach($detail as $key => $val)
-                  @foreach($masterbarangs as $key2 => $val2)
-                      @if($val->id_barang==$val2->id and $val2->namaBarang=="Raw")
-                            {{ $val2->namaBarang." : ".$val["jumlah"] }} <br>
-                      @endif
-                      @if($val->id_barang==$val2->id and $val2->namaBarang!="Raw")
-                            {{ $val2->namaBarang." : ".$val["jumlah"] }} <br>
-                      @endif
-                  @endforeach
-              @endforeach
+
+                @foreach($masterbarangs as $key => $val)
+                    @if($val->id==$raw->id_barang)
+                        {{ $val->namaBarang." : ".$raw->jumlah }} <br>
+                    @endif
+
+                    @foreach($barang as $key1 => $val1)
+                        @if($val->id == $val1["id_barang"])
+                            {{ $val->namaBarang." : ".$val1["jumlah"] }} <br>
+                        @endif
+                    @endforeach
+                @endforeach
               </p>
             </div>
             <!-- /.box-header -->
