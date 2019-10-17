@@ -38,7 +38,7 @@
           <th>Opsi</th>
 				</tr>
         </thead>
-       <tbody>
+       <tbody>s
        @foreach ($masterbelis as $key => $m)
 				<tr>
 					<td>{{ $key+1 }}</td>

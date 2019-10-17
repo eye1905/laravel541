@@ -36,9 +36,8 @@
                 @php
                   $total = 0;
                 @endphp
-
                 @foreach($masterbarangs as $key => $val)
-                    @if($val->id==$raw->id_barang)
+                    @if(isset($raw) and $val->id==$raw->id_barang)
                         {{ $val->namaBarang." : ".$raw->jumlah }} <br>
                     @endif
 
@@ -70,7 +69,10 @@
         </thead>
 
        <tbody>
-         @foreach ($masterdetailprosess as $key => $m)
+
+     <!--  //jika ada barang disortir -->
+      @if(count($masterdetailprosess)>0) 
+        @foreach ($masterdetailprosess as $key => $m)
         <tr>
           <td>{{ $key+1 }}</td>
           <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
@@ -142,47 +144,47 @@
           </td>
           </tr>
        @endforeach
-
+       @endif
        @if($data->status==0)
-      <tr>
-        <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
-                {{ csrf_field() }}
-        <td>  </td>
-        <td>  
-          <input type="hidden" name="id_proses" value="{{ $id }}"/>
-          <select id="barang" class="form-control" name="barang" required>
-              @foreach($masterbarangs as $key => $m)
-                <option value = "{{ $m->id }}">
-                {{ $m->namaBarang }}
-                </option>
-                @endforeach
-          </select> 
-        </td>
-        <td>  
-         <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
-        </td>
-         <td>  
-         <!-- <select id="status" class="form-control" name="status" required>
-              <option value ="1">
-                Pengeringan
-              </option>
-              <option value ="2">
-                Sortir
-              </option>
+          <tr>
+            <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
+                    {{ csrf_field() }}
+            <td>  </td>
+            <td>  
+              <input type="hidden" name="id_proses" value="{{ $id }}"/>
+              <select id="barang" class="form-control" name="barang" required>
+                  @foreach($masterbarangs as $key => $m)
+                    <option value = "{{ $m->id }}">
+                    {{ $m->namaBarang }}
+                    </option>
+                    @endforeach
+              </select> 
+            </td>
+            <td>  
+             <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
+            </td>
+             <td>  
+             <!-- <select id="status" class="form-control" name="status" required>
+                  <option value ="1">
+                    Pengeringan
+                  </option>
+                  <option value ="2">
+                    Sortir
+                  </option>
 
 
-          </select>  -->
-        </td>
-        <td> </td>
-        <td>
-          <button class="btn btn-sm btn-success" type="submit">
-            Simpan
-          </button>
+              </select>  -->
+            </td>
+            <td> </td>
+            <td>
+              <button class="btn btn-sm btn-success" type="submit">
+                Simpan
+              </button>
 
-        </td>
-      </form>
-      </tr>
-      @endif
+            </td>
+          </form>
+          </tr>
+          @endif
 
                 </tbody>
               </table>
@@ -196,7 +198,8 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-    
+
+    <!-- Pengeringan MODAL -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -223,6 +226,7 @@
       </div>
     </div>
 
+<!-- Sortir MODAL -->
     <div class="modal fade" id="sortirModal" tabindex="-1" role="dialog" aria-labelledby="sortirModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -248,6 +252,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="modal fade" id="EndsortirModal" tabindex="-1" role="dialog" aria-labelledby="EndsortirModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">

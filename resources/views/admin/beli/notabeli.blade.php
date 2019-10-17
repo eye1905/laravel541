@@ -16,7 +16,7 @@
 <table  id="example1" style="margin-left:10px">
 
 	<tr> 
-		<td width="79%">
+		<td width="75%">
 			No. Nota Beli : {{ $data->noNotaBeli }}
 		</td>
 		<td>

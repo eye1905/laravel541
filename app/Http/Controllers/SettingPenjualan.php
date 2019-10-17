@@ -31,4 +31,12 @@ class SettingPenjualan extends Controller
         return redirect('setting')->with('Data Setting Berhasil Ditambahkan !');
     }
 
+    public function update(Request $request)
+    {   
+        $data["persen"] = $request->get('setting');
+        
+        Setting::where("id_setting", $request->get('id_setting'))->update($data);
+
+        return redirect('setting')->with('Data Setting Berhasil Ditambahkan !');
+    }
 }

@@ -38,13 +38,14 @@ class BarangController extends Controller
     {
         $namaBarang = $request->get('namaBarang');
         $satuan = $request->get('satuan');
+        $harga = $request->get('harga');
        
 
         $masterbarangs = new Barang();
         $masterbarangs->namaBarang=$namaBarang;
         $masterbarangs->stok="0";
         $masterbarangs->satuan=$satuan;
-       
+        $masterbarangs->harga=$harga;
         $masterbarangs->status="1";
         //var_dump($masterbarangs);die;
         $masterbarangs->save();
@@ -92,7 +93,7 @@ class BarangController extends Controller
         $masterbarangs->namaBarang=$namaBarang;
        
         $masterbarangs->satuan=$satuan;
-        
+        $masterbarangs->harga=$harga;
         $masterbarangs->status="1";
         //var_dump($masterbarangs);die;
         $masterbarangs->save();

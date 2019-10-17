@@ -138,7 +138,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{ url('beli') }}"><i class="fa fa-plus-square-o"></i>Data Pembelian</a></li>
-            <li><a href="{{ url('beli/create') }}"><i class="fa fa-list"></i>Input Data Pembelian</a></li>
+            <!-- <li><a href="{{ url('beli/create') }}"><i class="fa fa-list"></i>Input Data Pembelian</a></li> -->
           </ul>
         </li>
 

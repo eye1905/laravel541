@@ -39,3 +39,6 @@ Route::post('endsortir', 'DetailprosesController@endsortir');
 Route::post('endpengeringan', 'DetailprosesController@endpengeringan');
 Route::get('endproses/{id}', 'DetailprosesController@endproses');
 Route::resource('setting', 'SettingPenjualan');
+Route::post('setting/update', 'SettingPenjualan@update');
+
+Route::resource('penjualan', 'JualController');

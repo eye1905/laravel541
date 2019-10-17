@@ -35,6 +35,7 @@
 					<th>Nama Barang</th>
 					<th>Stok</th>
           <th>Satuan</th>
+          <th>Harga</th>
           <th>Status</th>
           <th>Opsi</th>
 				</tr>
@@ -46,11 +47,9 @@
 					<td>{{ $m->namaBarang }}</td>
 					<td>{{ $m->stok }}</td>
           <td>{{ $m->satuan }}</td>
-          <td> @if($m->status==1)
-              {{ "Barang Belum Siap Jual" }}
-              @else
+          <td>{{ $m->harga }}</td>
+          <td> 
               {{ "Barang Siap Jual" }}
-            @endif
           </td>
 					<td><a class="btn btn-success" href="{!! action('BarangController@edit', $m->id) !!}">Ubah</a></td>
           <td>

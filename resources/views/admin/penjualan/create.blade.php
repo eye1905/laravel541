@@ -6,10 +6,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Edit Data Barang
+        Proses
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('barang/edit') }}" class="active"><i class="fa fa-dashboard"></i> Edit Data Barang</a></li>
+        <li><a href="{{ url('proses/create') }}" class="active"><i class="fa fa-dashboard"></i> Proses</a></li>
       </ol>
     </section>
 
@@ -21,7 +21,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Form Edit Barang</h3>
+              <h3 class="box-title">Form Input Proses</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -33,63 +33,68 @@
             @foreach ($errors ->all() as $error)
               <h4 style="color: red">{{ $error }}</h4>
             @endforeach
-            <form role="form" action="{{ route('barang.update', $masterbarangs->id) }}" method="POST" enctype="multipart/form-data">
-               {{ method_field("PUT") }} 
-              {{ csrf_field() }} 
+             <form class="form-horizontal" method="POST" action="{{ url('proses') }}">
+                {{ csrf_field() }}
 
-                <div class="form-group{{ $errors->has('namaBarang') ? ' has-error' : '' }}">
-                    <label for="namaBarang" class="col-md-4 control-label">Nama Barang</label>
+                <div class="form-group{{ $errors->has('id_karyawan') ? ' has-error' : '' }}">
+                    <label for="tglProses" class="col-md-4 control-label">Tanggal Proses</label>
 
                     <div class="col-md-6">
-                        <input id="namaBarang" type="text" class="form-control" name="namaBarang" value="{{ $masterbarangs->namaBarang }}" required autofocus>
+                        <input id="tglProses" type="date" class="form-control" name="tglProses" value="{{ old('tglProses') }}" required autofocus>
 
-                        @if ($errors->has('namaBarang'))
+                        @if ($errors->has('tglProses'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('namaBarang') }}</strong>
+                                <strong>{{ $errors->first('tglProses') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
-                <div class="form-group{{ $errors->has('harga') ? ' has-error' : '' }}">
-                    <label for="harga" class="col-md-4 control-label">Harga Barang</label>
+                <div class="form-group{{ $errors->has('karyawan') ? ' has-error' : '' }}">
+                    <label for="karyawan" class="col-md-4 control-label">Karyawan</label>
 
                     <div class="col-md-6">
-                        <input id="harga" type="number" class="form-control" name="harga" value="{{ old('harga') }}" required autofocus>
-
-                        @if ($errors->has('harga'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('harga') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
-                
-                <div class="form-group{{ $errors->has('satuan') ? ' has-error' : '' }}">
-                    <label for="satuan" class="col-md-4 control-label">Satuan</label>
-
-                    <div class="col-md-6">
-                      <select id="satuan" class="form-control" name="satuan" required>
-                        <option value = "Kg">
-                          Kg
+                        <select id="karyawan" class="form-control" name="karyawan" required>
+                        @foreach($masterkaryawans as $key => $m)
+                        <option value = "{{ $m->id }}">
+                          {{ $m->namaKaryawan }}
                         </option>
-
+                        @endforeach
                     </select>
 
-                        @if ($errors->has('satuan'))
+                        @if ($errors->has('karyawan'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('satuan') }}</strong>
+                                <strong>{{ $errors->first('karyawan') }}</strong>
                             </span>
                         @endif
                     </div>
                 </div>
 
-               
+                 <div class="form-group{{ $errors->has('supplier') ? ' has-error' : '' }}">
+                    <label for="supplier" class="col-md-4 control-label">Supplier</label>
+
+                    <div class="col-md-6">
+                        <select id="supplier" class="form-control" name="supplier" required>
+                        @foreach($mastersuppliers as $key => $m)
+                        <option value = "{{ $m->id }}">
+                          {{ $m->namaSupplier }}
+                        </option>
+                        @endforeach
+                    </select>
+
+                        @if ($errors->has('supplier'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('supplier') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
                         <button type="submit" class="btn btn-primary">
-                            Simpan
+                            Tambah
 
                         </button>
                         <br>

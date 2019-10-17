@@ -99,7 +99,7 @@ class DetailbeliController extends Controller
         $mbarang= new Barang();
         $barang= $Detailbeli->getbarang($id);
         $barang2= $mbarang->getbarang();
-
+        /*update stok barang*/
         foreach ($barang as $key => $value) {
             foreach ($barang2 as $key2 => $value2) {
                 if ($value->id_barang==$value2->id) {
@@ -108,8 +108,8 @@ class DetailbeliController extends Controller
                 }
             }
         }
-
-        $status = array('status' => '1');
+        /*update status beli*/
+        $status = array('status' => '1'); /*status 1 = tutup*/
         Beli::where("id", $id)->update($status);
 
         return redirect()->back()->with('Transaksi berhasil ditutup');

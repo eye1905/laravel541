@@ -50,6 +50,20 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('harga') ? ' has-error' : '' }}">
+                    <label for="harga" class="col-md-4 control-label">Harga Barang</label>
+
+                    <div class="col-md-6">
+                        <input id="harga" type="number" class="form-control" name="harga" value="{{ old('harga') }}" required autofocus>
+
+                        @if ($errors->has('harga'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('harga') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group{{ $errors->has('satuan') ? ' has-error' : '' }}">
                     <label for="satuan" class="col-md-4 control-label">Satuan</label>
 

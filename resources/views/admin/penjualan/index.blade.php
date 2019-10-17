@@ -40,9 +40,15 @@
 				</tr>
         </thead>
        <tbody>
-       @foreach ($masterbelis as $key => $m)
+      @php
+      $no = 0;
+      @endphp
+       @foreach ($masterjual as $key => $m)
+      @php
+      $no++;
+      @endphp
 				<tr>
-					<td>{{ $key+1 }}</td>
+					<td>{{ $no }}</td>
 					<td>{{ $m->noNotaBeli }}</td>
 					<td>{{ $m->tglBeli }}</td>
           <td>{{ $mastersuppliers[$m->id_supplier]["namaSupplier"] }}</td>

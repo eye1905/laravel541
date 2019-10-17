@@ -38,24 +38,28 @@
         </thead>
        <tbody>
         @foreach($data as $key=>$value)
-              <tr>
-                <td> {{$key+1 }} </td>
-                <td> {{$value->persen.' % '}} </td>
-                <td> </td>
-              </tr>
+          @if($key==0)
+          <tr>
+            <td> {{$key+1 }} </td>
+            <td> {{$value->persen.' % '}} </td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="pilih({{ $value->id_setting }}, {{ $value->persen }})">
+                <i class="fa fa-pencil"></i> Update Setting
+             </button>
+            </td>
+          </tr>
+          @endif
         @endforeach
-                <tr> 
-                  
-                    <form class="form-horizontal" method="POST" action="{{ url('setting') }}">
-                       {{ csrf_field() }}
-                    <td>  </td>
-                    <td> <input type='number' name='setting' id='setting' class='form-control'> </td>
-                    <td> <button type='submit' class='btn btn-sm btn-success'> Simpan </button> </td>
-                  </form>
-
-                </tr>
-                </tbody>
-              </table>
+            <tr> 
+              <form class="form-horizontal" method="POST" action="{{ url('setting') }}" id="myform">
+                 {{ csrf_field() }}
+              <td><input type='hidden' name='id_setting' id='id_setting'></td>
+              <td> <input type='number' name='setting' id='setting' class='form-control'> </td>
+              <td> <button type='submit' class='btn btn-sm btn-success'> Simpan </button> </td>
+            </form>
+          </tr>
+          </tbody>
+        </table>
             </div>
             <!-- /.box-body -->
           </div>
@@ -88,7 +92,14 @@
       'autoWidth'   : true
     })
     
-  })
+  });
+
+  function pilih(id, setting) {
+    //alert(setting);
+    $("#myform").attr('action', "{{ url('setting/update') }}");
+    $("#id_setting").val(id);
+    $("#setting").val(setting);
+}
 </script>
 @endsection
 @endsection

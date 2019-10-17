@@ -14,7 +14,9 @@ class JualController extends Controller
      */
     public function index()
     {
-        //
+        $data["masterjual"] = Jual::all();
+
+        return view("admin.penjualan.index", $data);
     }
 
     /**
