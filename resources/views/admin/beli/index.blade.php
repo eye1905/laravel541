@@ -134,7 +134,6 @@
       'info'        : true,
       'autoWidth'   : true
     })
-    
   });
 </script>
 @endsection
