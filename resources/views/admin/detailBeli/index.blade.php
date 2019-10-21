@@ -31,7 +31,9 @@
              @if($data->status!=1)
             <a href="{!! action('DetailbeliController@tutup', $id) !!}" class="btn btn-sm btn-success pull-right"> Tutup Transaksi </a>
             @else
-            <a href="{!! action('DetailbeliController@cetak', $id) !!}" class="btn btn-sm btn-success pull-right"> Cetak Nota </a>
+            <a href="{!! action('DetailbeliController@cetak', $id) !!}" class="btn btn-sm btn-primary pull-right"> 
+            <i class="fa fa-print"></i>
+            Cetak Nota </a>
             @endif
       <table id="example1" class="table table-bordered table-striped">
         <thead>
@@ -192,7 +194,7 @@
     $('#example1').DataTable({
       'paging'      : true,
       'lengthChange': true,
-      'searching'   : false,
+      'searching'   : true,
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : true

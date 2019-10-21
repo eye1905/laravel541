@@ -244,7 +244,7 @@ class DetailprosesController extends Controller
         $detailproses->status =2;
 
         $cek = $request->e_jumlah+$history;
-        dd($cek);
+        
         /// cek untuk ambil barang dan proses raw
         if ($cek > $detail["jumlahBarang"]) {
             return redirect()->back()->with('error','jumlah terlalu besar');
