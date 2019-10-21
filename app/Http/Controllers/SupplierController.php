@@ -46,7 +46,7 @@ class SupplierController extends Controller
         $mastersuppliers->namaSupplier=$namaSupplier;
         $mastersuppliers->alamat=$alamat;
         $mastersuppliers->noTelp=$noTelp;
-
+        $mastersuppliers->noRekening=$request->get('norek');
         $mastersuppliers->save();
 
         return redirect('supplier')->with('Data Supplier Berhasil Ditambahkan !');
@@ -90,7 +90,8 @@ class SupplierController extends Controller
         $mastersuppliers->namaSupplier =$request->get('namaSupplier');
         $mastersuppliers->alamat =$request->get('alamat');
         $mastersuppliers->noTelp =$request->get('noTelp');
-
+        $mastersuppliers->noRekening=$request->get('norek');
+        
         $mastersuppliers->save();
         return redirect('supplier')->with('status', 'data supplier berhasil diubah');
     }

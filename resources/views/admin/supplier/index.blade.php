@@ -35,6 +35,7 @@
 					<th>Nama Supplier</th>
 					<th>Alamat</th>
 					<th>No.Telpon</th>
+          <th>No. Rekening</th>
           <th>Edit</th>
           <th>Delete</th>
 				</tr>
@@ -46,6 +47,7 @@
 					<td>{{ $m->namaSupplier }}</td>
 					<td>{{ $m->alamat }}</td>
 					<td>{{ $m->noTelp }}</td>
+          <td>{{ $m->noRekening }}</td>
 					<td><a class="btn btn-success" href="{!! action('SupplierController@edit', $m->id) !!}">Ubah</a></td>
           <td>
            

@@ -17,12 +17,12 @@ class BeliController extends Controller
     public function index()
 
     {
-         $data["masterbelis"] = Beli::all();
-         $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
-         $data["masterkaryawans"] = self::toList(User::all(), "id");
+     $data["masterbelis"] = Beli::all();
+     $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
+     $data["masterkaryawans"] = self::toList(User::all(), "id");
 
-         return view('admin.beli.index', $data);
-    }
+     return view('admin.beli.index', $data);
+ }
 
     /**
      * Show the form for creating a new resource.
@@ -31,12 +31,12 @@ class BeliController extends Controller
      */
     public function create()
     {
-         $data["masterbelis"] = Beli::all();
-         $data["mastersuppliers"] = Supplier::all();
-         $data["masterkaryawans"] = User::all();
+     $data["masterbelis"] = Beli::all();
+     $data["mastersuppliers"] = Supplier::all();
+     $data["masterkaryawans"] = User::all();
           //var_dump($data["mastersuppliers"]);die;
-         return view('admin.beli.create', $data);
-    }
+     return view('admin.beli.create', $data);
+ }
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +46,7 @@ class BeliController extends Controller
      */
     public function store(Request $request)
     {
-        
+
 
         $beli = new Beli();
         
@@ -123,13 +123,22 @@ class BeliController extends Controller
     }
 
     function generateRandomString($length){ 
-    $characters = "0123456789";
-    $charsLength = strlen($characters) -1;
-    $string = "";
-    for($i=0; $i<$length; $i++){
-        $randNum = mt_rand(0, $charsLength);
-        $string .= $characters[$randNum];
+        $characters = "0123456789";
+        $charsLength = strlen($characters) -1;
+        $string = "";
+        for($i=0; $i<$length; $i++){
+            $randNum = mt_rand(0, $charsLength);
+            $string .= $characters[$randNum];
+        }
+        return $string;
     }
-    return $string;
-}
+
+    public function filter(Request $request)
+    {
+        $data["masterbelis"] = Beli::where()->get();
+        $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
+        $data["masterkaryawans"] = self::toList(User::all(), "id");
+        
+        return view('admin.beli.index', $data);
+    }
 }

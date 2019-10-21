@@ -49,6 +49,11 @@
                   <label>No. Telpon</label>
                   <input type="text" name="noTelp" class="form-control">
                 </div>
+
+                <div class="form-group">
+                  <label>No. Rekening</label>
+                  <input type="number" name="norek" class="form-control">
+                </div>
               <!-- /.box-body -->
 
                 <div class="form-group">

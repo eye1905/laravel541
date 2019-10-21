@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Data Pembelian</h3>
+            {{-- <h3 class="box-title">Data Pembelian</h3> --}}
             @if(session('status'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('status')}}
@@ -27,6 +27,34 @@
             @endif
           </div>
           <!-- /.box-header -->
+          {{-- <div class="container">
+            <div class="row">
+              <form method="POST" action="{!! url('filter') !!}" id="formku">
+                {{ csrf_field() }}
+                <div class="col-md-4">
+                  <label>Filter Supplier</label>
+                  <select class="form-control" name="" id="" onclick="">
+                      <option>-- Pilih Supplier --</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label>Filter Supplier</label>
+                  <select class="form-control" name="" id="" onclick="">
+                      <option>-- Pilih Supplier --</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label>Filter Supplier</label>
+                  <select class="form-control" name="" id="" onclick="">
+                      <option>-- Pilih Supplier --</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+          </div> --}}
+          <br><br>
           <div class="box-body">
             <table id="example1" class="table table-bordered table-striped">
               <thead>
