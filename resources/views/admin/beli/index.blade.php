@@ -27,7 +27,7 @@
             @endif
           </div>
           <!-- /.box-header -->
-          {{-- <div class="container">
+          <div class="container">
             <div class="row">
               <form method="POST" action="{!! url('filter') !!}" id="formku">
                 {{ csrf_field() }}
@@ -53,7 +53,7 @@
                 </div>
               </form>
             </div>
-          </div> --}}
+          </div>
           <br><br>
           <div class="box-body">
             <table id="example1" class="table table-bordered table-striped">
