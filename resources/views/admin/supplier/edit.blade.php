@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                   <label>No. Rekening</label>
-                  <input type="number" name="norek" class="form-control">
+                  <input type="number" name="norek" class="form-control" value="@if(isset($mastersuppliers->noRekening)){{ $mastersuppliers->noRekening }}  @endif">
                 </div>
               <!-- /.box-body -->
 
