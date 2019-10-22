@@ -82,7 +82,7 @@
           @if($data->status!=1)
 
           <tr>
-            <form class="form-horizontal" method="POST" action="{{ url('detailbeli') }}" id="myform">
+            <form class="form-horizontal" method="POST" action="#" id="myform">
               {{ csrf_field() }}
               <td><input type="hidden" name="beli" value="{{ $id }}"/></td>
               <td>  
@@ -95,7 +95,7 @@
                 </select> 
               </td>
               <td>  
-               <input type="number" class="form-control" id="berat" name="berat">
+               <input type="text" class="form-control" id="berat" name="berat" readonly="true">
              </td>
              <td>  
                <input type="number" class="form-control" id="harga" name="harga">
@@ -205,7 +205,7 @@
   function pilih(id, berat) {
     $("#myform").attr('action', "{{ url('detailbeli/updateharga') }}");
     $("#barang").val(id);
-    $("#berat").val(berat);
+    $("#berat").val(parseFloat(berat));
   }
 
 </script>

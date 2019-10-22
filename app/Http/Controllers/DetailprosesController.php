@@ -11,6 +11,7 @@ use App\Beli;
 use App\Detailbeli;
 use App\HistorySortir;
 use App\HistoryPengeringan;
+use App\HistoryRaw;
 
 class DetailprosesController extends Controller
 {
@@ -90,14 +91,18 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $data["masterdetailprosess"] = Detailproses::where("id_proses", $id)->get();
+        $data["masterdetailprosess"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah")
+        ->where("id_proses", $id)
+        ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
+        ->orderBy("detailproses.iddetail", "asc")
+        ->get();
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["raw"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
-                    ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get()->first();
+        ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get()->first();
 
         $data["barang"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
-                    ->where("id_proses", $id)->where("status", "4")->groupBy("id_barang")->get()->toArray();
+        ->where("id_proses", $id)->where("status", "4")->groupBy("id_barang")->get()->toArray();
         //dd($data["barang"]);
         return view('admin.detailproses.index', $data);
     }
@@ -121,13 +126,13 @@ class DetailprosesController extends Controller
      */
     public function destroy(Detailproses $detailproses)
     {
-        
+
     }
 
     public function pengeringan(Request $request)
     {   
         $detail = DetailProses::where("iddetail", $request->idproses)->get()->first();
-        $history = (Int) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
+        $history = (Double) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
         //dd($detail);
         DB::beginTransaction();
         $detailproses = new DetailProses();
@@ -146,6 +151,23 @@ class DetailprosesController extends Controller
         else{
             // simpan detail proses
             $detailproses->save();
+
+            // histori sisa
+            $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
+
+            if (!is_null($select)) {
+                $hisdata = [];
+                $hisdata["jumlah"] = (Double)$select->jumlah-$request->jumlah;
+                //dd($hisdata);
+                HistoryRaw::where("iddetail", $detail->iddetail)->update($hisdata);
+            }else{
+
+                $history = new HistoryRaw();
+                $history->jumlah = (Double)$detail->jumlahBarang-$request->jumlah;
+                $history->iddetail = $detail->iddetail;
+                //dd($history);
+                $history->save();
+            }
 
             // simpan ke pengeringan
             $history = new HistoryPengeringan();
@@ -171,196 +193,248 @@ class DetailprosesController extends Controller
     public function sortir(Request $request)
     {
        $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
-        
-        DB::beginTransaction();
-        $detailproses = new DetailProses();
-        $detailproses->id_proses = $detail->id_proses;
-        $detailproses->id_barang = $detail->id_barang;
-        $detailproses->jumlahBarang = $request->s_jumlah;
-        $detailproses->status =1;
+        //dd($detail);
+       DB::beginTransaction();
+       $detailproses = new DetailProses();
+       $detailproses->id_proses = $detail->id_proses;
+       $detailproses->id_barang = $detail->id_barang;
+       $detailproses->jumlahBarang = $request->s_jumlah;
+       $detailproses->status =1;
 
         /// cek untuk ambil barang dan proses raw
-        if ($request->s_jumlah>$detail->jumlahBarang) {
-            return redirect()->back()->with('error','jumlah terlalu besar');
-        }else{
-            $barang = Barang::where("namaBarang", "Raw")->get()->first();
+       if ($request->s_jumlah>$detail->jumlahBarang) {
+        return redirect()->back()->with('error','jumlah terlalu besar');
+    }else{
+
+        $barang = Barang::where("namaBarang", "Raw")->get()->first();
             //dd($barang);      
-            $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
+        $detail1 = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
 
-            $jumlah = $total = 0;
+        $jumlah = $total = 0;
 
-            foreach ($detail as $key => $value) {
-                if ($value["status"]==0) {
-                    $total += $value["jumlahBarang"];
-                }
-
-                if ($value["status"]!=0) {
-                    $jumlah += $value["jumlahBarang"];
-                }
-            }
-            $jumlah = $jumlah+$detailproses->jumlahBarang;
-
-            if ($jumlah > $total) {
-               return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
-            }else{
-                $detailproses->save();
+        foreach ($detail1 as $key => $value) {
+            if ($value["status"]==0) {
+                $total += $value["jumlahBarang"];
             }
 
-            $detail = [];
-            $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
-            //dd($detail);
-            $jumlah = $total = 0;
-            foreach ($detail as $key => $value) {
-                if ($value["status"]==0) {
-                    $total += $value["jumlahBarang"];
-                }
-
-                if ($value["status"]!=0) {
-                    $jumlah += $value["jumlahBarang"];
-                }
+            if ($value["status"]!=0) {
+                $jumlah += $value["jumlahBarang"];
             }
-
-            $data = array('status' => 5);
-            if ($jumlah >= $total) {
-                Detailproses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->where("status", "0")->update($data);
-            }
-
         }
-        //var_dump($update); die;
-        DB::commit();
-        return redirect()->back()->with('success','Proses Sortir Berhasil Ditambahkan !');
-    }
+        $jumlah = $jumlah+$detailproses->jumlahBarang;
 
-    public function endsortir(Request $request)
-    {
-        $detail = DetailProses::where("iddetail", $request->e_idproses)->get()->first();
-        $history = (Int) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah");
+        if ($jumlah > $total) {
+           return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
+       }else{
+        $detailproses->save();
 
-        DB::beginTransaction();
-        $detailproses = new DetailProses();
-        $detailproses->id_proses = $detail->id_proses;
-        $detailproses->id_barang = $request->e_idbarang;
-        $detailproses->jumlahBarang = $request->e_jumlah;
-        $detailproses->status =2;
-
-        $cek = $request->e_jumlah+$history;
+        $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
         
-        /// cek untuk ambil barang dan proses raw
-        if ($cek > $detail["jumlahBarang"]) {
-            return redirect()->back()->with('error','jumlah terlalu besar');
-        }else{
-            $detailproses->save();
-            
-            $data = [];
-            $data["status"] = 1;
+        if (!is_null($select)) {
+            $hisdata = [];
+            $hisdata["jumlah"] = (Double)$select->jumlah-$request->s_jumlah;
 
-            // insert ke history sortir 
-            $history = new HistorySortir();
-            $history->jumlah = $detailproses->jumlahBarang;
+            HistoryRaw::where("iddetail", $detail->iddetail)->update($hisdata);
+        }else{
+
+            $history = new HistoryRaw();
+            $history->jumlah = (Double)$detail->jumlahBarang-$request->s_jumlah;
             $history->iddetail = $detail->iddetail;
             $history->save();
-
-            // cek history lagi setelah di simpan
-            $history = (Int) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah"); 
-
-            // update status barang awal
-            if ($detail->jumlahBarang==$history) {
-                $data["status"] = 7;
-                $update = DetailProses::where("iddetail", $request->e_idproses)->update($data);
-            }
         }
-
-        //var_dump($update); die;
-        DB::commit();
-        return redirect()->back()->with('success','Proses Selesai Sortir Berhasil Ditambahkan !');
     }
 
-    public function endpengeringan(Request $request)
-    {
-        $detail = DetailProses::where("iddetail", $request->k_idproses)->get()->first();
+    $detail = [];
+    $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
+            //dd($detail);
+    $jumlah = $total = 0;
+    foreach ($detail as $key => $value) {
+        if ($value["status"]==0) {
+            $total += $value["jumlahBarang"];
+        }
 
-        $persen = $detail->jumlahBarang*10/100;
-        $sisa   = $detail->jumlahBarang-$persen;
+        if ($value["status"]!=0) {
+            $jumlah += $value["jumlahBarang"];
+        }
+    }
 
-        DB::beginTransaction();
-        $detailproses = new DetailProses();
-        $detailproses->id_proses = $detail->id_proses;
-        $detailproses->id_barang = $detail->id_barang;
-        $detailproses->jumlahBarang = $request->k_jumlah;
-        $detailproses->status =4;
+    $data = array('status' => 5);
+    if ($jumlah >= $total) {
+        Detailproses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->where("status", "0")->update($data);
+    }
+
+}
+        //var_dump($update); die;
+DB::commit();
+return redirect()->back()->with('success','Proses Sortir Berhasil Ditambahkan !');
+}
+
+public function endsortir(Request $request)
+{
+    $detail = DetailProses::where("iddetail", $request->e_idproses)->get()->first();
+    $history = (Double) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah");
+
+    DB::beginTransaction();
+    $detailproses = new DetailProses();
+    $detailproses->id_proses = $detail->id_proses;
+    $detailproses->id_barang = $request->e_idbarang;
+    $detailproses->jumlahBarang = $request->e_jumlah;
+    $detailproses->status =2;
+
+    $cek = $request->e_jumlah+$history;
 
         /// cek untuk ambil barang dan proses raw
-        if ($request->k_jumlah<$sisa or $request->k_jumlah>$detail->jumlahBarang) {
-            return redirect()->back()->with('error','jumlah terlalu kecil');
+    if ($cek > $detail["jumlahBarang"]) {
+        return redirect()->back()->with('error','jumlah terlalu besar');
+    }else{
+        $detailproses->save();
+
+            // insert history untuk sisa
+        $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
+        
+        if (!is_null($select)) {
+            $hisdata = [];
+            $hisdata["jumlah"] = (Double)$select->jumlah-$request->e_jumlah;
+            
+            HistoryRaw::where("iddetail", $detail->iddetail)->update($hisdata);
         }else{
-            $detailproses->save();
 
-            $data = array('status' => 8);
-            $update = DetailProses::where("iddetail", $request->k_idproses)->update($data);
-
+            $history = new HistoryRaw();
+            $history->jumlah = (Double)$detail->jumlahBarang-$request->e_jumlah;
+            $history->iddetail = $detail->iddetail;
+            //dd($history);
+            $history->save();
         }
-        //var_dump($update); die;
-        DB::commit();
-        return redirect()->back()->with('success','Proses Pengeringan Berhasil Ditambahkan !');
+
+            // insert ke history sortir 
+        $history = new HistorySortir();
+        $history->jumlah = $detailproses->jumlahBarang;
+        $history->iddetail = $detail->iddetail;
+        $history->save();
+
+            // cek history lagi setelah di simpan
+        $history = (Double) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah"); 
+
+            // update status barang awal
+        if ($detail->jumlahBarang==$history) {
+            $data = [];
+            $data["status"] = 7;
+            $update = DetailProses::where("iddetail", $request->e_idproses)->update($data);
+        }
     }
 
-    public function endproses($id)
-    {   
-        $barang = Barang::where("namaBarang", "Raw")->get()->first();
-        // select total raw barang
-        $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)->where("status", 5)
-                ->groupBy("id_barang")->get()->first();
-        $persen = $count->jumlah-2;   
-         
-        // select proses jika ada
-        $proses = Proses::findOrFail($id);
+        //var_dump($update); die;
+    DB::commit();
+    return redirect()->back()->with('success','Proses Selesai Sortir Berhasil Ditambahkan !');
+}
 
-        // select total barang yang sudah melalui sortir dan pengeringan
-        $jumlah = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("status", 4)->get()->first();
+public function endpengeringan(Request $request)
+{
+    $detail = DetailProses::where("iddetail", $request->k_idproses)->get()->first();
 
-        // bandingkan jika total raw dan total barang yang melalui sortir dan pengeringan
-        if ($persen>$jumlah->jumlah) {
-            return redirect()->back()->with('error','Raw Barang Belum Kosong, Transaksi Tidak Bisa Dilanjut');
-        }else{
-            try {
-                DB::beginTransaction();
-                // untuk create beli
-                $beli = new Beli();
-                $beli->tglBeli = date("Y-m-d");
-                $beli->id_supplier = $proses->id_supplier;
-                $beli->id_karyawan = $proses->id_karyawan;
-                $beli->status = 0;
+    $persen = $detail->jumlahBarang*10/100;
+    $sisa   = $detail->jumlahBarang-$persen;
 
-                // pembuatan kode nota beli
-                $beli->save();
-                $data = [];
-                $data['noNotaBeli'] = 'B0000'.$beli->id;
-                Beli::where('id',$beli->id)->update($data);
-                
-                // create detail beli
-                $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='5' or status='4')
-                                     group by id_barang"); 
-                // iterasi insert to detail belis
-                foreach ($data as $key => $value) {
-                    $detail = new Detailbeli();
-                    $detail->id_beli = $beli->id;
-                    $detail->id_barang = $value->id_barang;
-                    $detail->berat = (Int) $value->jumlah;
-                    $detail->harga = 0;
-                    $detail->subtotal = $value->jumlah*$detail->harga;
-                    $detail->total = 0;
-                    $detail->save();
-                }
+    DB::beginTransaction();
+    $detailproses = new DetailProses();
+    $detailproses->id_proses = $detail->id_proses;
+    $detailproses->id_barang = $detail->id_barang;
+    $detailproses->jumlahBarang = $request->k_jumlah;
+    $detailproses->status =4;
 
-                // untuk proses
-                $data = array('status' => 1);
-                Proses::where("id", $id)->update($data);
-                DB::commit();
-            } catch (Exception $e) {
-                return redirect()->back()->with('error','Transaksi Tidak Bisa Dilanjut, silahkan cek data dulu');
+        /// cek untuk ambil barang dan proses raw
+    if ($request->k_jumlah<$sisa or $request->k_jumlah>$detail->jumlahBarang) {
+        return redirect()->back()->with('error','jumlah terlalu kecil');
+    }else{
+        $detailproses->save();
+
+        $data = array('status' => 8);
+        $update = DetailProses::where("iddetail", $request->k_idproses)->update($data);
+
+        $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
+
+        if (!is_null($select) and $request->k_jumlah >= $persen) {
+            $persen = $select->jumlah*10/100;
+            $hisdata = [];
+            if ($select->jumlah==$persen) {
+                $hisdata["jumlah"] = (Double)$persen;
+            }else{
+                $hisdata["jumlah"] = (Double)$select->jumlah-$request->k_jumlah;
+                //dd($hisdata);
             }
 
-            return redirect()->back()->with('success','Proses Transaksi Berhasil Di Buat');
+            HistoryRaw::where("iddetail", $detail->iddetail)->update($hisdata);
+        }else{
+
+            $history = new HistoryRaw();
+            $history->jumlah = (Double)$detail->jumlahBarang-$request->k_jumlah;
+            $history->iddetail = $detail->iddetail;
+                //dd($history);
+            $history->save();
         }
     }
+        //var_dump($update); die;
+    DB::commit();
+    return redirect()->back()->with('success','Proses Pengeringan Berhasil Ditambahkan !');
+}
+
+public function endproses($id)
+{   
+    $barang = Barang::where("namaBarang", "Raw")->get()->first();
+        // select total raw barang
+    $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)->where("status", 5)
+    ->groupBy("id_barang")->get()->first();
+    $persen = $count->jumlah-2;   
+
+        // select proses jika ada
+    $proses = Proses::findOrFail($id);
+
+        // select total barang yang sudah melalui sortir dan pengeringan
+    $jumlah = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("status", 4)->get()->first();
+
+        // bandingkan jika total raw dan total barang yang melalui sortir dan pengeringan
+    if ($persen>$jumlah->jumlah) {
+        return redirect()->back()->with('error','Raw Barang Belum Kosong, Transaksi Tidak Bisa Dilanjut');
+    }else{
+        try {
+            DB::beginTransaction();
+                // untuk create beli
+            $beli = new Beli();
+            $beli->tglBeli = date("Y-m-d");
+            $beli->id_supplier = $proses->id_supplier;
+            $beli->id_karyawan = $proses->id_karyawan;
+            $beli->status = 0;
+
+                // pembuatan kode nota beli
+            $beli->save();
+            $data = [];
+            $data['noNotaBeli'] = 'B0000'.$beli->id;
+            Beli::where('id',$beli->id)->update($data);
+
+                // create detail beli
+            $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='5' or status='4')
+             group by id_barang"); 
+                // iterasi insert to detail belis
+            foreach ($data as $key => $value) {
+                $detail = new Detailbeli();
+                $detail->id_beli = $beli->id;
+                $detail->id_barang = $value->id_barang;
+                $detail->berat = (Double) $value->jumlah;
+                $detail->harga = 0;
+                $detail->subtotal = $value->jumlah*$detail->harga;
+                $detail->total = 0;
+                $detail->save();
+            }
+
+                // untuk proses
+            $data = array('status' => 1);
+            Proses::where("id", $id)->update($data);
+            DB::commit();
+        } catch (Exception $e) {
+            return redirect()->back()->with('error','Transaksi Tidak Bisa Dilanjut, silahkan cek data dulu');
+        }
+
+        return redirect()->back()->with('success','Proses Transaksi Berhasil Di Buat');
+    }
+}
 }

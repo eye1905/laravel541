@@ -23,8 +23,7 @@
   <!-- Morris chart -->
   <link rel="stylesheet" href="{{ asset('bower_components/morris.js/morris.css') }}">
 
-  <!-- jvectormap -->
-  <link rel="stylesheet" href="{{ asset('bower_components/jvectormap/jquery-jvectormap.css') }}">
+  
   <!-- Date Picker -->
   <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
   <!-- Daterange picker -->
@@ -243,6 +242,7 @@
   $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->
+
 <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- Morris.js charts -->
 <script src="{{ asset('bower_components/raphael/raphael.min.js') }}"></script>
