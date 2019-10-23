@@ -231,7 +231,7 @@
       </aside>
 
       @yield('content')
-      
+
       <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -315,10 +315,10 @@
     @yield('script')
 
     <script type="text/javascript">
-      $(window).on('load',function(){
-        $('#myModal').modal('show');
-      });
-
+      // $(window).on('load',function(){
+      //   $('#myModal').modal('show');
+      // });
+      
       $.ajax({
         type: "GET",
         url: '{{ url('getBarang') }}',
@@ -326,7 +326,7 @@
         { 
           var obj = JSON.parse(data);
           $.each(obj,function(key,value) {
-              $("#modalku").append("<tr><td>"+key+"</td><td>"+value.nama+"</td><td>"+value.stok+"</td><td>"+value.satuan+"</td></tr>");
+            $("#modalku").append("<tr><td>"+key+"</td><td>"+value.nama+"</td><td>"+value.stok+"</td><td>"+value.satuan+"</td></tr>");
           });
         }
       });

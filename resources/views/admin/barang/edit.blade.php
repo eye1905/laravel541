@@ -55,7 +55,7 @@
                     <label for="harga" class="col-md-4 control-label">Harga Barang</label>
 
                     <div class="col-md-6">
-                        <input id="harga" type="number" class="form-control" name="harga" value="{{ old('harga') }}" required autofocus>
+                        <input id="harga" type="number" class="form-control" name="harga" value="{{ $masterbarangs->harga }}" required autofocus>
 
                         @if ($errors->has('harga'))
                             <span class="help-block">
@@ -65,6 +65,20 @@
                     </div>
                 </div>
                 
+                <div class="form-group{{ $errors->has('stok') ? ' has-error' : '' }}">
+                    <label for="harga" class="col-md-4 control-label">Stok Barang</label>
+
+                    <div class="col-md-6">
+                        <input id="stok" type="number" class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
+
+                        @if ($errors->has('stok'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('stok') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group{{ $errors->has('satuan') ? ' has-error' : '' }}">
                     <label for="satuan" class="col-md-4 control-label">Satuan</label>
 

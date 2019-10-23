@@ -88,12 +88,14 @@ class BarangController extends Controller
       $namaBarang = $request->get('namaBarang');
       $satuan = $request->get('satuan');
       $harga = $request->get('harga');
+      $stok = $request->get('stok');
 
       $masterbarangs = Barang::whereId($id)->firstOrFail();
       $masterbarangs->namaBarang=$namaBarang;
 
       $masterbarangs->satuan=$satuan;
       $masterbarangs->harga=$harga;
+      $masterbarangs->stok=$stok;
       $masterbarangs->status="1";
         //var_dump($masterbarangs);die;
       $masterbarangs->save();
