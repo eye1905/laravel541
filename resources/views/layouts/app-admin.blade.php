@@ -131,13 +131,13 @@
     <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
-            <span>Pembelian</span>
+            <span>Pembayaran</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ url('beli') }}"><i class="fa fa-plus-square-o"></i>Data Pembelian</a></li>
+            <li><a href="{{ url('beli') }}"><i class="fa fa-plus-square-o"></i>Data Pembayaran</a></li>
             <!-- <li><a href="{{ url('beli/create') }}"><i class="fa fa-list"></i>Input Data Pembelian</a></li> -->
           </ul>
         </li>
