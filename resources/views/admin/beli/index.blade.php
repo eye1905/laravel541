@@ -6,10 +6,10 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Data Pembelian
+      Data Pembayaran
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('beli') }}" class="active"><i class="fa fa-dashboard"></i> Data Pembelian</a></li>
+      <li><a href="{{ url('beli') }}" class="active"><i class="fa fa-dashboard"></i> Data Pembayaran</a></li>
     </ol>
   </section>
 
@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            {{-- <h3 class="box-title">Data Pembelian</h3> --}}
+            {{-- <h3 class="box-title">Data Pembayaran</h3> --}}
             @if(session('status'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('status')}}
@@ -82,7 +82,7 @@
                 @if($m->status==0)
                 <span style="background-color: orange; color:#fff">Transaksi Belum Selesai</span>
                 @else
-                <span style="background-color: green; color:#fff">Transaksi Selesi</span>
+                <span style="background-color: green; color:#fff">Transaksi Selesai</span>
                 @endif
               </td>
               <td>
