@@ -78,16 +78,7 @@
                 <td>{{ $key+1 }}</td>
                 <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 <td>{{ $m->jumlahBarang }}</td>
-                <td>
-                  @if($m->status==0)
-                  @elseif($m->status==1 or $m->status==2)
-
-
-                  @elseif($m->status==3 or $m->status==4)
-
-                  @endif
-                </td>
-
+                <td>{{ $m->jumlah }}</td>
                 @if($m->status==1 or $m->status==7)
 
                 <td>{{ "Sortir" }}</td>
@@ -135,7 +126,7 @@
                     <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
                       Sortir
                     </button>
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status<=1 and $m->jumlahBarang>0)
+                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==1 and $m->jumlahBarang>0)
                     <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
                       Selesai Sortir
                     </button>
@@ -148,7 +139,7 @@
                           <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Selesai Pengeringan</a></li>
                         </ul>
                       </div>
-                      @elseif($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==5)
+                      @elseif($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==5 and $m->status==7)
 
                       @endif
                     </td>
@@ -186,6 +177,7 @@
                 </select>  -->
               </td>
               <td> </td>
+              <td></td>
               <td>
                 <button class="btn btn-sm btn-success" type="submit">
                   Simpan
@@ -348,14 +340,14 @@
   //   })
 
   // });
-function getpengeringan (id, barang) {
- $("#idproses").val(id);
- $("#idbarang").val(barang);
-}
+  function getpengeringan (id, barang) {
+   $("#idproses").val(id);
+   $("#idbarang").val(barang);
+ }
 
-function getSortir (id, barang) {
- $("#s_idproses").val(id);
- $("#s_idbarang").val(barang);
+ function getSortir (id, barang) {
+  $("#s_idproses").val(id);
+  $("#s_idbarang").val(barang);
 }
 
 function endSortir (id, barang) {

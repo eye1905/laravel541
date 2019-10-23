@@ -29,7 +29,7 @@ Route::get('detailbeli/tutup/{id?}', 'DetailbeliController@tutup');
 Route::get('detailbeli/cetak/{id?}', 'DetailbeliController@cetak');
 Route::post('detailbeli/updateharga', 'DetailbeliController@updateharga');
 Route::post('filter', 'BeliController@filter');
-
+Route::get('getBarang', 'BarangController@getBarang');
 
 Route::resource('proses', 'ProsesController');
 Route::get('proses/pengeringan/{id?}/{id1?}', 'ProsesController@pengeringan');

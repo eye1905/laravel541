@@ -14,4 +14,9 @@ class Detailproses extends Model
    	{
         return $this->belongsTo('App\Barang', 'id_barang');
    	}
+
+   	public function historyraw()
+   	{
+        return $this->hasMany('App\HistoryRaw');
+   	}
 }
