@@ -104,7 +104,7 @@ class DetailprosesController extends Controller
         ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get()->first();
 
         $data["barang"] = Detailproses::select("id_barang", "jumlahBarang as jumlah")
-        ->where("id_proses", $id)->where("status", 4)->groupBy("id_barang")->get()->toArray();
+        ->where("id_proses", $id)->where("status", 4)->get()->toArray();
         
         return view('admin.detailproses.index', $data);
     }
