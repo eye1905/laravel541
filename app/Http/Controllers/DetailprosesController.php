@@ -97,14 +97,15 @@ class DetailprosesController extends Controller
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
         ->orderBy("detailproses.iddetail", "asc")
         ->get();
+
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["raw"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
         ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get()->first();
 
-        $data["barang"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
-        ->where("id_proses", $id)->where("status", "1")->groupBy("id_barang")->get()->toArray();
-        //dd($data["barang"]);
+        $data["barang"] = Detailproses::select("id_barang", "jumlahBarang as jumlah")
+        ->where("id_proses", $id)->where("status", 4)->groupBy("id_barang")->get()->toArray();
+        
         return view('admin.detailproses.index', $data);
     }
 

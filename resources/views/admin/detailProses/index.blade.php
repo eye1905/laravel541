@@ -43,7 +43,7 @@
 
               @foreach($barang as $key1 => $val1)
               @if($val->id == $val1["id_barang"])
-              {{ $val->namaBarang." : ".$val1["jumlah"] }} <br>
+              {{ $val->namaBarang." : ".++$val1["jumlah"] }} <br>
               @endif
               @endforeach
               @endforeach
