@@ -32,7 +32,7 @@
         <thead>
 				<tr>
 					<th>No.</th>
-					<th>Nama Setting</th>
+					<th>Persen</th>
           <th>Opsi</th>
 				</tr>
         </thead>

@@ -113,6 +113,7 @@
               </a>
             </li>
 
+            @if(Auth::user()->jabatan==1 or Auth::user()->jabatan==2)
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-book"></i>
@@ -140,6 +141,7 @@
                 <!-- <li><a href="{{ url('beli/create') }}"><i class="fa fa-list"></i>Input Data Pembelian</a></li> -->
               </ul>
             </li>
+            @endif
 
             <li class="treeview">
               <a href="#">
@@ -169,6 +171,7 @@
               </ul>
             </li>
 
+             @if(Auth::user()->jabatan==1 or Auth::user()->jabatan==2)
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-book"></i>
@@ -224,7 +227,7 @@
                 <li><a href="{{ url('konsumen/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Konsumen </a></li>
               </ul>
             </li>
-
+            @endif
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -315,19 +318,26 @@
     @yield('script')
 
     <script type="text/javascript">
+     @if(Route::currentRouteName()=="home")
       $(window).on('load',function(){
-        $('#myModal').modal('show');
+         $('#myModal').modal('show');
       });
-      
+      @endif
+
       $.ajax({
         type: "GET",
         url: '{{ url('getBarang') }}',
         success: function(data)
         { 
           var obj = JSON.parse(data);
-          $.each(obj,function(key,value) {
-            $("#modalku").append("<tr><td>"+key+"</td><td>"+value.nama+"</td><td>"+value.stok+"</td><td>"+value.satuan+"</td></tr>");
-          });
+          if (obj.length>0) {
+            $.each(obj,function(key,value) {
+              $("#modalku").append("<tr><td>"+key+"</td><td>"+value.nama+"</td><td>"+value.stok+"</td><td>"+value.satuan+"</td></tr>");
+            });
+          }else{
+              $("#modalku").append("<tr><td colspan='4' class='text-center'>Stok Barang Sudah Penuh</td></tr>");
+          }
+
         }
       });
     </script>

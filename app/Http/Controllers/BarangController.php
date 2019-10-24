@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
-{
+{   
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-       $masterbarangs = Barang::all();
-       return view('admin.barang.index',['masterbarangs' => $masterbarangs]);
-   }
+        $masterbarangs = Barang::all();
+
+        return view('admin.barang.index',['masterbarangs' => $masterbarangs]);
+    }
 
     /**
      * Show the form for creating a new resource.

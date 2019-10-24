@@ -15,6 +15,20 @@ class KaryawanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->user = auth()->user();
+
+            if ($this->user->jabatan==3 or $this->user->jabatan==4) {
+                return redirect('home')->with('Anda Tidak Punya Akses');
+            }
+            
+            return $next($request);
+        });
+    }
+    
     public function index()
     {
         $masterkaryawans = User::all();

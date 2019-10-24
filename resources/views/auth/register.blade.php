@@ -44,10 +44,10 @@
 
                             <div class="col-md-6">
                                 <select class="form-control select2" style="width: 100%;" id="jabatan" name="jabatan" required>
-                                  <option selected="selected" value = "pegawai_keuangan">Pegawai Keuangan</option>
-                                  <option value = "akuntan">Akuntan</option>
-                                  <option value = "pegawai_gudang">Pegawai Gudang</option>
-                                  <option value = "pegawai_barang">Pegawai Barang</option>
+                                  <option selected="selected" value = "1">Pegawai Keuangan</option>
+                                  <option value = "2">Akuntan</option>
+                                  <option value = "3">Pegawai Gudang</option>
+                                  <option value = "4">Pegawai Barang</option>
                                 </select>
 
                                 @if ($errors->has('jabatan'))

@@ -20,6 +20,7 @@ class DetailprosesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         //
@@ -193,17 +194,17 @@ class DetailprosesController extends Controller
 
     public function sortir(Request $request)
     {
-     $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
+       $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
         //dd($detail);
-     DB::beginTransaction();
-     $detailproses = new DetailProses();
-     $detailproses->id_proses = $detail->id_proses;
-     $detailproses->id_barang = $detail->id_barang;
-     $detailproses->jumlahBarang = $request->s_jumlah;
-     $detailproses->status =1;
+       DB::beginTransaction();
+       $detailproses = new DetailProses();
+       $detailproses->id_proses = $detail->id_proses;
+       $detailproses->id_barang = $detail->id_barang;
+       $detailproses->jumlahBarang = $request->s_jumlah;
+       $detailproses->status =1;
 
         /// cek untuk ambil barang dan proses raw
-     if ($request->s_jumlah>$detail->jumlahBarang) {
+       if ($request->s_jumlah>$detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu besar');
     }else{
 
@@ -225,8 +226,8 @@ class DetailprosesController extends Controller
         $jumlah = $jumlah+$detailproses->jumlahBarang;
 
         if ($jumlah > $total) {
-         return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
-     }else{
+           return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
+       }else{
         $detailproses->save();
 
         $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
@@ -333,21 +334,28 @@ public function endsortir(Request $request)
 public function endpengeringan(Request $request)
 {
     $detail = DetailProses::where("iddetail", $request->k_idproses)->get()->first();
-
-    $persen = $detail->jumlahBarang*10/100;
-    $sisa   = $detail->jumlahBarang-$persen;
+    $history = HistoryRaw::select("jumlah")->where("iddetail", $request->k_idproses)->get()->first();
+    
+    if (is_null($history)) {
+        $persen = $detail->jumlahBarang*10/100;
+        $sisa   = $detail->jumlahBarang-$persen;
+    }else{
+        $persen = $detail->jumlahBarang*10/100;
+        $sisa   = $history->jumlah-$persen;
+    }
 
     DB::beginTransaction();
     $detailproses = new DetailProses();
     $detailproses->id_proses = $detail->id_proses;
     $detailproses->id_barang = $detail->id_barang;
     $detailproses->jumlahBarang = $request->k_jumlah;
-    $detailproses->status =1;
+    $detailproses->status =4;
 
         /// cek untuk ambil barang dan proses raw
     if ($request->k_jumlah<$sisa or $request->k_jumlah>$detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu kecil');
     }else{
+        
         $detailproses->save();
 
         $data = array('status' => 8);
@@ -415,7 +423,7 @@ public function endproses($id)
 
                 // create detail beli
             $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='5' or status='1')
-               group by id_barang"); 
+             group by id_barang"); 
                 // iterasi insert to detail belis
             foreach ($data as $key => $value) {
                 $detail = new Detailbeli();
@@ -440,11 +448,11 @@ public function endproses($id)
     }
 }
 
-    public function getPersen($jumlah)
-    {
-        $percen =   $jumlah*10/100;
-        $percen = $jumlah-$percen;
+public function getPersen($jumlah)
+{
+    $percen =   $jumlah*10/100;
+    $percen = $jumlah-$percen;
 
-        return $percen;
-    }
+    return $percen;
+}
 }
