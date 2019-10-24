@@ -349,16 +349,16 @@ public function endpengeringan(Request $request)
     $detailproses->id_proses = $detail->id_proses;
     $detailproses->id_barang = $detail->id_barang;
     $detailproses->jumlahBarang = $request->k_jumlah;
-    $detailproses->status =4;
+    $detailproses->status = 4;
 
         /// cek untuk ambil barang dan proses raw
     if ($request->k_jumlah<$sisa or $request->k_jumlah>$detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu kecil');
     }else{
-        
+
         $detailproses->save();
 
-        $data = array('status' => 8);
+        $data = array('status' => 8 );
         $update = DetailProses::where("iddetail", $request->k_idproses)->update($data);
 
         $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
@@ -394,15 +394,19 @@ public function endproses($id)
         // select total raw barang
     $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)->where("status", 5)
     ->groupBy("id_barang")->get()->first();
-    $persen = $count->jumlah-2;   
+    
+    $persen =0;
+    if ($count!=null) {
+        $persen = $count->jumlah-2;   
+    }
 
-        // select proses jika ada
+    // select proses jika ada
     $proses = Proses::findOrFail($id);
 
-        // select total barang yang sudah melalui sortir dan pengeringan
-    $jumlah = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("status", 1)->get()->first();
-
-        // bandingkan jika total raw dan total barang yang melalui sortir dan pengeringan
+    // select total barang yang sudah melalui sortir dan pengeringan
+    $jumlah = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("status", 4)->get()->first();
+    
+    // bandingkan jika total raw dan total barang yang melalui sortir dan pengeringan
     if ($persen>$jumlah->jumlah) {
         return redirect()->back()->with('error','Raw Barang Belum Kosong, Transaksi Tidak Bisa Dilanjut');
     }else{
