@@ -37,13 +37,9 @@
               $total = 0;
               @endphp
               @foreach($masterbarangs as $key => $val)
-              @if(isset($raw) and $val->id==$raw->id_barang)
-              {{ $val->namaBarang." : ".$raw->jumlah }} <br>
-              @endif
-
               @foreach($barang as $key1 => $val1)
-              @if($val->id == $val1["id_barang"])
-              {{ $val->namaBarang." : ".++$val1["jumlah"] }} <br>
+              @if($val->id == $val1->id_barang)
+              {{ $val->namaBarang." : ".$val1->jumlah }} <br>
               @endif
               @endforeach
               @endforeach

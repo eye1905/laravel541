@@ -100,11 +100,8 @@ class DetailprosesController extends Controller
 
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
-        $data["raw"] = Detailproses::select("id_barang", DB::raw("SUM(jumlahBarang) as jumlah"))
-        ->where("id_proses", $id)->where("status", "5")->groupBy("id_barang")->get()->first();
-
-        $data["barang"] = Detailproses::select("id_barang", "jumlahBarang as jumlah")
-        ->where("id_proses", $id)->where("status", 4)->get()->toArray();
+        $data["barang"] = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and 
+            (status='4' or status='5') group by id_barang");
         
         return view('admin.detailproses.index', $data);
     }
@@ -427,9 +424,10 @@ public function endproses($id)
             Beli::where('id',$beli->id)->update($data);
 
                 // create detail beli
-            $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='5' or status='1')
-             group by id_barang"); 
-                // iterasi insert to detail belis
+            $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='4' or status='5')
+            group by id_barang");
+            
+            // iterasi insert to detail belis
             foreach ($data as $key => $value) {
                 $detail = new Detailbeli();
                 $detail->id_beli = $beli->id;

@@ -192,24 +192,6 @@
 <!-- ./wrapper -->
 @section('script')
 <script>
-<<<<<<< HEAD
-$(function () {
-  $('#example1').DataTable({
-    'paging'      : true,
-    'lengthChange': true,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : true
-  })
-});
-
-function pilih(id, berat) {
-  $("#myform").attr('action', "{{ url('detailbeli/updateharga') }}");
-  $("#barang").val(id);
-  $("#berat").val(berat);
-}
-=======
   $(function () {
     $('#example1').DataTable({
       'paging'      : true,
@@ -226,7 +208,6 @@ function pilih(id, berat) {
     $("#barang").val(id);
     $("#berat").val(parseFloat(berat));
   }
->>>>>>> ffb8ba3f02c63ec449acd327cdf51124eb403779
 
 </script>
 @endsection
