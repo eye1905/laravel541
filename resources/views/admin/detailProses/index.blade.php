@@ -60,7 +60,6 @@
                  <th>Berat</th>
                  <th>Sisa</th>
                  <th>Status</th>
-                 <th>Tanggal Proses</th>
                  <th>Opsi</th>
                </tr>
              </thead>

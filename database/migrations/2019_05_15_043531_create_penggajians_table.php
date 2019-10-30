@@ -12,17 +12,18 @@ class CreatePenggajiansTable extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('penggajians', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('bulan', 50);
-            $table->integer('tahun');
-            $table->integer('gajiPokok');
-            $table->integer('gajiTambahan');
-            $table->integer('id_karyawan')->unsigned();
-            $table->foreign('id_karyawan')->references('id')->on('karyawans');
-            $table->timestamps();
-        });
+    {   
+        if (Schema::hasTable('penggajians')) {
+            Schema::create('penggajians', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('bulan', 50);
+                $table->integer('tahun');
+                $table->integer('gajiPokok');
+                $table->integer('gajiTambahan');
+                $table->integer('id_karyawan')->unsigned();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Jual;
+use App\Konsumen;
+use App\User;
 use Illuminate\Http\Request;
+use App\Detailjual;
+use App\Barang;
 
 class JualController extends Controller
 {
@@ -30,6 +34,8 @@ class JualController extends Controller
     public function index()
     {
         $data["masterjual"] = Jual::all();
+        $data["masterkonsumen"] = self::toList(Konsumen::select("id", "namaKonsumen")->get(), "id");
+        $data["masterkaryawans"] = self::toList(User::all(), "id");
 
         return view("admin.penjualan.index", $data);
     }
@@ -40,8 +46,11 @@ class JualController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   
+        $data["mastersuppliers"] = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterkaryawans"] = User::all();
+
+        return view("admin.penjualan.create", $data);
     }
 
     /**
@@ -51,8 +60,24 @@ class JualController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+
+        $jual = new Jual();
+        $jual->tglPesan = date("Y-m-d");
+        $jual->statusBayar = 0;
+        $jual->id_konsumen = $request->supplier;
+        $jual->id_karyawan = $request->karyawan;
+       try { 
+           $jual->save();
+           $data = [];
+            $data['noNotaJual'] = 'J0000'.$jual->id;
+            Jual::where('id',$jual->id)->update($data);
+
+       } catch (Exception $e) {
+           return redirect()->back()->with('error','Pesanan Barang Gagal Dibuat');
+       }
+
+       return redirect("penjualan/detail/".$jual->id)->with('success','Pesanan Barang Sukses Dibuat');
     }
 
     /**
@@ -66,15 +91,30 @@ class JualController extends Controller
         //
     }
 
+    public function detail($id)
+    {
+        $data["data"] = Jual::find($id);
+        $data["masterjual"] = Detailjual::where("id_jual", $id)->get();
+        $data["masterbarangs"] = self::toList(Barang::all(), 'id');
+        $data["masterkaryawans"] = User::all();
+        $data["id"]             = $id;
+
+        return view("admin.penjualan.detail", $data);
+    }    
+
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Jual  $jual
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jual $jual)
-    {
-        //
+    public function edit($id)
+    {   
+        $data["mastersuppliers"] = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterkaryawans"] = User::all();
+        $data["data"]            = Jual::find($id);
+
+        return view("admin.penjualan.create", $data);
     }
 
     /**
@@ -84,9 +124,18 @@ class JualController extends Controller
      * @param  \App\Jual  $jual
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jual $jual)
+    public function update(Request $request, $id)
     {
-        //
+       try { 
+           $data = [];
+            $data['id_konsumen'] = $request->supplier;
+            $data['id_karyawan'] = $request->karyawan;
+            Jual::where('id',$id)->update($data);
+       } catch (Exception $e) {
+           return redirect()->back()->with('error','Pesanan Barang Gagal Diupdate');
+       }
+
+       return redirect("penjualan/detail/".$id)->with('success','Pesanan Barang Sukses Diupdate');
     }
 
     /**
@@ -97,6 +146,6 @@ class JualController extends Controller
      */
     public function destroy(Jual $jual)
     {
-        //
+        
     }
 }

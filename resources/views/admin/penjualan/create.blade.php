@@ -6,10 +6,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Proses
+        Penjualan
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('proses/create') }}" class="active"><i class="fa fa-dashboard"></i> Proses</a></li>
+        <li><a href="{{ url('penjualan/create') }}" class="active"><i class="fa fa-dashboard"></i> Penjualan</a></li>
       </ol>
     </section>
 
@@ -21,7 +21,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Form Input Proses</h3>
+              <h3 class="box-title">Form Input Penjualan</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -33,22 +33,15 @@
             @foreach ($errors ->all() as $error)
               <h4 style="color: red">{{ $error }}</h4>
             @endforeach
-             <form class="form-horizontal" method="POST" action="{{ url('proses') }}">
+
+            @if(isset($data))
+              <form class="form-horizontal" action="{{ route('penjualan.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+              {{ method_field("PUT") }} 
+            @else
+              <form class="form-horizontal" method="POST" action="{{ url('penjualan') }}">
+            @endif
+
                 {{ csrf_field() }}
-
-                <div class="form-group{{ $errors->has('id_karyawan') ? ' has-error' : '' }}">
-                    <label for="tglProses" class="col-md-4 control-label">Tanggal Proses</label>
-
-                    <div class="col-md-6">
-                        <input id="tglProses" type="date" class="form-control" name="tglProses" value="{{ old('tglProses') }}" required autofocus>
-
-                        @if ($errors->has('tglProses'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('tglProses') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
 
                 <div class="form-group{{ $errors->has('karyawan') ? ' has-error' : '' }}">
                     <label for="karyawan" class="col-md-4 control-label">Karyawan</label>
@@ -77,7 +70,7 @@
                         <select id="supplier" class="form-control" name="supplier" required>
                         @foreach($mastersuppliers as $key => $m)
                         <option value = "{{ $m->id }}">
-                          {{ $m->namaSupplier }}
+                          {{ $m->namaKonsumen }}
                         </option>
                         @endforeach
                     </select>

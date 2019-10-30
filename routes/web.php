@@ -44,3 +44,5 @@ Route::resource('setting', 'SettingPenjualan');
 Route::post('setting/update', 'SettingPenjualan@update');
 
 Route::resource('penjualan', 'JualController');
+Route::get('penjualan/detail/{id}', 'JualController@detail');
+Route::resource('detailjual', 'DetailjualController');

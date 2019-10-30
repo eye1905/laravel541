@@ -36,11 +36,19 @@ class SettingPenjualan extends Controller
 
     public function store(Request $request)
     {
-        $persen = $request->get('setting');
-        $setting = new Setting();
-        $setting->persen = $persen;
-        $setting->save();
+        $data = Setting::all();
         
+        if (count($data)>0) {
+            $persen = array('persen' => $request->setting);
+
+           Setting::where("id_setting", $data[0]->id_setting)->update($persen);
+        }else{
+            $persen = $request->get('setting');
+            $setting = new Setting();
+            $setting->persen = $persen;
+            $setting->save();
+        }
+            
         return redirect('setting')->with('Data Setting Berhasil Ditambahkan !');
     }
 
