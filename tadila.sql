@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 21, 2019 at 12:35 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 5.6.32
+-- Host: localhost
+-- Generation Time: Oct 30, 2019 at 02:37 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,6 +33,7 @@ CREATE TABLE `barangs` (
   `namaBarang` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `stok` double NOT NULL,
   `satuan` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `harga` double NOT NULL,
   `status` tinyint(2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -42,10 +43,11 @@ CREATE TABLE `barangs` (
 -- Dumping data for table `barangs`
 --
 
-INSERT INTO `barangs` (`id`, `namaBarang`, `stok`, `satuan`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Kaki', 56, 'Kg', 1, '2019-06-25 05:41:05', '2019-08-27 20:11:23'),
-(2, 'Mangkok A', 17, 'Kg', 1, '2019-07-04 03:59:18', '2019-07-24 03:12:46'),
-(3, 'Raw', 45, 'Kg', 1, '2019-07-10 03:43:18', '2019-08-27 20:11:23');
+INSERT INTO `barangs` (`id`, `namaBarang`, `stok`, `satuan`, `harga`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Kaki', 106.7, 'Kg', 10000, 1, '2019-06-25 05:41:05', '2019-10-30 02:46:35'),
+(2, 'Mangkok A', 24.5, 'Kg', 8000, 1, '2019-07-04 03:59:18', '2019-10-30 02:46:35'),
+(3, 'Raw', 39, 'Kg', 90, 1, '2019-07-10 03:43:18', '2019-10-30 02:46:35'),
+(4, 'Kaki Basah', 13.4, 'Kg', 50000, 1, '2019-10-24 02:46:22', '2019-10-30 02:46:35');
 
 -- --------------------------------------------------------
 
@@ -69,24 +71,7 @@ CREATE TABLE `belis` (
 --
 
 INSERT INTO `belis` (`id`, `noNotaBeli`, `tglBeli`, `id_supplier`, `id_karyawan`, `status`, `created_at`, `updated_at`) VALUES
-(1, '1978823', '2019-06-25', 1, 4, '1', '2019-06-25 06:03:05', '2019-07-04 05:05:06'),
-(2, '1768558', '2019-07-04', 1, 1, '0', '2019-07-04 03:59:35', '2019-07-04 04:57:46'),
-(3, '7552035', '2019-07-04', 2, 1, '', '2019-07-04 04:01:56', '2019-07-04 04:01:56'),
-(4, '9367707', '2019-07-04', 2, 1, '', '2019-07-04 04:02:41', '2019-07-04 04:02:41'),
-(5, '1024733', '2019-07-04', 2, 1, '', '2019-07-04 04:20:02', '2019-07-04 04:20:02'),
-(6, NULL, '2019-07-10', 2, 1, '0', '2019-07-10 02:39:14', '2019-07-10 02:39:14'),
-(7, 'B00007', '2019-07-10', 2, 1, '1', '2019-07-10 02:41:37', '2019-07-10 03:40:13'),
-(8, 'B00008', '2019-07-10', 1, 1, '0', '2019-07-10 03:43:27', '2019-07-10 03:43:27'),
-(9, 'B00009', '2019-07-11', 1, 1, '0', '2019-07-10 21:37:22', '2019-07-10 21:37:22'),
-(10, 'B000010', '2019-07-24', 3, 1, '1', '2019-07-24 02:33:51', '2019-07-24 02:35:46'),
-(11, 'B000011', '2019-07-24', 3, 1, '1', '2019-07-24 03:11:25', '2019-08-27 20:11:23'),
-(12, 'B000012', '2019-07-24', 2, 1, '1', '2019-07-24 03:11:52', '2019-07-24 03:12:46'),
-(13, 'B000013', '2019-08-14', 3, 1, '0', '2019-08-13 23:20:13', '2019-08-13 23:20:13'),
-(14, 'B000014', '2019-08-19', 3, 1, '1', '2019-08-18 19:44:45', '2019-08-18 19:45:08'),
-(15, 'B000015', '2019-08-27', 4, 1, '0', '2019-08-27 06:01:32', '2019-08-27 06:01:33'),
-(16, 'B000016', '2019-08-27', 1, 1, '0', '2019-08-27 06:10:06', '2019-08-27 06:10:07'),
-(17, 'B000017', '2019-08-27', 1, 1, '0', '2019-08-27 06:22:41', '2019-08-27 06:22:41'),
-(18, 'B000018', '2019-09-17', 1, 1, '0', '2019-09-16 22:02:36', '2019-09-16 22:02:37');
+(37, 'B000037', '2019-10-30', 1, 1, '1', '2019-10-30 02:45:32', '2019-10-30 02:46:35');
 
 -- --------------------------------------------------------
 
@@ -123,26 +108,10 @@ CREATE TABLE `detailbelis` (
 --
 
 INSERT INTO `detailbelis` (`id_barang`, `id_beli`, `berat`, `harga`, `subTotal`, `total`, `created_at`, `updated_at`) VALUES
-(1, 1, '5', 5000, 25000, 175000, '2019-07-04 03:27:51', '2019-07-04 04:07:29'),
-(1, 1, '5', 5000, 25000, 175000, '2019-07-04 03:30:24', '2019-07-04 04:07:29'),
-(1, 1, '5', 5000, 25000, 175000, '2019-07-04 03:30:42', '2019-07-04 04:07:29'),
-(1, 1, '5', 5000, 25000, 175000, '2019-07-04 03:44:48', '2019-07-04 04:07:29'),
-(2, 1, '3', 25000, 75000, 175000, '2019-07-04 04:07:29', '2019-07-04 04:07:29'),
-(2, 5, '2', 30000, 60000, 60000, '2019-07-04 04:20:25', '2019-07-04 04:20:25'),
-(2, 2, '4', 25000, 100000, 120000, '2019-07-04 04:57:35', '2019-07-04 04:57:44'),
-(1, 2, '2', 10000, 20000, 120000, '2019-07-04 04:57:44', '2019-07-04 04:57:44'),
-(1, 7, '20', 30000, 600000, 600000, '2019-07-10 02:41:48', '2019-07-10 02:41:48'),
-(3, 10, '20', NULL, 0, 0, '2019-07-24 02:35:07', '2019-07-24 02:35:07'),
-(2, 12, '10', 15000, 150000, 150000, '2019-07-24 03:12:05', '2019-07-24 03:12:12'),
-(3, 12, '5', NULL, 0, 150000, '2019-07-24 03:12:12', '2019-07-24 03:12:12'),
-(1, 8, '6', NULL, 0, 0, '2019-07-24 04:30:08', '2019-07-24 04:30:31'),
-(3, 8, '20', NULL, 0, 0, '2019-07-24 04:30:31', '2019-07-24 04:30:31'),
-(3, 11, '10', NULL, 0, 0, '2019-07-24 04:45:38', '2019-07-24 04:45:43'),
-(1, 11, '6', NULL, 0, 0, '2019-07-24 04:45:43', '2019-07-24 04:45:43'),
-(3, 13, '25', NULL, 0, 240000, '2019-08-13 23:20:22', '2019-08-13 23:20:32'),
-(1, 13, '12', 20000, 240000, 240000, '2019-08-13 23:20:31', '2019-08-13 23:20:32'),
-(3, 14, '10', NULL, 0, 600000, '2019-08-18 19:44:50', '2019-08-18 19:45:00'),
-(1, 14, '30', 20000, 600000, 600000, '2019-08-18 19:45:00', '2019-08-18 19:45:00');
+(1, 37, '3.5', 1000, 3500, 0, '2019-10-30 02:45:32', '2019-10-30 02:46:21'),
+(2, 37, '2', 10000, 20000, 0, '2019-10-30 02:45:32', '2019-10-30 02:46:29'),
+(3, 37, '10', 0, 0, 0, '2019-10-30 02:45:32', '2019-10-30 02:45:32'),
+(4, 37, '4.4', 20000, 88000, 0, '2019-10-30 02:45:32', '2019-10-30 02:46:33');
 
 -- --------------------------------------------------------
 
@@ -158,6 +127,16 @@ CREATE TABLE `detailjuals` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `detailjuals`
+--
+
+INSERT INTO `detailjuals` (`id_barang`, `id_jual`, `beratJual`, `harga`, `created_at`, `updated_at`) VALUES
+(4, 2, 4, 10000, '2019-10-30 03:01:51', '2019-10-30 03:10:03'),
+(1, 2, 10, 10000, '2019-10-30 03:10:51', '2019-10-30 03:10:51'),
+(4, 1, 60, 65000, '2019-10-30 03:58:25', '2019-10-30 03:58:35'),
+(2, 1, 20, 10400, '2019-10-30 03:58:45', '2019-10-30 03:58:45');
 
 -- --------------------------------------------------------
 
@@ -180,60 +159,90 @@ CREATE TABLE `detailproses` (
 --
 
 INSERT INTO `detailproses` (`iddetail`, `id_proses`, `id_barang`, `jumlahBarang`, `status`, `created_at`, `updated_at`) VALUES
-(1, 9, 3, 0, 0, '2019-08-27 06:08:31', '2019-08-27 06:08:56'),
-(2, 9, 3, 0, 1, '2019-08-27 06:08:50', '2019-08-27 06:09:04'),
-(3, 9, 3, 0, 1, '2019-08-27 06:08:56', '2019-08-27 06:09:24'),
-(4, 9, 1, 0, 2, '2019-08-27 06:09:04', '2019-08-27 06:09:11'),
-(5, 9, 1, 0, 3, '2019-08-27 06:09:11', '2019-08-27 06:09:17'),
-(6, 9, 1, 10, 4, '2019-08-27 06:09:17', '2019-08-27 06:09:17'),
-(7, 9, 2, 0, 2, '2019-08-27 06:09:24', '2019-08-27 06:09:30'),
-(8, 9, 2, 0, 3, '2019-08-27 06:09:30', '2019-08-27 06:09:35'),
-(9, 9, 2, 10, 4, '2019-08-27 06:09:35', '2019-08-27 06:09:35'),
-(10, 10, 3, 0, 0, '2019-08-27 06:12:49', '2019-08-27 06:14:38'),
-(11, 10, 3, 0, 1, '2019-08-27 06:12:57', '2019-08-27 06:13:10'),
-(12, 10, 1, 0, 2, '2019-08-27 06:13:10', '2019-08-27 06:13:18'),
-(13, 10, 1, 0, 3, '2019-08-27 06:13:18', '2019-08-27 06:13:28'),
-(14, 10, 1, 9.9, 4, '2019-08-27 06:13:28', '2019-08-27 06:13:28'),
-(15, 10, 3, 0, 1, '2019-08-27 06:14:37', '2019-08-27 06:22:16'),
-(16, 10, 2, 0, 2, '2019-08-27 06:22:16', '2019-08-27 06:22:29'),
-(17, 10, 2, 0, 3, '2019-08-27 06:22:29', '2019-08-27 06:22:51'),
-(18, 10, 2, 10, 4, '2019-08-27 06:22:51', '2019-08-27 06:22:51'),
-(19, 11, 3, 0, 0, '2019-08-27 20:01:07', '2019-08-27 20:08:00'),
-(20, 11, 3, 0, 1, '2019-08-27 20:07:40', '2019-08-27 20:07:55'),
-(21, 11, 1, 0.09999999999999964, 2, '2019-08-27 20:07:48', '2019-08-27 20:08:47'),
-(22, 11, 2, 10, 2, '2019-08-27 20:07:55', '2019-08-27 20:07:55'),
-(23, 11, 3, 0, 1, '2019-08-27 20:08:00', '2019-08-27 20:08:28'),
-(24, 11, 1, 9, 2, '2019-08-27 20:08:18', '2019-08-27 20:08:18'),
-(25, 11, 2, 0, 2, '2019-08-27 20:08:28', '2019-09-16 22:03:16'),
-(26, 11, 1, 0, 3, '2019-08-27 20:08:47', '2019-08-27 20:09:42'),
-(27, 11, 1, 9.8, 4, '2019-08-27 20:09:41', '2019-08-27 20:09:41'),
-(28, 11, 2, 0, 3, '2019-09-16 22:03:16', '2019-09-16 22:03:41'),
-(29, 11, 2, 1, 4, '2019-09-16 22:03:41', '2019-09-16 22:03:41'),
-(30, 12, 1, 25, 0, '2019-09-16 22:11:02', '2019-09-16 22:11:02'),
-(32, 13, 3, 0, 1, '2019-09-21 01:39:59', '2019-09-21 01:40:14'),
-(33, 13, 1, 0, 2, '2019-09-21 01:40:05', '2019-09-21 01:40:23'),
-(34, 13, 1, 5, 2, '2019-09-21 01:40:14', '2019-09-21 01:40:14'),
-(35, 13, 1, 0, 3, '2019-09-21 01:40:23', '2019-09-21 01:40:37'),
-(36, 13, 1, 5, 4, '2019-09-21 01:40:37', '2019-09-21 01:40:37'),
-(49, 14, 2, 20, 1, '2019-09-21 02:14:29', '2019-09-21 02:17:25'),
-(50, 14, 1, 20, 5, '2019-09-21 02:14:35', '2019-09-21 02:19:50'),
-(51, 14, 2, 10, 5, '2019-09-21 02:17:25', '2019-09-21 02:19:34'),
-(53, 14, 2, 10, 4, '2019-09-21 02:19:34', '2019-09-21 02:19:34'),
-(54, 14, 1, 10, 5, '2019-09-21 02:19:50', '2019-09-21 02:19:59'),
-(55, 14, 1, 10, 4, '2019-09-21 02:19:59', '2019-09-21 02:19:59'),
-(61, 14, 1, 10, 5, '2019-09-21 02:24:29', '2019-09-21 02:28:56'),
-(62, 14, 1, 10, 4, '2019-09-21 02:28:56', '2019-09-21 02:28:56'),
-(70, 14, 3, 20, 5, '2019-09-21 02:45:41', '2019-09-21 03:06:44'),
-(88, 14, 3, 0, 1, '2019-09-21 03:02:17', '2019-09-21 03:08:51'),
-(90, 14, 3, 0, 1, '2019-09-21 03:06:44', '2019-09-21 03:10:10'),
-(91, 14, 1, 5, 5, '2019-09-21 03:08:40', '2019-09-21 03:09:04'),
-(92, 14, 2, 5, 5, '2019-09-21 03:08:51', '2019-09-21 03:09:32'),
-(93, 14, 1, 5, 5, '2019-09-21 03:09:04', '2019-09-21 03:09:15'),
-(94, 14, 1, 5, 4, '2019-09-21 03:09:15', '2019-09-21 03:09:15'),
-(95, 14, 2, 4, 5, '2019-09-21 03:09:32', '2019-09-21 03:10:01'),
-(96, 14, 2, 3.9, 4, '2019-09-21 03:10:01', '2019-09-21 03:10:01'),
-(97, 14, 1, 10, 5, '2019-09-21 03:10:10', '2019-09-21 03:10:18'),
-(98, 14, 1, 10, 4, '2019-09-21 03:10:18', '2019-09-21 03:10:18');
+(15, 33, 3, 10, 5, '2019-10-30 02:42:41', '2019-10-30 02:43:16'),
+(17, 33, 3, 5.5, 7, '2019-10-30 02:43:10', '2019-10-30 02:43:57'),
+(18, 33, 3, 4.5, 7, '2019-10-30 02:43:16', '2019-10-30 02:44:13'),
+(20, 33, 1, 3.5, 8, '2019-10-30 02:43:49', '2019-10-30 02:44:53'),
+(21, 33, 2, 2, 8, '2019-10-30 02:43:57', '2019-10-30 02:45:00'),
+(22, 33, 4, 4.5, 8, '2019-10-30 02:44:13', '2019-10-30 02:45:13'),
+(23, 33, 1, 3.4, 8, '2019-10-30 02:44:44', '2019-10-30 02:45:17'),
+(24, 33, 1, 0.1, 4, '2019-10-30 02:44:53', '2019-10-30 02:44:53'),
+(25, 33, 2, 2, 4, '2019-10-30 02:45:00', '2019-10-30 02:45:00'),
+(26, 33, 4, 2.3, 8, '2019-10-30 02:45:08', '2019-10-30 02:45:22'),
+(27, 33, 4, 2.2, 4, '2019-10-30 02:45:13', '2019-10-30 02:45:13'),
+(28, 33, 1, 3.4, 4, '2019-10-30 02:45:17', '2019-10-30 02:45:17'),
+(29, 33, 4, 2.2, 4, '2019-10-30 02:45:22', '2019-10-30 02:45:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_pengeringans`
+--
+
+CREATE TABLE `history_pengeringans` (
+  `iddetail` int(20) NOT NULL,
+  `jumlah` double DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `history_pengeringans`
+--
+
+INSERT INTO `history_pengeringans` (`iddetail`, `jumlah`, `created_at`, `updated_at`) VALUES
+(20, 3.4, '2019-10-30 09:44:44', '2019-10-30 09:44:44'),
+(22, 2.3, '2019-10-30 09:45:08', '2019-10-30 09:45:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_sortirs`
+--
+
+CREATE TABLE `history_sortirs` (
+  `iddetail` int(20) NOT NULL,
+  `jumlah` double DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `history_sortirs`
+--
+
+INSERT INTO `history_sortirs` (`iddetail`, `jumlah`, `created_at`, `updated_at`) VALUES
+(17, 3.5, '2019-10-30 09:43:49', '2019-10-30 09:43:49'),
+(17, 2, '2019-10-30 09:43:57', '2019-10-30 09:43:57'),
+(18, 4.5, '2019-10-30 09:44:13', '2019-10-30 09:44:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hystoriraw`
+--
+
+CREATE TABLE `hystoriraw` (
+  `iddetail` int(20) NOT NULL,
+  `jumlah` double DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hystoriraw`
+--
+
+INSERT INTO `hystoriraw` (`iddetail`, `jumlah`, `created_at`, `updated_at`) VALUES
+(15, 0, '2019-10-30 09:43:10', '2019-10-30 09:43:16'),
+(17, 0, '2019-10-30 09:43:49', '2019-10-30 09:43:57'),
+(18, 0, '2019-10-30 09:44:13', '2019-10-30 09:44:13'),
+(20, 0.1, '2019-10-30 09:44:44', '2019-10-30 09:44:44'),
+(20, 3.4, '2019-10-30 09:44:53', '2019-10-30 09:44:53'),
+(21, 0, '2019-10-30 09:45:00', '2019-10-30 09:45:00'),
+(22, 0, '2019-10-30 09:45:08', '2019-10-30 09:45:13'),
+(23, 0, '2019-10-30 09:45:17', '2019-10-30 09:45:17'),
+(26, 0.1, '2019-10-30 09:45:22', '2019-10-30 09:45:22');
 
 -- --------------------------------------------------------
 
@@ -243,20 +252,28 @@ INSERT INTO `detailproses` (`iddetail`, `id_proses`, `id_barang`, `jumlahBarang`
 
 CREATE TABLE `juals` (
   `id` int(10) UNSIGNED NOT NULL,
-  `noNotaJual` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tglKirim` date NOT NULL,
-  `noResi` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `noNotaJual` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tglKirim` date DEFAULT NULL,
+  `noResi` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tglPesan` date NOT NULL,
-  `tglTerima` date NOT NULL,
-  `total` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tglTerima` date DEFAULT NULL,
+  `total` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `statusBayar` tinyint(2) NOT NULL,
-  `kurs` double NOT NULL,
-  `id_currencies` int(10) UNSIGNED NOT NULL,
+  `kurs` double DEFAULT NULL,
+  `id_currencies` int(10) UNSIGNED DEFAULT NULL,
   `id_konsumen` int(10) UNSIGNED NOT NULL,
   `id_karyawan` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `juals`
+--
+
+INSERT INTO `juals` (`id`, `noNotaJual`, `tglKirim`, `noResi`, `tglPesan`, `tglTerima`, `total`, `statusBayar`, `kurs`, `id_currencies`, `id_konsumen`, `id_karyawan`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL, NULL, '2019-10-26', NULL, NULL, 0, NULL, NULL, 2, 1, '2019-10-25 22:25:51', '2019-10-30 03:52:04'),
+(2, NULL, NULL, NULL, '2019-10-30', NULL, NULL, 0, NULL, NULL, 2, 1, '2019-10-30 02:46:52', '2019-10-30 02:46:52');
 
 -- --------------------------------------------------------
 
@@ -309,8 +326,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2019_03_25_085907_create_detailjuals_table', 1),
 (12, '2019_03_25_090158_create_proses_table', 1),
 (13, '2019_03_25_090304_create_detailproses_table', 1),
-(14, '2019_05_15_042707_create_currencies_table', 2),
-(15, '2019_05_15_043531_create_penggajians_table', 3);
+(14, '2019_05_15_042707_create_currencies_table', 2);
 
 -- --------------------------------------------------------
 
@@ -363,12 +379,27 @@ CREATE TABLE `proses` (
 --
 
 INSERT INTO `proses` (`id`, `tglProses`, `jenisProses`, `id_karyawan`, `id_supplier`, `status`, `created_at`, `updated_at`) VALUES
-(9, '2019-08-27', 0, 1, 1, 1, '2019-08-27 06:08:22', '2019-08-27 06:10:07'),
-(10, '2019-08-27', 0, 1, 1, 1, '2019-08-27 06:12:35', '2019-08-27 06:22:41'),
-(11, '2019-08-28', 0, 1, 5, 0, '2019-08-27 19:58:46', '2019-08-27 19:58:46'),
-(12, '2019-09-17', 0, 1, 2, 0, '2019-09-16 22:10:56', '2019-09-16 22:10:56'),
-(13, '2019-09-21', 0, 1, 4, 0, '2019-09-21 01:39:27', '2019-09-21 01:39:27'),
-(14, '2019-09-21', 0, 1, 1, 0, '2019-09-21 01:42:13', '2019-09-21 01:42:13');
+(33, '2019-10-30', 0, 1, 1, 1, '2019-10-30 02:42:37', '2019-10-30 02:45:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `id_setting` int(11) NOT NULL,
+  `persen` double NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id_setting`, `persen`, `created_at`, `updated_at`) VALUES
+(1, 30, '2019-10-30 10:15:00', '2019-10-30 10:21:51');
 
 -- --------------------------------------------------------
 
@@ -381,6 +412,7 @@ CREATE TABLE `suppliers` (
   `namaSupplier` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `alamat` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `noTelp` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `noRekening` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -389,12 +421,12 @@ CREATE TABLE `suppliers` (
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `namaSupplier`, `alamat`, `noTelp`, `created_at`, `updated_at`) VALUES
-(1, 'Maria', 'Ghhh', '29292', '2019-05-15 23:55:07', '2019-05-15 23:55:07'),
-(2, 'Wijaya', 'jkt', '087896756235', '2019-07-04 04:01:36', '2019-07-04 04:01:45'),
-(3, 'Ziyad', 'Ubaya', '081203939121', '2019-07-24 02:33:42', '2019-07-24 02:33:42'),
-(4, 'Ijang', 'bangil', '087829933312', '2019-08-22 06:44:43', '2019-08-22 06:44:43'),
-(5, 'Hamid', 'Tenggilis', '082222333444', '2019-08-27 19:58:22', '2019-08-27 19:58:22');
+INSERT INTO `suppliers` (`id`, `namaSupplier`, `alamat`, `noTelp`, `noRekening`, `created_at`, `updated_at`) VALUES
+(1, 'Maria', 'Ghhh', '29292', '343243234324322', '2019-05-15 23:55:07', '2019-10-20 23:50:39'),
+(2, 'Wijaya', 'jkt', '087896756235', '', '2019-07-04 04:01:36', '2019-07-04 04:01:45'),
+(3, 'Ziyad', 'Ubaya', '081203939121', '323432432432', '2019-07-24 02:33:42', '2019-10-21 01:51:20'),
+(4, 'Ijang', 'bangil', '087829933312', '', '2019-08-22 06:44:43', '2019-08-22 06:44:43'),
+(5, 'Hamid', 'Tenggilis', '082222333444', '', '2019-08-27 19:58:22', '2019-08-27 19:58:22');
 
 -- --------------------------------------------------------
 
@@ -419,8 +451,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `password`, `namaKaryawan`, `jabatan`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'apungnest@gmail.com', '$2y$10$MMBKpn37.KWVjuYd3F35YukTaO3mAAQjEAk4YJVwkfz2oQTicT.lm', 'Apung', '1', 'FbmX8nZ7DsNvQ2xEa9exm4coIo8xwM1jcBS2kV0T6x4Nme8bThPRiUlJMaAP', '2019-05-14 22:15:48', '2019-06-25 05:39:56'),
-(2, 'adielah@gmail.com', '$2y$10$WwxJPvV633arxmnl6ud/xuqnWCxk1WQs1JudmpRO.gB5csMdPNUzi', 'Adielah', '2', 'H2nvQCD21qLayxMznQ1B0QU4ZgYDmcfA1uOohYhc6kotQqugu1mt9tKspLqc', '2019-05-18 08:00:50', '2019-06-25 05:36:27'),
-(4, 'kkk@gmail.com', '$2y$10$kcQXuh6Suq9c6jYIiyZ6PeThr/iSFMW5fe0Vg4o5B96fbR4mLb72m', 'kakak', '3', NULL, '2019-05-18 08:22:09', '2019-06-25 05:40:02');
+(2, 'adielah@gmail.com', '$2y$10$SUacu7lpwcJ41uUkOOo56u5Vec6o77KRm7iQHvykmirTKivMWsXSy', 'Adielah', '2', 'avIQc2ph5SJyZgEUcnDHf5dMYr8TNJMtamx8eU7SUgqRqTxQoKm8pnWMrfnk', '2019-05-18 08:00:50', '2019-06-25 05:36:27'),
+(4, 'kkk@gmail.com', '$2y$10$SUacu7lpwcJ41uUkOOo56u5Vec6o77KRm7iQHvykmirTKivMWsXSy', 'kakak', '3', 'pCqFeG2GoCd9lZQBvPbt4kuKBhDv5tedJ21xOPFCRl07YYarDatu2DseDx2b', '2019-05-18 08:22:09', '2019-06-25 05:40:02'),
+(5, 'mardi@gmail.com', '$2y$10$TY0l6RKi7EhLV6XnfFm5U.QkWcb7lipFYYpmi2kKSmDJdMLvh0oxu', 'mardi', '3', 'ldPARXOHW6PeLEn0CwtMDltDpFTDI7xuI0J5D6zP4MWOdKBfFicRATaHsDc8', '2019-10-24 02:09:10', '2019-10-24 02:09:10');
 
 --
 -- Indexes for dumped tables
@@ -496,18 +529,17 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `penggajians`
---
-ALTER TABLE `penggajians`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_karyawan` (`id_karyawan`);
-
---
 -- Indexes for table `proses`
 --
 ALTER TABLE `proses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_karyawan` (`id_karyawan`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id_setting`);
 
 --
 -- Indexes for table `suppliers`
@@ -530,13 +562,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `barangs`
 --
 ALTER TABLE `barangs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `belis`
 --
 ALTER TABLE `belis`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `currencies`
@@ -548,13 +580,13 @@ ALTER TABLE `currencies`
 -- AUTO_INCREMENT for table `detailproses`
 --
 ALTER TABLE `detailproses`
-  MODIFY `iddetail` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `iddetail` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `juals`
 --
 ALTER TABLE `juals`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `konsumens`
@@ -566,19 +598,19 @@ ALTER TABLE `konsumens`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `penggajians`
---
-ALTER TABLE `penggajians`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `proses`
 --
 ALTER TABLE `proses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id_setting` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -590,7 +622,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -631,12 +663,6 @@ ALTER TABLE `juals`
   ADD CONSTRAINT `juals_ibfk_1` FOREIGN KEY (`id_karyawan`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `juals_id_currencies_foreign` FOREIGN KEY (`id_currencies`) REFERENCES `currencies` (`id`),
   ADD CONSTRAINT `juals_id_konsumen_foreign` FOREIGN KEY (`id_konsumen`) REFERENCES `konsumens` (`id`);
-
---
--- Constraints for table `penggajians`
---
-ALTER TABLE `penggajians`
-  ADD CONSTRAINT `penggajians_ibfk_1` FOREIGN KEY (`id_karyawan`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `proses`
