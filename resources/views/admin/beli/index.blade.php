@@ -86,7 +86,7 @@
                 @endif
               </td>
               <td>
-                {{-- <a class="btn btn-success" href="{!! action('BeliController@edit', $m->id) !!}">Ubah</a> --}}
+                {{-- <a class="btn btn-success" href="{!! action('BeliController@edit', $m->id) !!}">Edit</a> --}}
                 <a class="btn btn-warning" href="{!! action('DetailbeliController@edit', $m->id) !!}">Detail</a>
                 @if($m->status==1)
                 <a class="btn btn-info" href="{!! action('DetailbeliController@cetak', $m->id) !!}">Cetak</a>
@@ -94,7 +94,7 @@
                 <form method="POST" action="{!! action('BeliController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                   {{ csrf_field() }}
                   {{ method_field('DELETE') }}
-                  <button class="btn btn-danger" id = "hapus" type="submit">Delete</button>
+                  <button class="btn btn-danger" id = "hapus" type="submit">Hapus</button>
                 </form>
                 @endif
               </td>

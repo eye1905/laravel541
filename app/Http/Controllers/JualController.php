@@ -61,13 +61,15 @@ class JualController extends Controller
      */
     public function store(Request $request)
     {   
-
-        $jual = new Jual();
-        $jual->tglPesan = date("Y-m-d");
-        $jual->statusBayar = 0;
-        $jual->id_konsumen = $request->supplier;
-        $jual->id_karyawan = $request->karyawan;
+        $id_konsumen = $request->konsumen;
+        $id_karyawan = $request->karyawan;
+        
        try { 
+            $jual = new Jual();
+            $jual->tglPesan = date("Y-m-d");
+            $jual->statusBayar = 0;
+            $jual->id_konsumen = $id_konsumen;
+            $jual->id_karyawan = $id_karyawan;
            $jual->save();
            $data = [];
             $data['noNotaJual'] = 'J0000'.$jual->id;
@@ -128,7 +130,7 @@ class JualController extends Controller
     {
        try { 
            $data = [];
-            $data['id_konsumen'] = $request->supplier;
+            $data['id_konsumen'] = $request->konsumen;
             $data['id_karyawan'] = $request->karyawan;
             Jual::where('id',$id)->update($data);
        } catch (Exception $e) {

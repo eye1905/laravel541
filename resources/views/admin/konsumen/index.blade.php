@@ -36,7 +36,7 @@
 					<th>Alamat</th>
 					<th>No.Telpon</th>
           <th>Edit</th>
-          <th>Delete</th>
+          <th>Hapus</th>
 				</tr>
         </thead>
        <tbody>
@@ -46,13 +46,13 @@
 					<td>{{ $m->namaKonsumen }}</td>
 					<td>{{ $m->alamat }}</td>
 					<td>{{ $m->noTelp }}</td>
-					<td><a class="btn btn-success" href="{!! action('KonsumenController@edit', $m->id) !!}">Ubah</a></td>
+					<td><a class="btn btn-success" href="{!! action('KonsumenController@edit', $m->id) !!}">Edit</a></td>
           <td>
            
             <form method="POST" action="{!! action('KonsumenController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <button class="btn btn-danger" id = "hapus" type="submit">Delete</button>
+                <button class="btn btn-danger" id = "hapus" type="submit">Hapus</button>
             </form>
           </td>
           

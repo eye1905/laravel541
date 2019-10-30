@@ -59,7 +59,7 @@
                   <form method="POST" action="{!! action('ProsesController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
-                    <button class="btn btn-danger" id = "hapus" type="submit">Delete</button>
+                    <button class="btn btn-danger" id = "hapus" type="submit">Hapus</button>
                   </form>
                   @endif
                 </td>

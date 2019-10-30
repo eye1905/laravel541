@@ -37,7 +37,7 @@
 					<th>No.Telpon</th>
           <th>No. Rekening</th>
           <th>Edit</th>
-          <th>Delete</th>
+          <th>Hapus</th>
 				</tr>
         </thead>
        <tbody>
@@ -48,13 +48,13 @@
 					<td>{{ $m->alamat }}</td>
 					<td>{{ $m->noTelp }}</td>
           <td>{{ $m->noRekening }}</td>
-					<td><a class="btn btn-success" href="{!! action('SupplierController@edit', $m->id) !!}">Ubah</a></td>
+					<td><a class="btn btn-success" href="{!! action('SupplierController@edit', $m->id) !!}">Edit</a></td>
           <td>
            
             <form method="POST" action="{!! action('SupplierController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
-                <button class="btn btn-danger" id = "hapus" type="submit">Delete</button>
+                <button class="btn btn-danger" id = "hapus" type="submit">Hapus</button>
             </form>
           </td>
           

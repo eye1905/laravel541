@@ -63,21 +63,21 @@
                     </div>
                 </div>
 
-                 <div class="form-group{{ $errors->has('supplier') ? ' has-error' : '' }}">
-                    <label for="supplier" class="col-md-4 control-label">Supplier</label>
+                 <div class="form-group{{ $errors->has('konsumen') ? ' has-error' : '' }}">
+                    <label for="konsumen" class="col-md-4 control-label">Konsumen</label>
 
                     <div class="col-md-6">
-                        <select id="supplier" class="form-control" name="supplier" required>
+                        <select id="konsumen" class="form-control" name="konsumen" required>
                         @foreach($mastersuppliers as $key => $m)
-                        <option value = "{{ $m->id }}">
-                          {{ $m->namaKonsumen }}
-                        </option>
+                          <option value = "{{ $m->id }}">
+                            {{ $m->namaKonsumen }}
+                          </option>
                         @endforeach
-                    </select>
+                        </select>
 
-                        @if ($errors->has('supplier'))
+                        @if ($errors->has('konsumen'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('supplier') }}</strong>
+                                <strong>{{ $errors->first('konsumen') }}</strong>
                             </span>
                         @endif
                     </div>
