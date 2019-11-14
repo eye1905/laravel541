@@ -24,7 +24,6 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <h3 class="text-center"><a href="{{ url('/') }}"><b>CV. DHOFIN BIRDNEST</b></a></h3>
-            <center><img src="{{ asset('logoku.png') }}" class="img-responsive" style="width: 80%"></center>
             <div class="content">
                 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}

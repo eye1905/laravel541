@@ -76,8 +76,8 @@
                <td>{{ $key+1 }}</td>
                <td>{{ $m->noNotaBeli }}</td>
                <td>{{ $m->tglBeli }}</td>
-               <td>{{ $mastersuppliers[$m->id_supplier]["namaSupplier"] }}</td>
-               <td>{{ $masterkaryawans[$m->id_karyawan]["namaKaryawan"] }}</td>
+               <td>{{ $mastersuppliers[$m->id_suppliers]["namaSupplier"] }}</td>
+               <td>{{ $masterkaryawans[$m->id_users]["namaKaryawan"] }}</td>
                <td>
                 @if($m->status==0)
                 <span style="background-color: orange; color:#fff">Transaksi Belum Selesai</span>

@@ -47,7 +47,7 @@ class JualController extends Controller
      */
     public function create()
     {   
-        $data["mastersuppliers"] = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterkonsumens"] = Konsumen::select("id", "namaKonsumen")->get();
         $data["masterkaryawans"] = User::all();
 
         return view("admin.penjualan.create", $data);
@@ -62,14 +62,14 @@ class JualController extends Controller
     public function store(Request $request)
     {   
         $id_konsumen = $request->konsumen;
-        $id_karyawan = $request->karyawan;
+        $id_users = $request->karyawan;
         
        try { 
             $jual = new Jual();
             $jual->tglPesan = date("Y-m-d");
             $jual->statusBayar = 0;
             $jual->id_konsumen = $id_konsumen;
-            $jual->id_karyawan = $id_karyawan;
+            $jual->id_users = $id_users;
            $jual->save();
            $data = [];
             $data['noNotaJual'] = 'J0000'.$jual->id;
@@ -112,7 +112,7 @@ class JualController extends Controller
      */
     public function edit($id)
     {   
-        $data["mastersuppliers"] = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterkonsumens"] = Konsumen::select("id", "namaKonsumen")->get();
         $data["masterkaryawans"] = User::all();
         $data["data"]            = Jual::find($id);
 
@@ -131,7 +131,7 @@ class JualController extends Controller
        try { 
            $data = [];
             $data['id_konsumen'] = $request->konsumen;
-            $data['id_karyawan'] = $request->karyawan;
+            $data['id_users'] = $request->karyawan;
             Jual::where('id',$id)->update($data);
        } catch (Exception $e) {
            return redirect()->back()->with('error','Pesanan Barang Gagal Diupdate');

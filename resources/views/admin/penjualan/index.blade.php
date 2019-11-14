@@ -6,10 +6,10 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Data PemJualan
+      Data Penjualan
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('Jual') }}" class="active"><i class="fa fa-dashboard"></i> Data PemJualan</a></li>
+      <li><a href="{{ url('Jual') }}" class="active"><i class="fa fa-dashboard"></i> Data Penjualan</a></li>
     </ol>
   </section>
 
@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Data PemJualan</h3>
+            <h3 class="box-title">Data Penjualan</h3>
             @if(session('status'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('status')}}
@@ -34,7 +34,7 @@
                  <th>No.</th>
                  <th>No. Nota Jual</th>
                  <th>Tanggal Jual</th>
-                 <th>Supplier</th>
+                 <th>Konsumen</th>
                  <th>Karyawan</th>
                  <th>Opsi</th>
                </tr>
@@ -47,7 +47,7 @@
                  <td>{{ $m->noNotaJual }}</td>
                  <td>{{ $m->tglPesan }}</td>
                  <td>{{ $masterkonsumen[$m->id_konsumen]["namaKonsumen"] }}</td>
-                <td>{{ $masterkaryawans[$m->id_karyawan]["namaKaryawan"] }}</td>
+                <td>{{ $masterkaryawans[$m->id_users]["namaKaryawan"] }}</td>
       					<td><a class="btn btn-success" href="{!! action('JualController@edit', $m->id) !!}">Ubah</a>
                   <a class="btn btn-warning" href="{!! action('JualController@detail', $m->id) !!}">Detail</a>
                   {{-- <form method="POST" action="{!! action('JualController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">

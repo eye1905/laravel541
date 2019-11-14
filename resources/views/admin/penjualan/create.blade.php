@@ -68,7 +68,7 @@
 
                     <div class="col-md-6">
                         <select id="konsumen" class="form-control" name="konsumen" required>
-                        @foreach($mastersuppliers as $key => $m)
+                        @foreach($masterkonsumens as $key => $m)
                           <option value = "{{ $m->id }}">
                             {{ $m->namaKonsumen }}
                           </option>
