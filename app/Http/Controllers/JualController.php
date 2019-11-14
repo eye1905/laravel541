@@ -45,10 +45,17 @@ class JualController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id = null)
     {   
-        $data["mastersuppliers"] = Konsumen::select("id", "namaKonsumen")->get();
-        $data["masterkaryawans"] = User::all();
+        
+        $data["mastersuppliers"]    = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterkaryawans"]    = User::all();
+        if (isset($id)) {
+            $data["masterjual"]         = Detailjual::where("id_jual", $id)->get();
+            $data["data"]               = Jual::find($id);
+            $data["masterbarangs"]      = self::toList(Barang::all(), 'id');
+            $data["id"]                 = $id;
+        }
 
         return view("admin.penjualan.create", $data);
     }
@@ -64,23 +71,23 @@ class JualController extends Controller
         $id_konsumen = $request->konsumen;
         $id_karyawan = $request->karyawan;
         
-       try { 
+        try { 
             $jual = new Jual();
             $jual->tglPesan = date("Y-m-d");
             $jual->statusBayar = 0;
             $jual->id_konsumen = $id_konsumen;
             $jual->id_karyawan = $id_karyawan;
-           $jual->save();
-           $data = [];
+            $jual->save();
+            $data = [];
             $data['noNotaJual'] = 'J0000'.$jual->id;
             Jual::where('id',$jual->id)->update($data);
 
-       } catch (Exception $e) {
-           return redirect()->back()->with('error','Pesanan Barang Gagal Dibuat');
-       }
+        } catch (Exception $e) {
+         return redirect()->back()->with('error','Pesanan Barang Gagal Dibuat');
+     }
 
-       return redirect("penjualan/detail/".$jual->id)->with('success','Pesanan Barang Sukses Dibuat');
-    }
+     return redirect("penjualan/create/".$jual->id)->with('success','Pesanan Barang Sukses Dibuat');
+ }
 
     /**
      * Display the specified resource.
@@ -128,17 +135,17 @@ class JualController extends Controller
      */
     public function update(Request $request, $id)
     {
-       try { 
-           $data = [];
-            $data['id_konsumen'] = $request->konsumen;
-            $data['id_karyawan'] = $request->karyawan;
-            Jual::where('id',$id)->update($data);
-       } catch (Exception $e) {
-           return redirect()->back()->with('error','Pesanan Barang Gagal Diupdate');
-       }
+     try { 
+         $data = [];
+         $data['id_konsumen'] = $request->konsumen;
+         $data['id_karyawan'] = $request->karyawan;
+         Jual::where('id',$id)->update($data);
+     } catch (Exception $e) {
+         return redirect()->back()->with('error','Pesanan Barang Gagal Diupdate');
+     }
 
-       return redirect("penjualan/detail/".$id)->with('success','Pesanan Barang Sukses Diupdate');
-    }
+     return redirect("penjualan/detail/".$id)->with('success','Pesanan Barang Sukses Diupdate');
+ }
 
     /**
      * Remove the specified resource from storage.
