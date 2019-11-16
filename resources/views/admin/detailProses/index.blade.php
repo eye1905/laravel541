@@ -20,6 +20,7 @@
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">Detail Proses</h3>
+            
             @if(session('success'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('success')}}
@@ -31,6 +32,7 @@
               {{session('error')}}
             </div>
             @endif
+
             <br>
             <p style="margin-left:10px;">
               @php
