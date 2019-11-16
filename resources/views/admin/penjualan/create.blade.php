@@ -39,8 +39,7 @@
             {{ method_field("PUT") }} 
             @else
             <form class="form-horizontal" method="POST" action="{{ url('penjualan') }}">
-              @endif
-
+           @endif
               {{ csrf_field() }}
 
               <div class="form-group{{ $errors->has('karyawan') ? ' has-error' : '' }}">
@@ -109,13 +108,15 @@
 
             <div class="box-header">
               <div class="container-fluid">
-                @if($data->status==0)
-                <a href="{!! action('DetailbeliController@tutup', $id) !!}" class="btn btn-sm btn-success pull-right"> Tutup Transaksi </a>
+                @if(isset($data) and $data->status==0)
+
+                <a href="{!! action('DetailbeliController@tutup', $data->id) !!}" class="btn btn-sm btn-success pull-right"> Tutup Transaksi </a>
                 @else
-                <a href="{!! action('DetailbeliController@cetak', $id) !!}" class="btn btn-sm btn-primary pull-right"> 
+                <a href="{!! action('DetailbeliController@cetak', $data->id) !!}" class="btn btn-sm btn-primary pull-right"> 
                   <i class="fa fa-print"></i>
                 Cetak Nota </a>
                 @endif
+
               </div>
               <h3 class="box-title">Detail Jual</h3>
               @if(session('success'))

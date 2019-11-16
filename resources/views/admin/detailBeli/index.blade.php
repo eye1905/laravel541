@@ -34,7 +34,7 @@
                 <i class="fa fa-print"></i>
                 Cetak Nota </a>
                 @endif
-              </div>
+            </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
