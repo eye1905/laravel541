@@ -234,12 +234,12 @@
               <td>{{ $key+1 }}</td>
               <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
               <td>{{ $m->beratJual }}</td>
-              <td>{{ $m->harga }}</td>
+              <td><input type="text" class="form-control" readonly="true" id="harga{{ $m->id_barang }} " name="harga{{ $m->id_barang }}" value="{{ $m->harga }} "></td>
               <td>{{ $m->harga*$m->beratJual }}</td>
               <!-- jika harga barang kosong -->
               <td>
                 @if($data->statusBayar==0)
-                <button class="btn btn-sm btn-primary" onclick="pilih({{ $m->id_barang }}, {{ $m->beratJual }}, {{ $m->harga }})">
+                <button class="btn btn-sm btn-primary" onclick="pilih({{ $m->id_barang }}, {{ $m->harga }})">
                   <i class="fa fa-pencil"></i> Edit
                 </button>
                 @endif
@@ -276,13 +276,16 @@
                  <input type="text" class="form-control" id="berat" name="berat" placeholder="Masukan Berat">
                </td>
                <td>  
-                <input type="text" class="form-control" id="harga" name="harga" placeholder="Masukan Harga">
+                  <input type="hidden" id="harga" name="harga" class="form-control">
                </td>
                <td> </td>
                <td>
                 <button class="btn btn-sm btn-success" type="submit">
                   Simpan
                 </button>
+                <a href="{{ url('penjualan/create/'.$id) }}" class="btn btn-sm btn-warning">
+                  Batal
+                </a>
               </td>
             </form>
           </tr>
@@ -350,9 +353,10 @@
 
 <script>
   var tot = 0;
-  function pilih(id, berat, harga) {
+  function pilih(id, harga) {
       $("#barang").val(id);
-      $("#berat").val(parseFloat(berat));
+      $("#berat").attr('type', 'hidden');
+      $("#harga").attr('type', 'text');
       $("#harga").val(harga);
   }
 

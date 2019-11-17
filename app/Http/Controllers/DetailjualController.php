@@ -63,7 +63,7 @@ class DetailjualController extends Controller
             $harga  = $barang->harga+($barang->harga*$setting->persen/100);
 
             if (!is_null($detail)) {
-                $data = array('beratJual' => $detail->beratJual+$request->berat, 'harga' => $request->harga);
+                $data = array('harga' => $request->harga);
                 
                 Detailjual::where("id_jual", $request->beli)->where("id_barang", $request->barang)->update($data);
             }else{

@@ -49,7 +49,7 @@
                  <td>{{ $masterkonsumen[$m->id_konsumen]["namaKonsumen"] }}</td>
                 <td>{{ $masterkaryawans[$m->id_users]["namaKaryawan"] }}</td>
       					<td><a class="btn btn-success" href="{!! action('JualController@edit', $m->id) !!}">Ubah</a>
-                  <a class="btn btn-warning" href="{!! action('JualController@detail', $m->id) !!}">Detail</a>
+                  <a class="btn btn-warning" href="{!! action('JualController@create', $m->id) !!}">Detail</a>
                   {{-- <form method="POST" action="{!! action('JualController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                       {{ csrf_field() }}
                       {{ method_field('DELETE') }}
