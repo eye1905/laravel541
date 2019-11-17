@@ -330,7 +330,7 @@
         success: function(data)
         { 
           var obj = JSON.parse(data);
-          if (obj.length>0) {
+          if (data.length>0) {
             $.each(obj,function(key,value) {
               $("#modalku").append("<tr><td>"+key+"</td><td>"+value.nama+"</td><td>"+value.stok+"</td><td>"+value.satuan+"</td></tr>");
             });
