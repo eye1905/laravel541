@@ -65,8 +65,8 @@ class BeliController extends Controller
         $beli = new Beli();
         
         $beli->tglBeli = date("Y-m-d");
-        $beli->id_supplier = $request->supplier;
-        $beli->id_karyawan = \Auth::user()->id;
+        $beli->id_suppliers = $request->supplier;
+        $beli->id_users = \Auth::user()->id;
         $beli->status = 0;
        //var_dump($beli);die;
         $beli->save();

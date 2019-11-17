@@ -48,8 +48,11 @@ class JualController extends Controller
     public function create($id = null)
     {   
         
-        $data["mastersuppliers"]    = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterkonsumens"]    = Konsumen::select("id", "namaKonsumen")->get();
         $data["masterkaryawans"]    = User::all();
+        $data["mastersuppliers"]    = Konsumen::select("id", "namaKonsumen")->get();
+        $data["masterjual"]         = [];
+
         if (isset($id)) {
             $data["masterjual"]         = Detailjual::where("id_jual", $id)->get();
             $data["data"]               = Jual::find($id);
@@ -68,15 +71,19 @@ class JualController extends Controller
      */
     public function store(Request $request)
     {   
-        $id_konsumen = $request->konsumen;
-        $id_karyawan = $request->karyawan;
-        
         try { 
             $jual = new Jual();
             $jual->tglPesan = date("Y-m-d");
             $jual->statusBayar = 0;
-            $jual->id_konsumen = $id_konsumen;
-            $jual->id_karyawan = $id_karyawan;
+            $jual->id_konsumen = $request->konsumen;
+            $jual->id_users = $request->konsumen;
+            $jual->tglKirim = $request->tglKirim;
+            $jual->tglPesan = $request->tglPesan;
+            $jual->noResi = $request->noResi;
+            $jual->tglTerima = $request->tglTerima;
+            $jual->statusBayar = $request->statusBayar;
+
+            //dd($jual);
             $jual->save();
             $data = [];
             $data['noNotaJual'] = 'J0000'.$jual->id;
@@ -134,17 +141,24 @@ class JualController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-     try { 
-         $data = [];
-         $data['id_konsumen'] = $request->konsumen;
-         $data['id_karyawan'] = $request->karyawan;
-         Jual::where('id',$id)->update($data);
-     } catch (Exception $e) {
-         return redirect()->back()->with('error','Pesanan Barang Gagal Diupdate');
-     }
+    {   
+        try { 
+            $jual = new Jual();
+            $data['id_konsumen'] = $request->konsumen;
+            $data['id_users'] = $request->karyawan;
+            $data['tglPesan'] = $request->tglPesan;
+            $data['statusBayar'] = $request->statusBayar;
+            $data['tglKirim'] = $request->tglKirim;
+            $data['tglPesan'] = $request->tglPesan;
+            $data['noResi'] = $request->noResi;
+            $data['tglTerima'] = $request->tglTerima;
 
-     return redirect("penjualan/detail/".$id)->with('success','Pesanan Barang Sukses Diupdate');
+            Jual::where('id',$id)->update($data);
+        } catch (Exception $e) {
+         return redirect()->back()->with('error','Pesanan Barang Gagal Dibuat');
+     }
+     
+     return redirect("penjualan/create/".$id)->with('success','Pesanan Barang Sukses Dibuat');
  }
 
     /**

@@ -413,8 +413,8 @@ public function endproses($id)
                 // untuk create beli
             $beli = new Beli();
             $beli->tglBeli = date("Y-m-d");
-            $beli->id_supplier = $proses->id_supplier;
-            $beli->id_karyawan = $proses->id_karyawan;
+            $beli->id_suppliers = $proses->id_suppliers;
+            $beli->id_users = $proses->id_users;
             $beli->status = 0;
 
                 // pembuatan kode nota beli

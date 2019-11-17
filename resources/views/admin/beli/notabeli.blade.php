@@ -25,7 +25,7 @@
 	</tr>
 	<tr>
 		<td>
-			Supplier : {{ $mastersuppliers[$data->id_supplier]->namaSupplier }}
+			Supplier : {{ $mastersuppliers[$data->id_suppliers]->namaSupplier }}
 		</td>
 
 	</tr>

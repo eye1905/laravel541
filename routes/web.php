@@ -44,5 +44,6 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::resource('penjualan', 'JualController');
 	Route::get('penjualan/detail/{id}', 'JualController@detail');
 	Route::resource('detailjual', 'DetailjualController');
+	Route::post('detailjual/update', 'DetailjualController@update');
 	Route::get('penjualan/create/{id?}', 'JualController@create');
 });

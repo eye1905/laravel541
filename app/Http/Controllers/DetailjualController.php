@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Setting;
 use App\Barang;
+use App\Jual;
 
 class DetailjualController extends Controller
 {
@@ -62,7 +63,7 @@ class DetailjualController extends Controller
             $harga  = $barang->harga+($barang->harga*$setting->persen/100);
 
             if (!is_null($detail)) {
-                $data = array('beratJual' => $detail->beratJual+$request->berat);
+                $data = array('beratJual' => $detail->beratJual+$request->berat, 'harga' => $request->harga);
                 
                 Detailjual::where("id_jual", $request->beli)->where("id_barang", $request->barang)->update($data);
             }else{
@@ -74,6 +75,12 @@ class DetailjualController extends Controller
                 
                 $detailbeli->save();
             }
+
+            $total = DB::select(DB::raw("select sum(beratJual*harga) as total from detailjuals where id_jual='".$request->beli."'"));
+
+            $a_total = array('total' => (Double)$total[0]->total);
+
+            Jual::where("id", $request->beli)->update($a_total);
 
             DB::commit();
         } catch (Exception $e) {
@@ -112,10 +119,6 @@ class DetailjualController extends Controller
      * @param  \App\Detailjual  $detailjual
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Detailjual $detailjual)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

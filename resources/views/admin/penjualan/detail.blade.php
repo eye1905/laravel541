@@ -6,10 +6,10 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Detail Beli
+      Detail Jual
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('detailbeli') }}" class="active"><i class="fa fa-dashboard"></i> Detail Beli </a></li>
+      <li><a href="{{ url('detailjual') }}" class="active"><i class="fa fa-dashboard"></i> Detail Jual </a></li>
     </ol>
   </section>
 
@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Detail Beli</h3>
+            <h3 class="box-title">Detail Jual</h3>
             @if(session('success'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('success')}}
@@ -81,7 +81,7 @@
                     </select> 
                   </td>
                   <td>  
-                   <input type="number" class="form-control" id="berat" name="berat">
+                   <input type="text" class="form-control" id="berat" name="berat">
                  </td>
                  <td>  
                    
