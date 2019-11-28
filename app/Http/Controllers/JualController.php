@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Detailjual;
 use App\Barang;
+use DB;
+use App\Setting;
 
 class JualController extends Controller
 {
@@ -53,6 +55,7 @@ class JualController extends Controller
         $data["mastersuppliers"]    = Konsumen::select("id", "namaKonsumen")->get();
         $data["masterjual"]         = [];
 
+
         if (isset($id)) {
             $data["masterjual"]         = Detailjual::where("id_jual", $id)->get();
             $data["data"]               = Jual::find($id);
@@ -89,11 +92,42 @@ class JualController extends Controller
             $data['noNotaJual'] = 'J0000'.$jual->id;
             Jual::where('id',$jual->id)->update($data);
 
+
+            /*DETAIL JUAL*/
+            /*DB::beginTransaction();
+
+            $detail = Detailjual::where("id_jual", $request->beli)->where("id_barang", $request->barang)->get()->first();
+            $barang = Barang::find($request->barang);
+            $setting = Setting::all()->first();
+            $harga  = $barang->harga+($barang->harga*$setting->persen/100);
+
+            if (!is_null($detail)) {
+                $data = array('harga' => $request->harga);
+                
+                Detailjual::where("id_jual", $request->beli)->where("id_barang", $request->barang)->update($data);
+            }else{
+                $detailbeli = new Detailjual();
+                $detailbeli->id_barang = $request->barang;
+                $detailbeli->id_jual = $request->beli;
+                $detailbeli->beratJual = $request->berat;
+                $detailbeli->harga = $harga;
+                
+                $detailbeli->save();
+            }
+
+            $total = DB::select(DB::raw("select sum(beratJual*harga) as total from detailjuals where id_jual='".$request->beli."'"));
+
+            $a_total = array('total' => (Double)$total[0]->total);
+
+            Jual::where("id", $request->beli)->update($a_total);
+
+            DB::commit();*/
+
         } catch (Exception $e) {
          return redirect()->back()->with('error','Pesanan Barang Gagal Dibuat');
-     }
+        }
 
-     return redirect("penjualan/create/".$jual->id)->with('success','Pesanan Barang Sukses Dibuat');
+        return redirect("penjualan/create/".$jual->id)->with('success','Pesanan Barang Sukses Dibuat');
  }
 
     /**

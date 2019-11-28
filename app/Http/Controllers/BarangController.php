@@ -50,7 +50,6 @@ class BarangController extends Controller
         $masterbarangs->satuan=$satuan;
         $masterbarangs->harga=$harga;
         $masterbarangs->status="1";
-        //var_dump($masterbarangs);die;
         $masterbarangs->save();
 
         return redirect('barang')->with('Data Barang Berhasil Ditambahkan !');
