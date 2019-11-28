@@ -193,7 +193,16 @@ class DetailprosesController extends Controller
     public function sortir(Request $request)
     {
        $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
-        //dd($detail);
+       $history = (Double) HistorySortir::where("iddetail", $request->s_idproses)->sum("jumlah");
+
+       if (is_null($history)) {
+            $persen = $detail->jumlahBarang*10/100;
+            $sisa   = $detail->jumlahBarang-$persen;
+        }else{
+            $persen = $detail->jumlahBarang*10/100;
+            $sisa   = $history-$persen;
+        }
+
        DB::beginTransaction();
        $detailproses = new DetailProses();
        $detailproses->id_proses = $detail->id_proses;
@@ -202,7 +211,7 @@ class DetailprosesController extends Controller
        $detailproses->status =1;
 
         /// cek untuk ambil barang dan proses raw
-       if ($request->s_jumlah>$detail->jumlahBarang) {
+       if ($request->s_jumlah<$sisa or $request->s_jumlah>$detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu besar');
     }else{
 
@@ -275,14 +284,6 @@ public function endsortir(Request $request)
     $detail = DetailProses::where("iddetail", $request->e_idproses)->get()->first();
     $history = (Double) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah");
 
-    if (is_null($history) or $history==0) {
-        $persen = $detail->jumlahBarang*10/100;
-        $sisa   = $detail->jumlahBarang-$persen;
-    }else{
-        $persen = $detail->jumlahBarang*10/100;
-        $sisa   = $history-$persen;
-    }
-
     DB::beginTransaction();
     $detailproses = new DetailProses();
     $detailproses->id_proses = $detail->id_proses;
@@ -293,7 +294,7 @@ public function endsortir(Request $request)
     $cek = $request->e_jumlah+$history;
     
     /// cek untuk ambil barang dan proses raw
-    if ($history+$request->e_jumlah>$detail->jumlahBarang or $history+$request->e_jumlah<$sisa) {
+    if ($cek>$detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu besar');
     }else{
         $detailproses->save();

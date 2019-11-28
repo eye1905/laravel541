@@ -55,9 +55,8 @@ class ProsesController extends Controller
         $proses = new Proses();
         
         $proses->tglProses = date("Y-m-d");
-        $proses->id_supplier = $request->supplier;
-        $proses->id_karyawan = $request->karyawan;
-        $proses->jenisProses = 0;
+        $proses->id_suppliers = $request->supplier;
+        $proses->id_users = $request->karyawan;
         $proses->status = 0;
         $proses->save();
 
