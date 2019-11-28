@@ -71,6 +71,9 @@
                <!--  //jika ada barang disortir -->
                @if(count($masterdetailprosess)>0) 
                @foreach ($masterdetailprosess as $key => $m)
+               @php
+                $sisa = ($m->jumlahBarang-$m->jumlah)*10/100;
+               @endphp
                <tr>
                 <td>{{ $key+1 }}</td>
                 <td style="" >{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
