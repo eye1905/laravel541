@@ -56,9 +56,11 @@
                     <div class="col-md-6">
                         <select id="karyawan" class="form-control" name="karyawan" required>
                         @foreach($masterkaryawans as $key => $m)
+                        @if($m->id==Auth::user()->id)
                         <option value = "{{ $m->id }}">
                           {{ $m->namaKaryawan }}
                         </option>
+                        @endif
                         @endforeach
                     </select>
 

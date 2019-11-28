@@ -73,7 +73,7 @@
                @foreach ($masterdetailprosess as $key => $m)
                <tr>
                 <td>{{ $key+1 }}</td>
-                <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                <td style="" >{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 <td>{{ $m->jumlahBarang }}</td>
                 <td>{{ $m->jumlah }}</td>
                 @if($m->status==1 or $m->status==7)
