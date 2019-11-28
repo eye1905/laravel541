@@ -57,9 +57,8 @@
                         <div class="col-md-12">
                             <select class="form-control select2" style="width: 100%;" id="jabatan" name="jabatan" required>
                               <option selected="selected" value = "1">Pegawai Keuangan</option>
-                              <option value = "2">Akuntan</option>
+                              <option value = "2">Direktur</option>
                               <option value = "3">Pegawai Gudang</option>
-                              <option value = "4">Pegawai Barang</option>
                           </select>
 
                           @if ($errors->has('jabatan'))

@@ -47,11 +47,9 @@
             @if($m->jabatan==1)
               {{ "Pegawai Keuangan" }}
             @elseif($m->jabatan==2)
-              {{ "Akuntan" }}
+              {{ "Direktur" }}
             @elseif($m->jabatan==3)
               {{ "Pegawai Gudang" }}
-            @elseif($m->jabatan==4)
-              {{ "Pegawai Barang" }}
             @endif
           </td>
 					<td><a class="btn btn-success" href="{!! action('KaryawanController@edit', $m->id) !!}">Edit</a></td>

@@ -46,8 +46,8 @@
                <tr>
                  <td>{{ $key+1 }}</td>
                  <td>{{ $m->tglProses }}</td>
-                <td>@if(isset($mastersuppliers[$m->id_supplier]["namaSupplier"])){{ $mastersuppliers[$m->id_supplier]["namaSupplier"] }}@endif</td>
-                 <td>@if(isset($masterkaryawans[$m->id_karyawan]["namaKaryawan"])){{ $masterkaryawans[$m->id_karyawan]["namaKaryawan"] }} @endif</td>
+                <td>@if(isset($mastersuppliers[$m->id_suppliers]["namaSupplier"])){{ $mastersuppliers[$m->id_suppliers]["namaSupplier"] }}@endif</td>
+                 <td>@if(isset($masterkaryawans[$m->id_users]["namaKaryawan"])){{ $masterkaryawans[$m->id_users]["namaKaryawan"] }} @endif</td>
                  <td>
                   @if($m->status==0)
                   <span style="background-color: orange; color:#fff">Proses Belum Selesai</span>
