@@ -92,7 +92,7 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $data["masterdetailprosess"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah")
+        $data["masterdetailprosess"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
         ->orderBy("detailproses.iddetail", "asc")
@@ -227,6 +227,10 @@ class DetailprosesController extends Controller
            return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
        }else{
         $detailproses->save();
+
+        $arr = array('parent' => $detailproses->id-1);
+
+        Detailproses::where("iddetail", $detailproses->id)->update($arr);
 
         $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
         

@@ -42,6 +42,7 @@
              </thead>
              <tbody>
                @foreach ($masterbarangs as $key => $m)
+               @if(strtoupper($m->namaBarang)!="RAW")
                <tr>
                  <td>{{ $key+1 }}</td>
                  <td>{{ $m->namaBarang }}</td>
@@ -53,7 +54,7 @@
                 </td>
                 <td><a class="btn btn-success" href="{!! action('BarangController@edit', $m->id) !!}">Edit</a></td>
                 <td>
-                 
+
                   <form method="POST" action="{!! action('BarangController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
@@ -62,6 +63,7 @@
                 </td>
                 
               </tr>
+              @endif
               @endforeach
             </tbody>
           </table>
