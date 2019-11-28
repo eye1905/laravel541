@@ -19,9 +19,10 @@ class ProsesController extends Controller
     public function index()
     {
          $data["masterbelis"] = Proses::all();
-         $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
-         $data["masterkaryawans"] = self::toList(User::all(), "id");
+         $data["mastersuppliers"] = self::toList(Supplier::select("id", "namaSupplier")->get(), "id");
+         $data["masterkaryawans"] = self::toList(User::select("id", "namaKaryawan")->get(), "id");
 
+         //dd($data);
          return view('admin.proses.index', $data);
     }
 
@@ -54,8 +55,8 @@ class ProsesController extends Controller
         $proses = new Proses();
         
         $proses->tglProses = date("Y-m-d");
-        $proses->id_suppliers = $request->supplier;
-        $proses->id_users = $request->karyawan;
+        $proses->id_supplier = $request->supplier;
+        $proses->id_karyawan = $request->karyawan;
         $proses->status = 0;
         $proses->save();
 

@@ -40,7 +40,7 @@
                     <label for="tglProses" class="col-md-4 control-label">Tanggal Proses</label>
 
                     <div class="col-md-6">
-                        <input id="tglProses" type="date" class="form-control" name="tglProses" value="{{ old('tglProses') }}" required autofocus>
+                        <input id="tglProses" type="text" class="form-control" name="tglProses" value="{{ old('tglProses') }}" required autofocus readonly="true">
 
                         @if ($errors->has('tglProses'))
                             <span class="help-block">
@@ -125,6 +125,8 @@
     $('#hapus').click(function(){
         return confirm("Anda yakin untuk menghapus data ini?");
     });
+
+    $("#tglProses").val('{{ date("d/m/Y") }}');
 </script>
 
 <script>
