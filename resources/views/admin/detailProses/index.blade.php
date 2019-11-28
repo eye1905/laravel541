@@ -122,7 +122,7 @@
                       Selesai Pengeringan
                     </button>
 
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0 and $m->jumlahBarang>0)
+                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0 and $m->jumlahBarang>0 and $m->jumlahBarang<0.8)
                     <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
                       Sortir
                     </button>
