@@ -19,6 +19,7 @@
   <style type="text/css">
   </style>
 </head>
+
 <body class="hold-transition login-page">
     <div class="login-box">
         <!-- /.login-logo -->
