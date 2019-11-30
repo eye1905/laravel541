@@ -69,14 +69,26 @@
              <tbody>
 
                <!--  //jika ada barang disortir -->
-               @if(count($masterdetailprosess)>0) 
-               @foreach ($masterdetailprosess as $key => $m)
+               @if(count($parent)>0) 
+               @foreach ($parent as $key => $m)
                @php
                 $sisa = ($m->jumlahBarang-$m->jumlah)*10/100;
                @endphp
                <tr>
                 <td>{{ $key+1 }}</td>
-                <td style="" >{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @if($m->status==1)
+                      <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @elseif($m->status==2)
+                      <td style="padding-left: 30px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @elseif($m->status==3)
+                      <td style="padding-left: 35px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @elseif($m->status==4)
+                      <td style="padding-left: 40px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @elseif($m->status==5)
+                      <td style="padding-left: 45px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @else
+                      <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @endif
                 <td>{{ $m->jumlahBarang }}</td>
                 <td>{{ $m->jumlah }}</td>
                 @if($m->status==1 or $m->status==7)
@@ -100,8 +112,6 @@
                 <td>{{ "Barang Masuk" }}</td>
 
                 @endif
-
-                <td>{{ $m->created_at }}</td>
                 <td>
                   @if($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==2)
                   <div class="dropdown">
@@ -122,7 +132,7 @@
                       Selesai Pengeringan
                     </button>
 
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0 and $m->jumlahBarang>0 and $m->jumlahBarang<0.8)
+                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0 and $m->jumlahBarang>0 and $m->jumlah>0.8)
                     <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
                       Sortir
                     </button>
@@ -177,7 +187,6 @@
                 </select>  -->
               </td>
               <td> </td>
-              <td></td>
               <td>
                 <button class="btn btn-sm btn-success" type="submit">
                   Simpan

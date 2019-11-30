@@ -92,12 +92,24 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $data["masterdetailprosess"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah")
+        $data["parent"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.iddetail", "asc")
+        ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
         ->get();
 
+        $child = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
+        ->where("id_proses", $id)
+        ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
+        ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
+        ->get();
+        
+        $cil = [];
+        foreach ($child as $key => $value) {
+            $cil[$value->parent] = $value->namaBarang;
+        }
+
+        $data["child"] = $cil;
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["barang"] = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and 
@@ -138,6 +150,7 @@ class DetailprosesController extends Controller
         $detailproses->id_proses = $detail->id_proses;
         $detailproses->id_barang = $detail->id_barang;
         $detailproses->jumlahBarang = $request->jumlah;
+        $detailproses->parent = $request->id_proses;
         $detailproses->status =3;
 
         //dd($detail);
@@ -208,6 +221,7 @@ class DetailprosesController extends Controller
        $detailproses->id_proses = $detail->id_proses;
        $detailproses->id_barang = $detail->id_barang;
        $detailproses->jumlahBarang = $request->s_jumlah;
+       $detailproses->parent = $request->id_proses;
        $detailproses->status =1;
 
         /// cek untuk ambil barang dan proses raw
