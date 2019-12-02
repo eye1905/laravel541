@@ -85,12 +85,12 @@
                 @elseif($m->status==4)
                 <td style="padding-left: 40px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 @elseif($m->status==5)
-                <td style="padding-left: 45px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @else
                 <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @else
+                <td style="padding-left: 20px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 @endif
                 <td>{{ $m->jumlahBarang }}</td>
-                <td>{{ $m->jumlah }}</td>
+                <td>{{ $m->jumlah." - ".$m->status }}</td>
                 @if($m->status==1 or $m->status==7)
 
                 <td>{{ "Sortir" }}</td>
