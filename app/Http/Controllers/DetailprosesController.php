@@ -134,15 +134,16 @@ class DetailprosesController extends Controller
         $a_data2 = [];
 
         foreach ($tingkat2 as $key => $value) {
-            $a_data2[$value->parent][$key] = $value;
+            $a_data2[$value->parent][$value->iddetail] = $value;
         }
-
+        //dd($a_data2);
         $a_data3 = [];
 
         foreach ($tingkat3 as $key => $value) {
             $a_data3[$value->parent][$key] = $value;
         }
 
+        //dd($a_data3);
         $data["tingkat1"] = $tingkat1;
         $data["tingkat2"] = $a_data2;
         $data["tingkat3"] = $a_data3;
@@ -151,7 +152,7 @@ class DetailprosesController extends Controller
                                 "2" => "Selesai Sortir", 
                                 "3"=> "Pengeringan", 
                                 "4"=> "Selesai Pengeringan",
-                                "5"=> "Sortir",
+                                "5"=> "Barang Masuk",
                                 "0" => "Barang Masuk", 
                                 "8" => "Pengeringan",
                                 "7" => "Sortir");
@@ -191,6 +192,7 @@ class DetailprosesController extends Controller
     public function pengeringan(Request $request)
     {   
         $detail = DetailProses::where("iddetail", $request->idproses)->get()->first();
+
         $history = (Double) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
         //dd($detail);
         DB::beginTransaction();
@@ -200,7 +202,11 @@ class DetailprosesController extends Controller
         $detailproses->jumlahBarang = $request->jumlah;
         $detailproses->parent = $request->parent;
         $detailproses->status =3;
-        $detailproses->tingkat =2;
+        if ($detail->status==2) {
+            $detailproses->tingkat =3;
+        }else{
+            $detailproses->tingkat =2;
+        }
 
         //dd($detail);  
         $cek = bcadd($request->jumlah, $history, 1);
