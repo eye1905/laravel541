@@ -58,11 +58,7 @@
                 <td>
                   <a class="btn btn-warning" href="{!! action('DetailprosesController@edit', $m->id) !!}">Detail</a>
                   @if($m->status==0)
-                  <form method="POST" action="{!! action('ProsesController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <button class="btn btn-danger" id = "hapus" type="submit">Hapus</button>
-                  </form>
+                  <a class="btn btn-danger" href="{{ url('proses/delete/'.$m->id) }}">Delete</a>
                   @endif
                 </td>
 

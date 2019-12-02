@@ -8,6 +8,7 @@ use App\Supplier;
 use App\Karyawan;
 use App\User;
 use Illuminate\Http\Request;
+use App\DetailProses;
 
 class ProsesController extends Controller
 {
@@ -60,7 +61,7 @@ class ProsesController extends Controller
         $proses->status = 0;
         $proses->save();
 
-        return redirect('detailproses'."/".$proses->id."/edit")->with('Data Barang Berhasil Ditambahkan !');
+        return redirect('detailproses'."/".$proses->id."/edit")->with('success', 'Data Barang Berhasil Ditambahkan !');
     }
 
     /**
@@ -94,7 +95,7 @@ class ProsesController extends Controller
      */
     public function update(Request $request, Proses $proses)
     {
-        //
+        
     }
 
     /**
@@ -103,8 +104,11 @@ class ProsesController extends Controller
      * @param  \App\Proses  $proses
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Proses $proses)
+    public function destroy($id)
     {
-        //
+        DetailProses::where("id_proses", $id)->delete();
+        Proses::where("id", $id)->delete();
+        //dd($id);
+        return redirect()->back()->with('status', 'Sukses Hapus Proses');
     }
 }

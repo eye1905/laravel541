@@ -97,7 +97,7 @@ class DetailprosesController extends Controller
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
         ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
         ->get();
-
+        
         $child = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
