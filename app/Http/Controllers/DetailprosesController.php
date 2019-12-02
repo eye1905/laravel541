@@ -92,24 +92,26 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $data["parent"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
+        $data["parent"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", DB::raw("coalesce(detailproses.parent, 1) as parent"))
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
-        ->get();
+        ->orderBy("detailproses.status", "desc")->orderBy("parent", "desc")->orderBy("detailproses.iddetail", "desc")
+        ->get();//->toArray();
         
-        $child = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
-        ->where("id_proses", $id)
-        ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
-        ->get();
-        
-        $cil = [];
-        foreach ($child as $key => $value) {
-            $cil[$value->parent] = $value->namaBarang;
-        }
+        //dd($data);
 
-        $data["child"] = $cil;
+        // $child = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
+        // ->where("id_proses", $id)
+        // ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
+        // ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
+        // ->get();
+        
+        // $cil = [];
+        // foreach ($child as $key => $value) {
+        //     $cil[$value->parent] = $value->namaBarang;
+        // }
+
+        // $data["child"] = $cil;
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["barang"] = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and 
@@ -150,7 +152,7 @@ class DetailprosesController extends Controller
         $detailproses->id_proses = $detail->id_proses;
         $detailproses->id_barang = $detail->id_barang;
         $detailproses->jumlahBarang = $request->jumlah;
-        $detailproses->parent = $request->id_proses;
+        $detailproses->parent = $request->parent;
         $detailproses->status =3;
 
         //dd($detail);
@@ -221,13 +223,13 @@ class DetailprosesController extends Controller
        $detailproses->id_proses = $detail->id_proses;
        $detailproses->id_barang = $detail->id_barang;
        $detailproses->jumlahBarang = $request->s_jumlah;
-       $detailproses->parent = $request->id_proses;
+       $detailproses->parent = $request->s_parent;
        $detailproses->status =1;
 
         /// cek untuk ambil barang dan proses raw
        if ($request->s_jumlah<$sisa or $request->s_jumlah>$detail->jumlahBarang) {
-        return redirect()->back()->with('error','jumlah terlalu besar');
-    }else{
+            return redirect()->back()->with('error','jumlah terlalu besar');
+        }else{
 
         $barang = Barang::where("namaBarang", "Raw")->get()->first();
             //dd($barang);      
@@ -303,6 +305,7 @@ public function endsortir(Request $request)
     $detailproses->id_proses = $detail->id_proses;
     $detailproses->id_barang = $request->e_idbarang;
     $detailproses->jumlahBarang = $request->e_jumlah;
+    $detailproses->parent = $request->e_parent;
     $detailproses->status =2;
 
     $cek = $request->e_jumlah+$history;
@@ -371,6 +374,7 @@ public function endpengeringan(Request $request)
     $detailproses->id_proses = $detail->id_proses;
     $detailproses->id_barang = $detail->id_barang;
     $detailproses->jumlahBarang = $request->k_jumlah;
+    $detailproses->parent = $request->k_parent;
     $detailproses->status = 4;
 
         /// cek untuk ambil barang dan proses raw

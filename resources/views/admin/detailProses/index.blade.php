@@ -75,8 +75,13 @@
                $sisa = ($m->jumlahBarang-$m->jumlah)*10/100;
                @endphp
                <tr>
-                <td>{{ $key+1 }}</td>
-                @if($m->status==1)
+                <td>{{ $m->iddetail }}</td>
+                @if($m->parent!=1)
+                <td style="padding-left: 30px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @else
+                <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                @endif
+               {{--  @if($m->status==1)
                 <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 @elseif($m->status==2)
                 <td style="padding-left: 30px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
@@ -88,8 +93,9 @@
                 <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 @else
                 <td style="padding-left: 20px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @endif
-                <td>{{ $m->jumlahBarang }}</td>
+                @endif --}}
+
+                <td>{{ $m->jumlahBarang." - ".$m->parent }}</td>
                 <td>{{ $m->jumlah }}</td>
                 @if($m->status==1 or $m->status==7)
 
@@ -227,6 +233,7 @@
           <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="Masukan Jumlah"/>
           <input type="hidden" id="idproses" name="idproses">
           <input type="hidden" id="idbarang" name="idbarang">
+          <input type="hidden" id="parent" name="parent">
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success">Simpan</button>
@@ -254,6 +261,7 @@
           <input type="text" class="form-control" id="s_jumlah" name="s_jumlah" placeholder="Masukan Jumlah"/>
           <input type="hidden" id="s_idproses" name="s_idproses">
           <input type="hidden" id="s_idbarang" name="s_idbarang">
+          <input type="hidden" id="s_parent" name="s_parent">
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success">Simpan</button>
@@ -279,7 +287,9 @@
         <div class="modal-body">
           Jumlah :
           <input type="text" class="form-control" id="e_jumlah" name="e_jumlah" placeholder="Masukan Jumlah"/>
-          <input type="hidden" id="e_idproses" name="e_idproses"><br> 
+          <input type="hidden" id="e_idproses" name="e_idproses">
+          <input type="hidden" id="e_parent" name="e_parent">
+          <br> 
           <select id="e_idbarang" class="form-control" name="e_idbarang" required>
             @foreach($masterbarangs as $key => $m)
             @if($m->namaBarang!="Raw")
@@ -315,6 +325,7 @@
           <input type="text" class="form-control" id="k_jumlah" name="k_jumlah" placeholder="Masukan Jumlah"/>
           <input type="hidden" id="k_idproses" name="k_idproses">
           <input type="hidden" id="k_idbarang" name="k_idbarang">
+          <input type="hidden" id="k_parent" name="k_parent">
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success">Simpan</button>
@@ -352,23 +363,27 @@
   function getpengeringan (id, barang) {
    $("#idproses").val(id);
    $("#idbarang").val(barang);
+   $("#parent").val(id);
  }
 
  function getSortir (id, barang) {
   $("#s_idproses").val(id);
   $("#s_idbarang").val(barang);
+  $("#s_parent").val(id);
 }
 
 function endSortir (id, barang) {
  $("#e_idproses").val(id);
+ $("#e_parent").val(id);
 }
 
 function endpengeringan  (id, barang, status) {
   $("#k_idproses").val(id);
   $("#k_idbarang").val(barang);
+  $("#k_parent").val(id);
 }
 
-function pilih(id, berat) {
+function pilih(id, berat, $parent) {
   $("#pberat").val(berat);
   $("#jumlahBarang").val(berat);
 }
