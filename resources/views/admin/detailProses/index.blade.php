@@ -90,7 +90,7 @@
                 <td style="padding-left: 20px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 @endif
                 <td>{{ $m->jumlahBarang }}</td>
-                <td>{{ $m->jumlah." - ".$m->status }}</td>
+                <td>{{ $m->jumlah }}</td>
                 @if($m->status==1 or $m->status==7)
 
                 <td>{{ "Sortir" }}</td>
