@@ -57,7 +57,6 @@
             <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                 <th>No.</th>
                  <th>Barang</th>
                  <th>Berat</th>
                  <th>Sisa</th>
@@ -66,158 +65,173 @@
                </tr>
              </thead>
 
-             <tbody>
-
-               <!--  //jika ada barang disortir -->
-               @if(count($parent)>0) 
-               @foreach ($parent as $key => $m)
-               @php
-               $sisa = ($m->jumlahBarang-$m->jumlah)*10/100;
-               @endphp
-               <tr>
-                <td>{{ $m->iddetail }}</td>
-                @if($m->parent!=1)
-                <td style="padding-left: 30px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @else
-                <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @endif
-               {{--  @if($m->status==1)
-                <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @elseif($m->status==2)
-                <td style="padding-left: 30px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @elseif($m->status==3)
-                <td style="padding-left: 35px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @elseif($m->status==4)
-                <td style="padding-left: 40px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @elseif($m->status==5)
-                <td style="padding-left: 5px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @else
-                <td style="padding-left: 20px;">{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                @endif --}}
-
-                <td>{{ $m->jumlahBarang." - ".$m->parent }}</td>
-                <td>{{ $m->jumlah }}</td>
-                @if($m->status==1 or $m->status==7)
-
-                <td>{{ "Sortir" }}</td>
-
-                @elseif($m->status==2)
-
-                <td>{{ "Selesai Sortir" }}</td>
-
-                @elseif($m->status==3 or $m->status==8)
-
-                <td>{{ "Pengeringan" }}</td>
-
-                @elseif($m->status==4)
-
-                <td>{{ "Selesai Pengeringan" }}</td>
-
-                @else
-
-                <td>{{ "Barang Masuk" }}</td>
-
-                @endif
-                <td>
-                  @if($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==2)
+             @foreach($tingkat1 as $key => $value)
+                <tr>
+                  <td>{{ $masterbarangs[$value->id_barang]["namaBarang"] }}</td>
+                  <td>{{ $value->jumlahBarang }}</td>
+                  <td>{{ $value->jumlah }}</td>
+                  <td>{{ $status[$value->status]." - ".$value->status }}</td>
+                  <td>
+                  @if($masterbarangs[$value->id_barang]["namaBarang"]!="Raw" and $value->jumlahBarang>0 and $value->status==2)
                   <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
                       <span class="caret"></span></button>
                       <ul class="dropdown-menu">
-                        <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Pengeringan</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Selesai Pengeringan</a></li>
+                        <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value->iddetail }}, {{ $value->id_barang}})">Pengeringan</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value->iddetail }}, {{ $value->id_barang}})">Selesai Pengeringan</a></li>
                       </ul>
                     </div>
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==3)
-                    <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})" >
+                    @elseif($masterbarangs[$value->id_barang]["namaBarang"]!="Raw" and $value->jumlahBarang>0 and $value->status==3)
+                    <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value->iddetail }}, {{ $value->id_barang}})" >
                       Selesai Pengeringan
                     </button>
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->jumlahBarang>0 and ($m->status==2 or $m->status==3))
+                    @elseif($masterbarangs[$value->id_barang]["namaBarang"]=="Raw" and $value->jumlahBarang>0 and ($value->status==2 or $value->status==3))
 
-                    <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})" >
+                    <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value->iddetail }}, {{ $value->id_barang}})" >
                       Selesai Pengeringan
                     </button>
 
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0 and $m->jumlahBarang>0)
-                    <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
+                    @elseif($masterbarangs[$value->id_barang]["namaBarang"]=="Raw" and $value->status==0 and $value->jumlahBarang>0)
+                    <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $value->iddetail }}, {{ $value->id_barang}})" >
                       Sortir
                     </button>
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==1 and $m->jumlahBarang>0)
-                    <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
+                    @elseif($masterbarangs[$value->id_barang]["namaBarang"]=="Raw" and $value->status==1 and $value->jumlahBarang>0)
+                    <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value->iddetail }}, {{ $value->id_barang}})" >
                       Selesai Sortir
                     </button>
-                    @elseif($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==0)
+                    @elseif($masterbarangs[$value->id_barang]["namaBarang"]!="Raw" and $value->jumlahBarang>0 and $value->status==0)
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                          <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Pengeringan</a></li>
-                          <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Selesai Pengeringan</a></li>
+                          <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value->iddetail }}, {{ $value->id_barang}})">Pengeringan</a></li>
+                          <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value->iddetail }}, {{ $value->id_barang}})">Selesai Pengeringan</a></li>
                         </ul>
                       </div>
-                      @elseif($masterbarangs[$m->id_barang]["namaBarang"]!="Raw" and $m->jumlahBarang>0 and $m->status==5 and $m->status==7)
+                      @elseif($masterbarangs[$value->id_barang]["namaBarang"]!="Raw" and $value->jumlahBarang>0 and $value->status==5 and $value->status==7)
 
                       @endif
                     </td>
-                  </tr>
-                  @endforeach
-                  @endif
-                  @if($data->status==0)
-                  <tr>
-                    <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
-                      {{ csrf_field() }}
-                      <td>  </td>
-                      <td>  
-                        <input type="hidden" name="id_proses" value="{{ $id }}"/>
-                        <select id="barang" class="form-control" name="barang" required>
-                          @foreach($masterbarangs as $key => $m)
-                          <option value = "{{ $m->id }}">
-                            {{ $m->namaBarang }}
-                          </option>
-                          @endforeach
-                        </select> 
+                </tr>
+
+                @if(isset($tingkat2[$value->iddetail]))
+                    @foreach($tingkat2[$value->iddetail] as $key2 => $value2)
+                    <tr>
+                    <td style="padding-left: 2%">{{ $masterbarangs[$value2->id_barang]["namaBarang"] }}</td>
+                    <td>{{ $value2->jumlahBarang }}</td>
+                    <td>{{ $value2->jumlah }}</td>
+                    <td>{{ $status[$value2->status]." - ".$value2->status }}</td>
+                    <td>
+                    @if($masterbarangs[$value2->id_barang]["namaBarang"]!="Raw" and $value2->jumlahBarang>0 and $value2->status==2)
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Pengeringan</a></li>
+                          <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Selesai Pengeringan</a></li>
+                        </ul>
+                      </div>
+                      @elseif($masterbarangs[$value2->id_barang]["namaBarang"]!="Raw" and $value2->jumlahBarang>0 and $value2->status==3)
+                      <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})" >
+                        Selesai Pengeringan
+                      </button>
+                      @elseif($masterbarangs[$value2->id_barang]["namaBarang"]=="Raw" and $value2->jumlahBarang>0 and ($value2->status==2 or $value2->status==3))
+
+                      <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})" >
+                        Selesai Pengeringan
+                      </button>
+
+                      @elseif($masterbarangs[$value2->id_barang]["namaBarang"]=="Raw" and $value2->status==0 and $value2->jumlahBarang>0)
+                      <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $value2->iddetail }}, {{ $value2->id_barang}})" >
+                        Sortir
+                      </button>
+                      @elseif($masterbarangs[$value2->id_barang]["namaBarang"]=="Raw" and $value2->status==1 and $value2->jumlahBarang>0)
+                      <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value2->iddetail }}, {{ $value2->id_barang}})" >
+                        Selesai Sortir
+                      </button>
+                      @elseif($masterbarangs[$value2->id_barang]["namaBarang"]!="Raw" and $value2->jumlahBarang>0 and $value2->status==0)
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                            <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Pengeringan</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Selesai Pengeringan</a></li>
+                          </ul>
+                        </div>
+                        @elseif($masterbarangs[$value2->id_barang]["namaBarang"]!="Raw" and $value2->jumlahBarang>0 and $value2->status==5 and $value2->status==7)
+
+                        @endif
                       </td>
-                      <td>  
-                       <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
-                     </td>
-                     <td>  
-             <!-- <select id="status" class="form-control" name="status" required>
-                  <option value ="1">
-                    Pengeringan
-                  </option>
-                  <option value ="2">
-                    Sortir
-                  </option>
+                    </tr>
 
+                    @if(isset($tingkat3[$value2->iddetail]))
+                      @foreach($tingkat3[$value2->iddetail] as $key3 => $value3)
+                      <tr>
+                      <td style="padding-left: 5%">{{ $masterbarangs[$value3->id_barang]["namaBarang"] }}</td>
+                      <td>{{ $value3->jumlahBarang }}</td>
+                      <td>{{ $value3->jumlah }}</td>
+                      <td>{{ $status[$value3->status]." - ".$value3->status }}</td>
+                      <td>
+                      @if($masterbarangs[$value3->id_barang]["namaBarang"]!="Raw" and $value3->jumlahBarang>0 and $value3->status==2)
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                            <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})">Pengeringan</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})">Selesai Pengeringan</a></li>
+                          </ul>
+                        </div>
+                        @elseif($masterbarangs[$value3->id_barang]["namaBarang"]!="Raw" and $value3->jumlahBarang>0 and $value3->status==3)
+                        <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})" >
+                          Selesai Pengeringan
+                        </button>
+                        @elseif($masterbarangs[$value3->id_barang]["namaBarang"]=="Raw" and $value3->jumlahBarang>0 and ($value3->status==2 or $value3->status==3))
 
-                </select>  -->
-              </td>
-              <td> </td>
-              <td>
-                <button class="btn btn-sm btn-success" type="submit">
-                  Simpan
-                </button>
+                        <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})" >
+                          Selesai Pengeringan
+                        </button>
 
-              </td>
-            </form>
-          </tr>
-          @endif
+                        @elseif($masterbarangs[$value3->id_barang]["namaBarang"]=="Raw" and $value3->status==0 and $value3->jumlahBarang>0)
+                        <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $value3->iddetail }}, {{ $value3->id_barang}})" >
+                          Sortir
+                        </button>
+                        @elseif($masterbarangs[$value3->id_barang]["namaBarang"]=="Raw" and $value3->status==1 and $value3->jumlahBarang>0)
+                        <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value3->iddetail }}, {{ $value3->id_barang}})" >
+                          Selesai Sortir
+                        </button>
+                        @elseif($masterbarangs[$value3->id_barang]["namaBarang"]!="Raw" and $value3->jumlahBarang>0 and $value3->status==0)
+                        <div class="dropdown">
+                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})">Pengeringan</a></li>
+                              <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})">Selesai Pengeringan</a></li>
+                            </ul>
+                          </div>
+                          @elseif($masterbarangs[$value3->id_barang]["namaBarang"]!="Raw" and $value3->jumlahBarang>0 and $value3->status==5 and $value3->status==7)
 
-        </tbody>
-      </table>
-    </div>
-    <!-- /.box-body -->
-  </div>
-  <!-- /.box -->
-</div>
-<!-- /.col -->
-</div>
-<!-- /.row -->
-</section>
-<!-- /.content -->
+                          @endif
+                        </td>
+                      </tr>
+                      @endforeach
+                    @endif
+                    @endforeach
+                @endif
+             @endforeach
+           </table>
+         </div>
+         <!-- /.box-body -->
+       </div>
+       <!-- /.box -->
+     </div>
+     <!-- /.col -->
+   </div>
+   <!-- /.row -->
+ </section>
+ <!-- /.content -->
 
-<!-- Pengeringan MODAL -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <!-- Pengeringan MODAL -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
