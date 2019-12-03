@@ -93,7 +93,7 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, detailproses.jumlahBarang) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"))
+        $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, null) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"))
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
         ->orderBy("detailproses.status", "asc")
@@ -109,7 +109,7 @@ class DetailprosesController extends Controller
             if ($value->status==1) {
                 $a_data["tingkat1"][$key] = $value;
             }
-
+            
             if ($value->status==2) {
                 $a_data["tingkat2"][$key] = $value;
             }
