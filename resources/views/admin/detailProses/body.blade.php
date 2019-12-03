@@ -113,26 +113,16 @@
                        <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
                      </td>
                      <td>  
-             <!-- <select id="status" class="form-control" name="status" required>
-                  <option value ="1">
-                    Pengeringan
-                  </option>
-                  <option value ="2">
-                    Sortir
-                  </option>
+                     </td>
+                     <td> </td>
+                     <td>
+                      <button class="btn btn-sm btn-success" type="submit">
+                        Simpan
+                      </button>
 
+                    </td>
+                  </form>
+                </tr>
+                @endif
 
-                </select>  -->
-              </td>
-              <td> </td>
-              <td>
-                <button class="btn btn-sm btn-success" type="submit">
-                  Simpan
-                </button>
-
-              </td>
-            </form>
-          </tr>
-          @endif
-
-        </tbody>
+              </tbody>

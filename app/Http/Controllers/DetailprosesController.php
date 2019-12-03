@@ -48,7 +48,6 @@ class DetailprosesController extends Controller
         $detailproses->id_proses = $request->id_proses;
         $detailproses->id_barang = $request->barang;
         $detailproses->jumlahBarang = $request->jumlahBarang;
-        $detailproses->tingkat = 1;
         $detailproses->status =0;
 
         //dd($detailproses);
@@ -94,59 +93,12 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $tingkat1 = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.tingkat","detailproses.id_proses", "detailproses.id_barang","detailproses.status", "HystoriRaw.jumlah", DB::raw("coalesce(detailproses.parent, 1) as parent"))
-        ->where("id_proses", $id)->where("tingkat", "1")
+        $tingkat1 = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", "HystoriRaw.jumlah", DB::raw("coalesce(detailproses.parent, 1) as parent"))
+        ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.tingkat", "asc")
         ->orderBy("detailproses.iddetail", "asc")
-        ->orderBy("detailproses.parent", "asc")
+        ->orderBy("detailproses.status", "asc")
         ->get();
-            
-        $tingkat2 = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.tingkat","detailproses.id_proses", "detailproses.id_barang","detailproses.status", "HystoriRaw.jumlah", DB::raw("coalesce(detailproses.parent, 1) as parent"))
-        ->where("id_proses", $id)->where("tingkat", "2")
-        ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.tingkat", "asc")
-        ->orderBy("detailproses.iddetail", "asc")
-        ->orderBy("detailproses.parent", "asc")
-        ->get();
-
-
-        $tingkat3 = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.tingkat","detailproses.id_proses", "detailproses.id_barang","detailproses.status", "HystoriRaw.jumlah", DB::raw("coalesce(detailproses.parent, 1) as parent"))
-        ->where("id_proses", $id)->where("tingkat", "3")
-        ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.tingkat", "asc")
-        ->orderBy("detailproses.iddetail", "asc")
-        ->orderBy("detailproses.parent", "asc")
-        ->get();
-        //dd($detail);
-
-        // $child = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
-        // ->where("id_proses", $id)
-        // ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        // ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
-        // ->get();
-        
-        // $cil = [];
-        // foreach ($child as $key => $value) {
-        //     $cil[$value->parent] = $value->namaBarang;
-        // }
-
-        $a_data2 = [];
-
-        foreach ($tingkat2 as $key => $value) {
-            $a_data2[$value->parent][$value->iddetail] = $value;
-        }
-        //dd($a_data2);
-        $a_data3 = [];
-
-        foreach ($tingkat3 as $key => $value) {
-            $a_data3[$value->parent][$key] = $value;
-        }
-
-        //dd($a_data3);
-        $data["tingkat1"] = $tingkat1;
-        $data["tingkat2"] = $a_data2;
-        $data["tingkat3"] = $a_data3;
 
         $data["status"] = array("1" => "Sortir", 
                                 "2" => "Selesai Sortir", 
@@ -157,8 +109,9 @@ class DetailprosesController extends Controller
                                 "8" => "Pengeringan",
                                 "7" => "Sortir");
 
+        $data["detail"] = $tingkat1;
 
-        // $data["child"] = $cil;
+        $data["tingkat1"] = $tingkat1;
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["barang"] = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and 
@@ -202,11 +155,6 @@ class DetailprosesController extends Controller
         $detailproses->jumlahBarang = $request->jumlah;
         $detailproses->parent = $request->parent;
         $detailproses->status =3;
-        if ($detail->status==2) {
-            $detailproses->tingkat =3;
-        }else{
-            $detailproses->tingkat =2;
-        }
 
         //dd($detail);  
         $cek = bcadd($request->jumlah, $history, 1);
@@ -278,7 +226,6 @@ class DetailprosesController extends Controller
     $detailproses->jumlahBarang = $request->s_jumlah;
     $detailproses->parent = $request->s_parent;
     $detailproses->status =1;
-    $detailproses->tingkat =2;
 
         /// cek untuk ambil barang dan proses raw
     if ($request->s_jumlah<$sisa or $request->s_jumlah>$detail->jumlahBarang) {
@@ -361,7 +308,6 @@ public function endsortir(Request $request)
     $detailproses->jumlahBarang = $request->e_jumlah;
     $detailproses->parent = $request->e_parent;
     $detailproses->status =2;
-    $detailproses->tingkat =3;
 
     $cek = $request->e_jumlah+$history;
     
@@ -431,7 +377,6 @@ public function endpengeringan(Request $request)
     $detailproses->jumlahBarang = $request->k_jumlah;
     $detailproses->parent = $request->k_parent;
     $detailproses->status = 4;
-    $detailproses->tingkat =3;
 
         /// cek untuk ambil barang dan proses raw
     if ($request->k_jumlah<$sisa or $request->k_jumlah>$detail->jumlahBarang) {
