@@ -87,8 +87,8 @@
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
                       <span class="caret"></span></button>
                       <ul class="dropdown-menu">
-                        <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Pengeringan</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Selesai Pengeringan</a></li>
+                        <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Pengeringan</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Selesai Pengeringan</a></li>
                       </ul>
                     </div>  
                   </td>
