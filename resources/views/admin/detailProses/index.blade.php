@@ -78,9 +78,21 @@
                 <td>{{ $m->jumlah }}</td>
                 <td>{{ $status[$m->status] }}</td>
                 <td>
+                  @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw")
                   <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
                     Sortir
                   </button>
+                  @else
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Pengeringan</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Selesai Pengeringan</a></li>
+                      </ul>
+                    </div>  
+                  </td>
+                  @endif
                 </td>
               </tr>
               @if(isset($detail["tingkat1"]))
