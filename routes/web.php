@@ -31,6 +31,9 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 
 	Route::resource('proses', 'ProsesController');
 	Route::get('proses/pengeringan/{id?}/{id1?}', 'ProsesController@pengeringan');
+	
+	Route::get('proses/delete/{id}', 'ProsesController@destroy');
+
 	Route::resource('detailproses', 'DetailprosesController');
 	Route::post('addproses', 'DetailbeliController@addproses'); 
 	Route::post('pengeringan', 'DetailprosesController@pengeringan'); 

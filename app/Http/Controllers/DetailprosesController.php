@@ -50,6 +50,7 @@ class DetailprosesController extends Controller
         $detailproses->jumlahBarang = $request->jumlahBarang;
         $detailproses->status =0;
 
+        //dd($detailproses);
         /// cek untuk ambil barang dan proses raw
         $detail = DetailProses::where("id_proses", $detailproses->id_proses)->where("id_barang", $detailproses->id_barang)->get()->toArray();
         if (count($detail)==1) {
@@ -92,28 +93,49 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $data["parent"] = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
+        $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, null) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"))
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
+        ->orderBy("detailproses.status", "asc")
+        ->orderBy("detailproses.iddetail", "asc")
         ->get();
 
-        $child = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang", "detailproses.id_proses", "id_barang","status", "HystoriRaw.jumlah", "detailproses.parent")
-        ->where("id_proses", $id)
-        ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.parent")->orderBy("detailproses.iddetail", "asc")
-        ->get();
+        $a_data = [];
+        foreach ($tingkat as $key => $value) {
+            if ($value->status==0) {
+                $a_data["tingkat0"][$key] = $value;
+            }
+
+            if ($value->status==1) {
+                $a_data["tingkat1"][$key] = $value;
+            }
+            
+            if ($value->status==2) {
+                $a_data["tingkat2"][$key] = $value;
+            }
+
+            if ($value->status==3) {
+                $a_data["tingkat3"][$key] = $value;
+            }
+
+            if ($value->status==4) {
+                $a_data["tingkat4"][$key] = $value;
+            }
+        }   
         
-        $cil = [];
-        foreach ($child as $key => $value) {
-            $cil[$value->parent] = $value->namaBarang;
-        }
+        $data["status"] = array(
+                                "0" => "Barang Masuk", 
+                                "1" => "Sortir", 
+                                "2" => "Selesai Sortir", 
+                                "3"=> "Pengeringan", 
+                                "4"=> "Selesai Pengeringan");
 
-        $data["child"] = $cil;
+        $data["detail"] = $a_data;
+
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["barang"] = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and 
-            (status='4' or status='5') group by id_barang");
+            (status='4' or status='0') group by id_barang");
         
         return view('admin.detailproses.index', $data);
     }
@@ -143,6 +165,7 @@ class DetailprosesController extends Controller
     public function pengeringan(Request $request)
     {   
         $detail = DetailProses::where("iddetail", $request->idproses)->get()->first();
+
         $history = (Double) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
         //dd($detail);
         DB::beginTransaction();
@@ -150,10 +173,10 @@ class DetailprosesController extends Controller
         $detailproses->id_proses = $detail->id_proses;
         $detailproses->id_barang = $detail->id_barang;
         $detailproses->jumlahBarang = $request->jumlah;
-        $detailproses->parent = $request->id_proses;
+        $detailproses->parent = $request->parent;
         $detailproses->status =3;
 
-        //dd($detail);
+        //dd($detail);  
         $cek = bcadd($request->jumlah, $history, 1);
         //dd($detail["jumlahBarang"]);
         /// cek untuk ambil barang dan proses raw
@@ -190,12 +213,6 @@ class DetailprosesController extends Controller
             $history = HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
             $jumlah = (Double) $detail->jumlahBarang;
             
-            //dd($detail->jumlahBarang);
-            if ($history>=$detail->jumlahBarang) {
-                $data = [];
-                $data["status"] = 8;
-                $update = DetailProses::where("iddetail", $detail->iddetail)->update($data);
-            }
         }
         //var_dump($update); die;
         DB::commit();
@@ -208,7 +225,7 @@ class DetailprosesController extends Controller
        $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
        $history = (Double) HistorySortir::where("iddetail", $request->s_idproses)->sum("jumlah");
 
-       if (is_null($history)) {
+       if ($history==0) {
             $persen = $detail->jumlahBarang*10/100;
             $sisa   = $detail->jumlahBarang-$persen;
         }else{
@@ -216,26 +233,54 @@ class DetailprosesController extends Controller
             $sisa   = $history-$persen;
         }
 
-       DB::beginTransaction();
-       $detailproses = new DetailProses();
-       $detailproses->id_proses = $detail->id_proses;
-       $detailproses->id_barang = $detail->id_barang;
-       $detailproses->jumlahBarang = $request->s_jumlah;
-       $detailproses->parent = $request->id_proses;
-       $detailproses->status =1;
+        DB::beginTransaction();
+        $detailproses = new DetailProses();
+        $detailproses->id_proses = $detail->id_proses;
+        $detailproses->id_barang = $detail->id_barang;
+        $detailproses->jumlahBarang = $request->s_jumlah;
+        $detailproses->parent = $request->s_parent;
+        $detailproses->status =1;
 
         /// cek untuk ambil barang dan proses raw
-       if ($request->s_jumlah<$sisa or $request->s_jumlah>$detail->jumlahBarang) {
-        return redirect()->back()->with('error','jumlah terlalu besar');
-    }else{
+        if ($request->s_jumlah>$detail->jumlahBarang) {
+            return redirect()->back()->with('error','jumlah terlalu besar');
+        }else{
 
-        $barang = Barang::where("namaBarang", "Raw")->get()->first();
-            //dd($barang);      
-        $detail1 = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
+            $barang = Barang::where("namaBarang", "Raw")->get()->first();
+                
+            $total = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)
+                        ->where("status", "0")->sum("jumlahBarang");
 
+            $jumlah = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)
+                        ->where("status", "1")->sum("jumlahBarang");
+
+            if ($jumlah > $total) {
+               return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
+           }else{
+            $detailproses->save();
+
+            $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
+            
+            if (!is_null($select)) {
+                $hisdata = [];
+                $hisdata["jumlah"] = bcsub($select->jumlah, $request->s_jumlah, 1);
+                //dd($hisdata);
+                HistoryRaw::where("iddetail", $detail->iddetail)->update($hisdata);
+            }else{
+
+                $history = new HistoryRaw();
+                $history->jumlah = bcsub($detail->jumlahBarang, $request->s_jumlah, 1);
+                $history->iddetail = $detail->iddetail;
+                //dd($history);
+                $history->save();
+            }
+        }
+
+        $detail = [];
+        $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
+                //dd($detail);
         $jumlah = $total = 0;
-
-        foreach ($detail1 as $key => $value) {
+        foreach ($detail as $key => $value) {
             if ($value["status"]==0) {
                 $total += $value["jumlahBarang"];
             }
@@ -244,48 +289,6 @@ class DetailprosesController extends Controller
                 $jumlah += $value["jumlahBarang"];
             }
         }
-        $jumlah = $jumlah+$detailproses->jumlahBarang;
-
-        if ($jumlah > $total) {
-           return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
-       }else{
-        $detailproses->save();
-
-        $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
-        
-        if (!is_null($select)) {
-            $hisdata = [];
-            $hisdata["jumlah"] = bcsub($select->jumlah, $request->s_jumlah, 1);
-            //dd($hisdata);
-            HistoryRaw::where("iddetail", $detail->iddetail)->update($hisdata);
-        }else{
-
-            $history = new HistoryRaw();
-            $history->jumlah = bcsub($detail->jumlahBarang, $request->s_jumlah, 1);
-            $history->iddetail = $detail->iddetail;
-            //dd($history);
-            $history->save();
-        }
-    }
-
-    $detail = [];
-    $detail = DetailProses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->get()->toArray();
-            //dd($detail);
-    $jumlah = $total = 0;
-    foreach ($detail as $key => $value) {
-        if ($value["status"]==0) {
-            $total += $value["jumlahBarang"];
-        }
-
-        if ($value["status"]!=0) {
-            $jumlah += $value["jumlahBarang"];
-        }
-    }
-    //dd($jumlah." ".$this->getPersen($total));
-    $data = array('status' => 5);
-    if ($jumlah >= $total) {
-        Detailproses::where("id_barang", $barang["id"])->where("id_proses", $detailproses->id_proses)->where("status", "0")->update($data);
-    }
 
 }
         //var_dump($update); die;
@@ -303,6 +306,7 @@ public function endsortir(Request $request)
     $detailproses->id_proses = $detail->id_proses;
     $detailproses->id_barang = $request->e_idbarang;
     $detailproses->jumlahBarang = $request->e_jumlah;
+    $detailproses->parent = $request->e_parent;
     $detailproses->status =2;
 
     $cek = $request->e_jumlah+$history;
@@ -339,13 +343,6 @@ public function endsortir(Request $request)
 
             // cek history lagi setelah di simpan
         $history = (Double) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah"); 
-
-            // update status barang awal
-        if ($detail->jumlahBarang==$history) {
-            $data = [];
-            $data["status"] = 7;
-            $update = DetailProses::where("iddetail", $request->e_idproses)->update($data);
-        }
     }
 
         //var_dump($update); die;
@@ -371,6 +368,7 @@ public function endpengeringan(Request $request)
     $detailproses->id_proses = $detail->id_proses;
     $detailproses->id_barang = $detail->id_barang;
     $detailproses->jumlahBarang = $request->k_jumlah;
+    $detailproses->parent = $request->k_parent;
     $detailproses->status = 4;
 
         /// cek untuk ambil barang dan proses raw
@@ -379,9 +377,6 @@ public function endpengeringan(Request $request)
     }else{
 
         $detailproses->save();
-
-        $data = array('status' => 8 );
-        $update = DetailProses::where("iddetail", $request->k_idproses)->update($data);
 
         $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
 
@@ -414,7 +409,7 @@ public function endproses($id)
 {   
     $barang = Barang::where("namaBarang", "Raw")->get()->first();
         // select total raw barang
-    $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)->where("status", 5)
+    $count = Detailproses::select(DB::raw("SUM(jumlahBarang) as jumlah"))->where("id_proses", $id)->where("id_barang", $barang->id)->where("status", 0)
     ->groupBy("id_barang")->get()->first();
     
     $persen =0;
@@ -448,8 +443,8 @@ public function endproses($id)
             Beli::where('id',$beli->id)->update($data);
 
                 // create detail beli
-            $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='4' or status='5')
-            group by id_barang");
+            $data = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and (status='4' or status='0')
+                group by id_barang");
             
             // iterasi insert to detail belis
             foreach ($data as $key => $value) {
