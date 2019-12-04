@@ -59,8 +59,8 @@
                 <tr>
                   <th>Barang</th>
                   <th>Berat</th>
-                  {{-- <th>Id</th>
-                  <th>Parent</th> --}}
+                  <th>Id</th>
+                  <th>Parent</th>
                   <th>Sisa</th>
                   <th>Status</th>
                   <th>Opsi</th>
@@ -77,10 +77,10 @@
               <tr>
                 <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 <td>{{ $m->jumlahBarang }}</td>
-                {{-- <td>{{ $m->iddetail }}</td>
-                <td>{{ $m->parent }}</td> --}}
+                <td>{{ $m->iddetail }}</td>
+                <td>{{ $m->parent }}</td>
                 <td>{{ $m->jumlah }}</td>
-                <td>{{ $status[$m->status] }}</td>
+                <td>{{ $status[$m->status]." ".$m->status }}</td>
                 <td>
                   @if($data->status==0)
                       @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0)
@@ -112,13 +112,13 @@
               <tr>
                 <td style="padding-left:3%">{{ $masterbarangs[$value1->id_barang]["namaBarang"] }}</td>
                 <td>{{ $value1->jumlahBarang }}</td>
-                {{-- <td>{{ $value1->iddetail }}</td>
-                <td>{{ $value1->parent }}</td> --}}
+                <td>{{ $value1->iddetail }}</td>
+                <td>{{ $value1->parent }}</td>
                 <td>{{ $value1->jumlah }}</td>
-                <td>{{ $status[$value1->status]}}</td>
+                <td>{{ $status[$value1->status]." - ".$value1->status }}</td>
                 <td>
                   @if($data->status==0)
-                      @if($value1->status==2)
+                      @if($value1->status==1)
                         <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value1->iddetail }}, {{ $value1->id_barang}})" >
                           Selesai Sortir
                         </button>
@@ -134,10 +134,10 @@
               <tr>
                 <td style="padding-left:5%">{{ $masterbarangs[$value2->id_barang]["namaBarang"] }}</td>
                 <td>{{ $value2->jumlahBarang }}</td>
-                {{-- <td>{{ $value2->iddetail }}</td>
-                <td>{{ $value2->parent }}</td> --}}
+                <td>{{ $value2->iddetail }}</td>
+                <td>{{ $value2->parent }}</td>
                 <td>{{ $value2->jumlah }}</td>
-                <td>{{ $status[$value2->status] }}</td>
+                <td>{{ $status[$value2->status]." - ".$value2->status }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value2->status==2)
@@ -161,10 +161,10 @@
                 <tr>
                   <td style="padding-left:7%">{{ $masterbarangs[$value3->id_barang]["namaBarang"] }}</td>
                   <td>{{ $value3->jumlahBarang }}</td>
-                  {{-- <td>{{ $value3->iddetail }}</td>
-                  <td>{{ $value3->parent }}</td> --}}
+                  <td>{{ $value3->iddetail }}</td>
+                  <td>{{ $value3->parent }}</td>
                   <td>{{ $value3->jumlah }}</td>
-                  <td>{{ $status[$value3->status] }}</td>
+                  <td>{{ $status[$value3->status]." ".$value3->status }}</td>
                   <td>
                     @if($data->status==0)
                       @if($value3->status==3)
@@ -187,10 +187,10 @@
                   <tr>
                     <td style="padding-left:9%">{{ $masterbarangs[$value4->id_barang]["namaBarang"] }}</td>
                     <td>{{ $value4->jumlahBarang }}</td>
-                    {{-- <td>{{ $value4->iddetail }}</td>
-                    <td>{{ $value4->parent }}</td> --}}
+                    <td>{{ $value4->iddetail }}</td>
+                    <td>{{ $value4->parent }}</td>
                     <td>{{ $value4->jumlah }}</td>
-                    <td>{{ $status[$value4->status] }}</td>
+                    <td>{{ $status[$value4->status]." ".$value4->status }}</td>
                     <td>
                       @if($data->status==0)
 
