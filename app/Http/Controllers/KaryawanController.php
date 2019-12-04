@@ -21,7 +21,7 @@ class KaryawanController extends Controller
         $this->middleware(function ($request, $next) {
             $this->user = auth()->user();
 
-            if ($this->user->jabatan==3 or $this->user->jabatan==4) {
+            if ($this->user->jabatan==3) {
                 return redirect('home')->with('Anda Tidak Punya Akses');
             }
             

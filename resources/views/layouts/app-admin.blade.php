@@ -54,9 +54,9 @@
       <!-- Logo -->
       <a href="{{ url('/home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>Admin</span>
+        <span class="logo-mini"><b>DB</b></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>CV.DHOFIN</b>BIRDNEST</span>
+          <span class="logo-lg"><b>D</b>HOFIN <b>B</b>IRDNEST</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -71,15 +71,24 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <img src="{{URL::to('dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
                   <span class="hidden-xs">{{ Auth::user()->namaKaryawan }}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="{{URL::to('dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
                     <p>
-                      {{ Auth::user()->namaKaryawan ." - ". str_replace("_"," ",Auth::user()->jabatan ) }}
+                      <?php 
+                        if(Auth::user()->jabatan==1){
+                          $jabatanya = "Pegawai Keuangan";
+                        }elseif(Auth::user()->jabatan==2){
+                          $jabatanya = "Direktur";
+                        }else{
+                          $jabatanya = "Pegawai Gudang";
+                        }
+                      ?>
+                      {{ Auth::user()->namaKaryawan ." - ". str_replace("_"," ",$jabatanya ) }}
                       <BR>
                     </p>
                   </li>
@@ -116,7 +125,7 @@
             @if(Auth::user()->jabatan==1 or Auth::user()->jabatan==2)
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-handshake-o"></i>
                 <span>Supplier</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
@@ -130,14 +139,14 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-shopping-cart"></i>
                 <span>Pembelian</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('beli') }}"><i class="fa fa-plus-square-o"></i>Data Pembelian</a></li>
+                <li><a href="{{ url('beli') }}"><i class="fa fa-list"></i>Data Pembelian</a></li>
                 <!-- <li><a href="{{ url('beli/create') }}"><i class="fa fa-list"></i>Input Data Pembelian</a></li> -->
               </ul>
             </li>
@@ -145,28 +154,28 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-archive"></i>
                 <span>Barang</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('barang') }}"><i class="fa fa-list"></i>Data Barang</a></li>
+                <li><a href="{{ url('barang') }}"><i class="fa fa-archive"></i>Data Barang</a></li>
                 <li><a href="{{ url('barang/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Barang </a></li>
               </ul>
             </li>
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-hourglass-start"></i>
                 <span>Proses</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('proses') }}"><i class="fa fa-list"></i>Data Proses</a></li>
+                <li><a href="{{ url('proses') }}"><i class="fa fa-hourglass-start"></i>Data Proses</a></li>
                 <li><a href="{{ url('proses/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Proses </a></li>
               </ul>
             </li>
@@ -174,28 +183,28 @@
              @if(Auth::user()->jabatan==1 or Auth::user()->jabatan==2)
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-id-badge"></i>
                 <span>Karyawan</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('karyawan') }}"><i class="fa fa-list"></i>Data Karyawan</a></li>
+                <li><a href="{{ url('karyawan') }}"><i class="fa fa-id-badge"></i>Data Karyawan</a></li>
 
               </ul>
             </li>
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
-                <span>Setting</span>
+                <i class="fa fa-cog"></i>
+                <span>Kelola Profit</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('setting') }}"><i class="fa fa-list"></i>Data Setting</a></li>
+                <li><a href="{{ url('setting') }}"><i class="fa fa-cog"></i>Kelola Profit</a></li>
 
               </ul>
             </li>
@@ -216,14 +225,14 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-users"></i>
                 <span>Konsumen</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('konsumen') }}"><i class="fa fa-list"></i>Data Konsumen</a></li>
+                <li><a href="{{ url('konsumen') }}"><i class="fa fa-users"></i>Data Konsumen</a></li>
                 <li><a href="{{ url('konsumen/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Konsumen </a></li>
               </ul>
             </li>

@@ -14,9 +14,9 @@ class Jual extends Model
    	{
         return $this->belongsTo('App\Konsumen', 'id_konsumen');
    	}
-   	 public function karyawans()
+   	 public function users()
    	{
-        return $this->belongsTo('App\Karyawan', 'id_karyawan');
+        return $this->belongsTo('App\User', 'id_users');
    	}
 
     public function currencies()
