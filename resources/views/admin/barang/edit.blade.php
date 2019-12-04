@@ -69,7 +69,7 @@
                     <label for="harga" class="col-md-4 control-label">Stok Barang</label>
 
                     <div class="col-md-6">
-                        <input id="stok" type="number" class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
+                        <input id="stok" type="number" readonly class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
 
                         @if ($errors->has('stok'))
                             <span class="help-block">

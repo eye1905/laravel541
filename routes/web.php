@@ -43,6 +43,9 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 
 	Route::resource('penjualan', 'JualController');
 	Route::get('penjualan/detail/{id}', 'JualController@detail');
+	Route::get('penjualan/getharga/{id}', 'JualController@getharga');
+	Route::get('penjualan/getstok/{berat}/{id_barang}', 'JualController@getstok');
+	Route::get('penjualan/updatebayar/{id}', 'JualController@updatebayar')->name('penjualan.updatebayar');
 	Route::resource('detailjual', 'DetailjualController');
 	Route::post('detailjual/update', 'DetailjualController@update');
 	Route::get('penjualan/create/{id?}', 'JualController@create');

@@ -36,6 +36,8 @@
                  <th>Tanggal Jual</th>
                  <th>Konsumen</th>
                  <th>Karyawan</th>
+                 <th>Status Nota</th>
+                 <th>Status Bayar</th>
                  <th>Opsi</th>
                </tr>
              </thead>
@@ -43,13 +45,38 @@
 
                @foreach ($masterjual as $key => $m)
                <tr>
-                 <td>{{ $key+1 }}</td>
-                 <td>{{ $m->noNotaJual }}</td>
-                 <td>{{ $m->tglPesan }}</td>
-                 <td>{{ $masterkonsumen[$m->id_konsumen]["namaKonsumen"] }}</td>
+                <td>{{ $key+1 }}</td>
+                <td>{{ $m->noNotaJual }}</td>
+                <td>{{ $m->tglPesan }}</td>
+                <td>{{ $masterkonsumen[$m->id_konsumen]["namaKonsumen"] }}</td>
                 <td>{{ $masterkaryawans[$m->id_users]["namaKaryawan"] }}</td>
-      					<td><a class="btn btn-success" href="{!! action('JualController@edit', $m->id) !!}">Ubah</a>
-                  <a class="btn btn-warning" href="{!! action('JualController@create', $m->id) !!}">Detail</a>
+                
+                @if($m->statusNota == 0)
+                <td><span class="label label-warning">Transaksi Belum Selesai</span></td>
+                @elseif($m->statusNota == 1)
+                <td><span class="label label-success">Transaksi Sudah Selesai</span></td>
+                @endif
+
+                @if($m->statusBayar == 0)
+                <td><span class="label label-warning">Belum Lunas</span></td>
+                @elseif($m->statusBayar == 1)
+                <td><span class="label label-success">Lunas</span></td>
+                @endif
+      					
+                <td>
+                  {{-- <a class="btn btn-success" href="{!! action('JualController@edit', $m->id) !!}">Ubah</a> --}}
+
+                  <a class="btn btn-primary" href="{!! action('JualController@detail', $m->id) !!}">Detail</a>
+                  @if($m->statusBayar == 0)
+                    <a class="btn btn-success" href="{!! action('JualController@updatebayar', $m->id) !!}" onclick="return confirm('Anda yakin untuk mengubah nota ini menjadi lunas?');">Ubah Jadi Lunas</a>
+
+                    {{-- <form role="form" action="{{ route('penjualan.updatebayar', $m->id) }}" method="POST" enctype="multipart/form-data">
+                    {{ method_field("PUT") }} 
+                    {!! csrf_field() !!}
+                      <input type="submit" class="btn btn-success pull-right" onclick="return confirm('Anda yakin untuk mengubah nota ini menjadi lunas?');" value="Ubah Jadi Lunas" name="submit">
+                    </form> --}}
+                  @endif
+
                   {{-- <form method="POST" action="{!! action('JualController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                       {{ csrf_field() }}
                       {{ method_field('DELETE') }}

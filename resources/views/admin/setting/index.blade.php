@@ -6,10 +6,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Daftar Setting
+        Kelola Profit 
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('setting') }}" class="active"><i class="fa fa-dashboard"></i> Daftar Setting</a></li>
+        <li><a href="{{ url('setting') }}" class="active"><i class="fa fa-dashboard"></i> Kelola Profit</a></li>
       </ol>
     </section>
 
@@ -19,7 +19,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Daftar Setting</h3>
+              <h3 class="box-title">Kelola Profit</h3>
               @if(session('status'))
                 <div style="background-color:green; color:white;font-weight: bold">
                   {{session('status')}}
@@ -44,7 +44,7 @@
             <td> {{$value->persen.' % '}} </td>
             <td>
               <button class="btn btn-sm btn-primary" onclick="pilih({{ $value->id_setting }}, {{ $value->persen }})">
-                <i class="fa fa-pencil"></i> Update Setting
+                <i class="fa fa-pencil"></i> Update Profit
              </button>
             </td>
           </tr>
