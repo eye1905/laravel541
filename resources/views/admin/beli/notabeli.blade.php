@@ -27,6 +27,9 @@
 		<td>
 			Supplier : {{ $mastersuppliers[$data->id_suppliers]->namaSupplier }}
 		</td>
+    <td>
+      No. Rekening : {{ $mastersuppliers[$data->id_suppliers]->noRekening }}
+    </td>
 
 	</tr>
 </table>

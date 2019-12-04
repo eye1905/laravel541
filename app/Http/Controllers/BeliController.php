@@ -64,7 +64,8 @@ class BeliController extends Controller
 
         $beli = new Beli();
         
-        $beli->tglBeli = date("Y-m-d");
+        $beli->tglBeli = date("d-m-Y");
+        $beli->noRekening = $request->supplier;
         $beli->id_suppliers = $request->supplier;
         $beli->id_users = \Auth::user()->id;
         $beli->status = 0;
