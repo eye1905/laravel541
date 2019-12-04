@@ -80,7 +80,7 @@
                {{--  <td>{{ $m->iddetail }}</td>
                 <td>{{ $m->parent }}</td> --}}
                 <td>{{ $m->jumlah }}</td>
-                <td>{{ $status[$m->status]." - ".$m->status }}</td>
+                <td>{{ $status[$m->status] }}</td>
                 <td>
                   @if($data->status==0)
                       @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0)
@@ -115,7 +115,7 @@
                 {{-- <td>{{ $value1->iddetail }}</td>
                 <td>{{ $value1->parent }}</td> --}}
                 <td>{{ $value1->jumlah }}</td>
-                <td>{{ $status[$value1->status]." - ".$value1->status }}</td>
+                <td>{{ $status[$value1->status] }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value1->status==1)
@@ -137,7 +137,7 @@
                 {{-- <td>{{ $value2->iddetail }}</td>
                 <td>{{ $value2->parent }}</td> --}}
                 <td>{{ $value2->jumlah }}</td>
-                <td>{{ $status[$value2->status]." - ".$value2->status }}</td>
+                <td>{{ $status[$value2->status] }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value2->status==2)
