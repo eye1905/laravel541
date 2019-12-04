@@ -80,7 +80,7 @@
                {{--  <td>{{ $m->iddetail }}</td>
                 <td>{{ $m->parent }}</td> --}}
                 <td>{{ $m->jumlah }}</td>
-                <td>{{ $status[$m->status] }}</td>
+                <td>{{ $status[$m->status]." - ".$m->status }}</td>
                 <td>
                   @if($data->status==0)
                       @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0)
@@ -115,7 +115,7 @@
                 {{-- <td>{{ $value1->iddetail }}</td>
                 <td>{{ $value1->parent }}</td> --}}
                 <td>{{ $value1->jumlah }}</td>
-                <td>{{ $status[$value1->status] }}</td>
+                <td>{{ $status[$value1->status]." - ".$value1->status }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value1->status==1)
@@ -137,7 +137,7 @@
                 {{-- <td>{{ $value2->iddetail }}</td>
                 <td>{{ $value2->parent }}</td> --}}
                 <td>{{ $value2->jumlah }}</td>
-                <td>{{ $status[$value2->status] }}</td>
+                <td>{{ $status[$value2->status]." - ".$value2->status }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value2->status==2)
@@ -155,6 +155,7 @@
                     @endif
                   </td>
                 </tr>
+
                 @if(isset($detail["tingkat3"]))
                 @foreach($detail["tingkat3"] as $key3 => $value3)
                 @if($value2->iddetail==$value3->parent)
@@ -181,28 +182,41 @@
                       @endif
                     </td>
                   </tr>
+
                   @if(isset($detail["tingkat4"]))
                   @foreach($detail["tingkat4"] as $key4 => $value4)
                   @if($value3->iddetail==$value4->parent)
                   <tr>
-                    <td style="padding-left:9%">{{ $masterbarangs[$value4->id_barang]["namaBarang"] }}</td>
+                    <td style="padding-left:10%">{{ $masterbarangs[$value4->id_barang]["namaBarang"] }}</td>
                     <td>{{ $value4->jumlahBarang }}</td>
-                   {{--  <td>{{ $value4->iddetail }}</td>
+                    {{-- <td>{{ $value4->iddetail }}</td>
                     <td>{{ $value4->parent }}</td> --}}
                     <td>{{ $value4->jumlah }}</td>
                     <td>{{ $status[$value4->status] }}</td>
                     <td>
                       @if($data->status==0)
+                        @if($value4->status==3)
+                          <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                              <span class="caret"></span></button>
+                              <ul class="dropdown-menu">
 
-                      @endif
+                                <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value4->iddetail }}, {{ $value4->id_barang}})">Selesai Pengeringan</a></li>
+
+                              </ul>
+                            </div>
+                          @endif
+                        @endif
                       </td>
                     </tr>
+                      @endif
+                      @endforeach
+                      @endif
+
                     @endif
                     @endforeach
                     @endif
-                    @endif
-                    @endforeach
-                    @endif
+
                     @endif
                     @endforeach
                     @endif

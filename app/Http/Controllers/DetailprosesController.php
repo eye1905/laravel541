@@ -96,8 +96,8 @@ class DetailprosesController extends Controller
         $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, null) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"))
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
-        ->orderBy("detailproses.status", "asc")
         ->orderBy("detailproses.iddetail", "asc")
+        ->orderBy("detailproses.status", "asc")
         ->get();
 
         $a_data = [];
@@ -114,7 +114,7 @@ class DetailprosesController extends Controller
                 $a_data["tingkat2"][$key] = $value;
             }
 
-            if ($value->status==3 or $value->status==8) {
+            if ($value->status==3 or $value->status==8 or $value->status==4) {
                 $a_data["tingkat3"][$key] = $value;
             }
 
@@ -122,7 +122,8 @@ class DetailprosesController extends Controller
                 $a_data["tingkat4"][$key] = $value;
             }
         }   
-        
+
+        //dd($a_data);
         $data["status"] = array(
             "0" => "Barang Masuk", 
             "1" => "Sortir", 
@@ -221,7 +222,7 @@ class DetailprosesController extends Controller
 
         $total = DetailProses::where("iddetail", $request->idproses)->sum("jumlahBarang");
         $jumlah = DetailProses::where("parent", $request->idproses)->sum("jumlahBarang");
-        
+
         if ($jumlah>=$total) {
             $update = array('status' => 7);
             DetailProses::where("iddetail", $request->idproses)->update($update);
@@ -415,15 +416,20 @@ public function endpengeringan(Request $request)
             $history->save();
         }
     }
-    
+
     $total = DetailProses::where("iddetail", $request->k_idproses)->sum("jumlahBarang");
     $jumlah = DetailProses::where("parent", $request->k_idproses)->sum("jumlahBarang");
 
     $total = $total-$persen;
 
     if ($jumlah>=$total) {
-        $update = array('status' => 8);
-        DetailProses::where("iddetail", $request->k_idproses)->update($update);
+        if($detail->status==2){
+            $update = array('status' => 7);
+            DetailProses::where("iddetail", $request->k_idproses)->update($update);
+        }else{
+            $update = array('status' => 8);
+            DetailProses::where("iddetail", $request->k_idproses)->update($update);
+        }
     }
 
     DB::commit();
