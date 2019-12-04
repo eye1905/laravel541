@@ -109,7 +109,7 @@ class DetailprosesController extends Controller
             if ($value->status==1) {
                 $a_data["tingkat1"][$key] = $value;
             }
-            
+
             if ($value->status==2) {
                 $a_data["tingkat2"][$key] = $value;
             }

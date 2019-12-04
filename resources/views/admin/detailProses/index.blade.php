@@ -78,6 +78,7 @@
                 <td>{{ $m->jumlah }}</td>
                 <td>{{ $status[$m->status] }}</td>
                 <td>
+                  @if($data->status==0)
                   @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw")
                   <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
                     Sortir
@@ -93,6 +94,7 @@
                     </div>  
                   </td>
                   @endif
+                  @endif
                 </td>
               </tr>
               @if(isset($detail["tingkat1"]))
@@ -107,9 +109,11 @@
                 <td>{{ $value1->jumlah }}</td>
                 <td>{{ $status[$value1->status] }}</td>
                 <td>
+                  @if($data->status==0)
                   <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value1->iddetail }}, {{ $value1->id_barang}})" >
                     Selesai Sortir
                   </button>
+                  @endif
                 </td>
               </tr>
               @if(isset($detail["tingkat2"]))
@@ -121,6 +125,7 @@
                 <td>{{ $value2->jumlah }}</td>
                 <td>{{ $status[$value2->status] }}</td>
                 <td>
+                  @if($data->status==0)
                   <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
                       <span class="caret"></span></button>
@@ -133,6 +138,7 @@
                         @endif
                       </ul>
                     </div>  
+                    @endif
                   </td>
                 </tr>
                 @if(isset($detail["tingkat3"]))
@@ -144,6 +150,7 @@
                   <td>{{ $value3->jumlah }}</td>
                   <td>{{ $status[$value3->status] }}</td>
                   <td>
+                    @if($data->status==0)
                     <div class="dropdown">
                       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
                         <span class="caret"></span></button>
@@ -156,6 +163,7 @@
                           @endif
                         </ul>
                       </div>
+                      @endif
                     </td>
                   </tr>
                   @if(isset($detail["tingkat4"]))
@@ -167,6 +175,7 @@
                     <td>{{ $value4->jumlah }}</td>
                     <td>{{ $status[$value4->status] }}</td>
                     <td>
+                      @if($data->status==0)
                       <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
                           <span class="caret"></span></button>
@@ -179,6 +188,7 @@
                             @endif
                           </ul>
                         </div>
+                        @endif
                       </td>
                     </tr>
                     @endif
@@ -195,33 +205,34 @@
                     @endif
                     @endforeach
                     @endif
+                    @if($data->status==0)
                     <tr>
-                      <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
-                        {{ csrf_field() }}
-                        <td>  
-                          <input type="hidden" name="id_proses" value="{{ $id }}"/>
-                          <select id="barang" class="form-control" name="barang" required>
-                            @foreach($masterbarangs as $key => $m)
-                            <option value = "{{ $m->id }}">
-                              {{ $m->namaBarang }}
-                            </option>
-                            @endforeach
-                          </select> 
+                        <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
+                          {{ csrf_field() }}
+                          <td>  
+                            <input type="hidden" name="id_proses" value="{{ $id }}"/>
+                            <select id="barang" class="form-control" name="barang" required>
+                              @foreach($masterbarangs as $key => $m)
+                              <option value = "{{ $m->id }}">
+                                {{ $m->namaBarang }}
+                              </option>
+                              @endforeach
+                            </select> 
+                          </td>
+                          <td>  
+                           <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
+                         </td>
+                         <td>  
+                         </td>
+                         <td> </td>
+                         <td>
+                          <button class="btn btn-sm btn-success" type="submit">
+                            Simpan
+                          </button>
                         </td>
-                        <td>  
-                         <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
-                       </td>
-                       <td>  
-                       </td>
-                       <td> </td>
-                       <td>
-                        <button class="btn btn-sm btn-success" type="submit">
-                          Simpan
-                        </button>
-
-                      </td>
-                    </form>
-                  </tr>
+                      </form>
+                    </tr>
+                    @endif
                 </table>
               </div>
               <!-- /.box-body -->
