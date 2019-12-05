@@ -123,7 +123,6 @@ class DetailprosesController extends Controller
             }
         }   
 
-        //dd($a_data);
         $data["status"] = array(
             "0" => "Barang Masuk", 
             "1" => "Sortir", 
@@ -238,7 +237,7 @@ class DetailprosesController extends Controller
      $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
      $history = (Double) HistorySortir::where("iddetail", $request->s_idproses)->sum("jumlah");
 
-     if ($history==0) {
+    if ($history==0) {
         $persen = $detail->jumlahBarang*10/100;
         $sisa   = $detail->jumlahBarang-$persen;
     }else{
@@ -254,8 +253,8 @@ class DetailprosesController extends Controller
     $detailproses->parent = $request->s_parent;
     $detailproses->status =1;
 
-            /// cek untuk ambil barang dan proses raw
-    if ($request->s_jumlah>$detail->jumlahBarang) {
+    /// cek untuk ambil barang dan proses raw
+    if ($request->s_jumlah > $detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu besar');
     }else{
 
@@ -292,6 +291,8 @@ class DetailprosesController extends Controller
     $total = DetailProses::where("iddetail", $request->s_idproses)->sum("jumlahBarang");
     $jumlah = DetailProses::where("parent", $request->s_idproses)->sum("jumlahBarang");
 
+    $total = $total-$persen;
+
     //dd($jumlah);
     if ($jumlah>=$total) {
         $update = array('status' => 5);
@@ -308,6 +309,14 @@ public function endsortir(Request $request)
     $detail = DetailProses::where("iddetail", $request->e_idproses)->get()->first();
     $history = (Double) HistorySortir::where("iddetail", $request->e_idproses)->sum("jumlah");
 
+    if ($history==0) {
+        $persen = $detail->jumlahBarang*10/100;
+        $sisa   = $detail->jumlahBarang-$persen;
+    }else{
+        $persen = $detail->jumlahBarang*10/100;
+        $sisa   = $history-$persen;
+    }
+
     DB::beginTransaction();
     $detailproses = new DetailProses();
     $detailproses->id_proses = $detail->id_proses;
@@ -317,9 +326,8 @@ public function endsortir(Request $request)
     $detailproses->status =2;
 
     $cek = $request->e_jumlah+$history;
-    
     /// cek untuk ambil barang dan proses raw
-    if ($cek>$detail->jumlahBarang) {
+    if ($request->e_jumlah<$sisa or $request->e_jumlah>$detail->jumlahBarang) {
         return redirect()->back()->with('error','jumlah terlalu besar');
     }else{
         $detailproses->save();
@@ -355,8 +363,8 @@ public function endsortir(Request $request)
     // update status
     $total = DetailProses::where("iddetail", $request->e_idproses)->sum("jumlahBarang");
     $jumlah = DetailProses::where("parent", $request->e_idproses)->sum("jumlahBarang");
-
-    if ($jumlah>=$total) {
+    
+    if ($jumlah>=$sisa) {
         $update = array('status' => 6);
         DetailProses::where("iddetail", $request->e_idproses)->update($update);
     }
