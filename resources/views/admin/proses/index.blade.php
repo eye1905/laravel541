@@ -57,9 +57,6 @@
                 </td>
                 <td>
                   <a class="btn btn-warning" href="{!! action('DetailprosesController@edit', $m->id) !!}">Detail</a>
-                  @if($m->status==0)
-                  <a class="btn btn-danger" href="{{ url('proses/delete/'.$m->id) }}">Delete</a>
-                  @endif
                 </td>
 
               </tr>
