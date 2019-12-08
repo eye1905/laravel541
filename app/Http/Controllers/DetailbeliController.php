@@ -127,7 +127,8 @@ class DetailbeliController extends Controller
                     $harga = $value2->stok*$value2->harga + $value->stok*$value->harga;
                     $bagi = $value2->stok+$value->stok;
                     $hpp = $harga/$bagi;
-
+                    $hpp = number_format($hpp, 0, '.', '');
+                    //dd($hpp);
                     $stok = array('stok' => $value->stok+$value2->stok, 'hpp'=> $hpp);
                     Barang::where("id", $value->id_barang)->update($stok);
                 }

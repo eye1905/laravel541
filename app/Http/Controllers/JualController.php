@@ -47,12 +47,13 @@ class JualController extends Controller
         $barang  = Barang::where('id', '=', $id)->first();
         $setting = Setting::all()->first();
 
+        // cek jika barang hpp lebih besar dari harga
         if ($barang->hpp > $barang->harga) {
             $barang->harga = $barang->hpp;
         }
-
+        //dd($barang);
         $harga   = $barang->harga+($barang->harga*$setting->persen/100);
-        
+        //$harga = number_format($harga, 2, '.', '');
         /*return $harga;*/
 
         return response()->json($harga);

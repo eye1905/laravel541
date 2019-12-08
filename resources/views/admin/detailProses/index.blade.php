@@ -63,6 +63,7 @@
                   <th>Parent</th> --}}
                   <th>Sisa</th>
                   <th>Status</th>
+                  <th>Tanggal Proses</th>
                   <th>Opsi</th>
                 </tr>
               </thead>
@@ -81,6 +82,7 @@
                 <td>{{ $m->parent }}</td> --}}
                 <td>{{ $m->jumlah }}</td>
                 <td>{{ $status[$m->status] }}</td>
+                <td>{{ date("d-m-Y", strtotime($m->created_at)) }}</td>
                 <td>
                   @if($data->status==0)
                       @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0)
@@ -116,6 +118,7 @@
                 <td>{{ $value1->parent }}</td> --}}
                 <td>{{ $value1->jumlah }}</td>
                 <td>{{ $status[$value1->status] }}</td>
+                <td>{{ date("d-m-Y", strtotime($value1->created_at)) }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value1->status==1)
@@ -138,6 +141,7 @@
                 <td>{{ $value2->parent }}</td> --}}
                 <td>{{ $value2->jumlah }}</td>
                 <td>{{ $status[$value2->status] }}</td>
+                <td>{{ date("d-m-Y", strtotime($value2->created_at)) }}</td>
                 <td>
                   @if($data->status==0)
                       @if($value2->status==2)
@@ -166,6 +170,7 @@
                   <td>{{ $value3->parent }}</td> --}}
                   <td>{{ $value3->jumlah }}</td>
                   <td>{{ $status[$value3->status] }}</td>
+                  <td>{{ date("d-m-Y", strtotime($value3->created_at)) }}</td>
                   <td>
                     @if($data->status==0)
                       @if($value3->status==3)
@@ -193,6 +198,7 @@
                     <td>{{ $value4->parent }}</td> --}}
                     <td>{{ $value4->jumlah }}</td>
                     <td>{{ $status[$value4->status] }}</td>
+                    <td>{{ date("d-m-Y", strtotime($value4->created_at)) }}</td>
                     <td>
                       @if($data->status==0)
                         @if($value4->status==3)
