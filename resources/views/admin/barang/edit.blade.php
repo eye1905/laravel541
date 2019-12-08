@@ -41,7 +41,7 @@
                     <label for="namaBarang" class="col-md-4 control-label">Nama Barang</label>
 
                     <div class="col-md-6">
-                        <input id="namaBarang" type="text" class="form-control" name="namaBarang" value="{{ $masterbarangs->namaBarang }}" required autofocus>
+                        <input id="namaBarang" type="text" readonly class="form-control" name="namaBarang" value="{{ $masterbarangs->namaBarang }}" required autofocus>
 
                         @if ($errors->has('namaBarang'))
                             <span class="help-block">
