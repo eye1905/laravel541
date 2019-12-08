@@ -88,7 +88,7 @@
                 <td>{{ "Rp. ".number_format($m->subTotal, 2, ',', '.') }}</td>
                 <!-- jika harga barang kosong -->
                 <td>
-                 @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
+                 @if($data->status!=1 and $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
                  <button class="btn btn-sm btn-primary" onclick="pilih({{ $m->id_barang }}, {{ $m->berat }})">
                   <i class="fa fa-pencil"></i> Tambahkan harga
                 </button>
