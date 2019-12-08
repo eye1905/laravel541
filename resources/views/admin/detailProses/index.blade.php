@@ -69,11 +69,13 @@
               @php
               $jumlah = 0;
               @endphp
+
               @if(isset($detail["tingkat0"]))
               @foreach($detail["tingkat0"] as $key => $m)
               @php
               $jumlah =$m->jumlah-$m->jumlahBarang;
               @endphp
+              
               <tr>
                 <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                 <td>{{ $m->jumlahBarang }}</td>
