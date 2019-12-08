@@ -236,25 +236,23 @@ class DetailprosesController extends Controller
     {
         $detail = DetailProses::where("iddetail", $request->s_idproses)->get()->first();
         $history = (Double) HistoryRaw::where("iddetail", $request->s_idproses)->sum("jumlah");
-         //dd($history);
-        if ($history==0) {
-            $persen = $detail->jumlahBarang*10/100;
-            $sisa   = $detail->jumlahBarang-$persen;
-        }else{
-            $persen = $detail->jumlahBarang*10/100;
-            $sisa   = $history-$persen;
-        }
 
+        $persen = $detail->jumlahBarang*10/100;
+        $sisa   = $history-$persen;
+        if($sisa<0){
+            $sisa = 0;
+        }
+        
         DB::beginTransaction();
         $detailproses = new DetailProses();
         $detailproses->id_proses = $detail->id_proses;
         $detailproses->id_barang = $detail->id_barang;
         $detailproses->jumlahBarang = $request->s_jumlah;
         $detailproses->parent = $request->s_parent;
-        $detailproses->status =1;
-
+        $detailproses->status = 1;
+        
         /// cek untuk ambil barang dan proses raw
-        if ($request->s_jumlah > $detail->jumlahBarang) {
+        if ($request->s_jumlah<$sisa or $request->s_jumlah > $detail->jumlahBarang) {
             return redirect()->back()->with('error','jumlah terlalu besar');
         }else{
 
@@ -267,8 +265,8 @@ class DetailprosesController extends Controller
             ->where("status", "1")->sum("jumlahBarang");
 
             if ($jumlah > $total) {
-             return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
-         }else{
+               return redirect()->back()->with('error','Raw Barang Tidak Boleh Lebih besar dari jumlah asli');
+           }else{
             $detailproses->save();
 
             $select = HistoryRaw::where("iddetail", $detail->iddetail)->get()->first();
@@ -298,10 +296,10 @@ class DetailprosesController extends Controller
             $update = array('status' => 5);
             DetailProses::where("iddetail", $request->s_idproses)->update($update);
         }
-}
+    }
             //var_dump($update); die;
-DB::commit();
-return redirect()->back()->with('success','Proses Sortir Berhasil Ditambahkan !');
+    DB::commit();
+    return redirect()->back()->with('success','Proses Sortir Berhasil Ditambahkan !');
 }
 
 public function endsortir(Request $request)
