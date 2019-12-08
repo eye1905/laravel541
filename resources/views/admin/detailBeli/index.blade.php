@@ -56,8 +56,8 @@
                   <td>{{ $key+1 }}</td>
                   <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
                   <td>{{ $m->berat }}</td>
-                  <td>{{ $m->harga }}</td>
-                  <td>{{ $m->subTotal }}</td>
+                  <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
+                  <td>{{ "Rp. ".number_format($m->subTotal, 2, ',', '.') }}</td>
                   <!-- jika harga barang kosong -->
                   <td>
                    @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
