@@ -36,6 +36,7 @@
                  <th>Stok</th>
                  <th>Satuan</th>
                  <th>Harga</th>
+                 <th>Hpp</th>
                  <th>Status</th>
                  <th>Opsi</th>
                </tr>
@@ -48,7 +49,8 @@
                  <td>{{ $m->namaBarang }}</td>
                  <td>{{ $m->stok }}</td>
                  <td>{{ $m->satuan }}</td>
-                 <td>{{ $m->harga }}</td>
+                 <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
+                 <td>{{ "Rp. ".number_format($m->hpp, 2, ',', '.') }}</td>
                  <td> 
                   {{ "Barang Siap Jual" }}
                 </td>

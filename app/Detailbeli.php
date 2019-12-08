@@ -18,7 +18,7 @@ class Detailbeli extends Model
 
    	public function getbarang($id)
    	{
-   		$sql = "select id_barang,sum(berat) as stok from detailbelis where id_beli='".$id."' group by id_barang";
+   		$sql = "select id_barang,sum(berat) as stok, harga from detailbelis where id_beli='".$id."' group by id_barang, harga";
    		$a_data = DB::select($sql);
    		return $a_data;
    	}

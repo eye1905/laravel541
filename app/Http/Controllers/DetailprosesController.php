@@ -93,7 +93,7 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
-        $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, null) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"))
+        $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, null) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"), "detailproses.created_at")
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
         ->orderBy("detailproses.iddetail", "asc")
@@ -122,7 +122,7 @@ class DetailprosesController extends Controller
                 $a_data["tingkat4"][$key] = $value;
             }
         }   
-
+       // dd($a_data);
         $data["status"] = array(
             "0" => "Barang Masuk", 
             "1" => "Sortir", 
@@ -242,7 +242,7 @@ class DetailprosesController extends Controller
         if($sisa<0){
             $sisa = 0;
         }
-        
+
         DB::beginTransaction();
         $detailproses = new DetailProses();
         $detailproses->id_proses = $detail->id_proses;
@@ -250,7 +250,7 @@ class DetailprosesController extends Controller
         $detailproses->jumlahBarang = $request->s_jumlah;
         $detailproses->parent = $request->s_parent;
         $detailproses->status = 1;
-        
+
         /// cek untuk ambil barang dan proses raw
         if ($request->s_jumlah<$sisa or $request->s_jumlah > $detail->jumlahBarang) {
             return redirect()->back()->with('error','jumlah terlalu besar');

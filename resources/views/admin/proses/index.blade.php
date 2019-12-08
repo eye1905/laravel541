@@ -45,7 +45,7 @@
                @foreach ($masterbelis as $key => $m)
                <tr>
                  <td>{{ $key+1 }}</td>
-                 <td>{{ $m->tglProses }}</td>
+                 <td>{{ date("d - m - Y", strtotime($m->tglProses)) }}</td>
                 <td>@if(isset($mastersuppliers[$m->id_suppliers]["namaSupplier"])){{ $mastersuppliers[$m->id_suppliers]["namaSupplier"] }}@endif</td>
                  <td>@if(isset($masterkaryawans[$m->id_users]["namaKaryawan"])){{ $masterkaryawans[$m->id_users]["namaKaryawan"] }} @endif</td>
                  <td>

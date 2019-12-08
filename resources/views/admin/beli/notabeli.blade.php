@@ -20,7 +20,7 @@
 			No. Nota Beli : {{ $data->noNotaBeli }}
 		</td>
 		<td>
-			Tanggal : {{$data->tglBeli}}
+			Tanggal : {{ date("d-m-Y", strtotime($data->tglBeli)) }}
 		</td>
 	</tr>
 	<tr>
@@ -56,8 +56,8 @@
           <td>{{ $key+1 }}</td>
           <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
           <td>{{ $m->berat }}</td>
-          <td>{{ $m->harga }}</td>
-          <td>{{ $m->subTotal }}</td>
+          <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
+          <td>{{ "Rp. ".number_format($m->subTotal, 2, ',', '.') }}</td>
          
           </tr>
           
@@ -67,7 +67,7 @@
        		TOTAL : 
        	</td>
        	<td align="right">
-       		{{$total}}
+       		{{ "Rp. ".number_format($total, 2, ',', '.') }}
        	</td>
        </tr>
    </tbody>
@@ -77,15 +77,15 @@
    	</button>
    </div>
 </body>
-<script>
-function Cetak()
-{
-	window.print();
-	$("#ok").hide();
-}
-
-</script>
 <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+<script>
+function Cetak()
+{
+  window.print();
+}
+
+</script>
+
 </html>

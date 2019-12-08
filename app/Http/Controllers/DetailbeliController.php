@@ -96,11 +96,13 @@ class DetailbeliController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        $raw = Barang::where("namaBarang", "like", "%Raw%")->get()->first();
         $data["data"] = Beli::whereId($id)->firstOrFail();
-        $data["masterdetailbelis"] = Detailbeli::where("id_beli", $id)->get();
+        $data["masterdetailbelis"] = Detailbeli::where("id_beli", $id)->where("id_barang", "!=", $raw->id)->get();
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["masterkaryawans"] = User::all();
+        $data["mastersuppliers"] = self::toList(Supplier::all(), 'id');
         $data["id"]             = $id;
 
         return view('admin.detailbeli.index', $data);
@@ -118,11 +120,21 @@ class DetailbeliController extends Controller
         foreach ($barang as $key => $value) {
             foreach ($barang2 as $key2 => $value2) {
                 if ($value->id_barang==$value2->id) {
-                    $stok = array('stok' => $value->stok+$value2->stok);
+                    $value2->harga = $value2->harga;
+                    if (isset($value2->hpp) and $value2->hpp!=null) {
+                        $value2->harga = $value2->hpp;
+                    }
+                    $harga = $value2->stok*$value2->harga + $value->stok*$value->harga;
+                    $bagi = $value2->stok+$value->stok;
+                    $hpp = $harga/$bagi;
+                    $hpp = number_format($hpp, 0, '.', '');
+                    //dd($hpp);
+                    $stok = array('stok' => $value->stok+$value2->stok, 'hpp'=> $hpp);
                     Barang::where("id", $value->id_barang)->update($stok);
                 }
             }
         }
+
         /*update status beli*/
         $status = array('status' => '1'); /*status 1 = tutup*/
         Beli::where("id", $id)->update($status);
@@ -133,9 +145,9 @@ class DetailbeliController extends Controller
 
     public function cetak($id)
     {
-
+        $raw = Barang::where("namaBarang", "like", "%Raw%")->get()->first();
         $data["data"] = Beli::whereId($id)->firstOrFail();
-        $data["masterdetailbelis"] = Detailbeli::where("id_beli", $id)->get();
+        $data["masterdetailbelis"] = Detailbeli::where("id_beli", $id)->where("id_barang", "!=", $raw->id)->get();
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["masterkaryawans"] = User::all();
         $data["mastersuppliers"] = self::toList(Supplier::all(), 'id');

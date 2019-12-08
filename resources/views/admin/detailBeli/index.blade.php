@@ -20,6 +20,29 @@
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">Detail Beli</h3>
+
+            <div class="box-body">
+            <table  id="example1" style="margin-left:10px">
+
+              <tr> 
+                <td width="75%">
+                  No. Nota Beli : {{ $data->noNotaBeli }}
+                </td>
+                <td>
+                  Tanggal : {{ date("d - m - Y", strtotime($data->tglBeli)) }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Supplier : {{ $mastersuppliers[$data->id_suppliers]->namaSupplier }}
+                </td>
+                <td>
+                  No. Rekening : {{ $mastersuppliers[$data->id_suppliers]->noRekening }}
+                </td>
+
+              </tr>
+            </table>
+
             @if(session('status'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('status')}}
@@ -32,38 +55,43 @@
               @else
               <a href="{!! action('DetailbeliController@cetak', $id) !!}" class="btn btn-sm btn-primary pull-right"> 
                 <i class="fa fa-print"></i>
-                Cetak Nota </a>
-                @endif
+              Cetak Nota </a>
+              @endif
             </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                   <th>No.</th>
-                   <th>Barang</th>
-                   <th>Berat</th>
-                   <th>Harga</th>
-                   <th>Sub Total</th>
-                   <th>Opsi</th>
-                 </tr>
-               </thead>
+          </div>
 
-               <tbody>
-                 @foreach ($masterdetailbelis as $key => $m)
-                 <tr>
-                  <td>{{ $key+1 }}</td>
-                  <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                  <td>{{ $m->berat }}</td>
-                  <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
-                  <td>{{ "Rp. ".number_format($m->subTotal, 2, ',', '.') }}</td>
-                  <!-- jika harga barang kosong -->
-                  <td>
-                   @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
-                   <button class="btn btn-sm btn-primary" onclick="pilih({{ $m->id_barang }}, {{ $m->berat }})">
-                    <i class="fa fa-pencil"></i> Tambahkan harga
-                  </button>
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                 <th>No.</th>
+                 <th>Barang</th>
+                 <th>Berat</th>
+                 <th>Harga</th>
+                 <th>Sub Total</th>
+                 <th>Opsi</th>
+               </tr>
+             </thead>
+
+             <tbody>
+              @php
+                $total = 0;
+              @endphp 
+               @foreach ($masterdetailbelis as $key => $m)
+               @php
+               $total += $m->subTotal; 
+               @endphp
+               <tr>
+                <td>{{ $key+1 }}</td>
+                <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                <td>{{ $m->berat }}</td>
+                <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
+                <td>{{ "Rp. ".number_format($m->subTotal, 2, ',', '.') }}</td>
+                <!-- jika harga barang kosong -->
+                <td>
+                 @if($data->status!=1 and $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
+                 <button class="btn btn-sm btn-primary" onclick="pilih({{ $m->id_barang }}, {{ $m->berat }})">
+                  <i class="fa fa-pencil"></i> Tambahkan harga
+                </button>
                   {{-- @if($m->harga==0 && $masterbarangs[$m->id_barang]["namaBarang"]!="Raw")
                   <a href="{{ url('detailbeli/pengeringan')."/".$id."/".$m->id_barang }}" class="btn btn-info btn-sm">
                     Pengeringan
@@ -75,48 +103,59 @@
                 @else
                 -
                 @endif
-            </td>
-
-          </tr>
-          @endforeach
-
-          @if($data->status!=1)
-
-          <tr>
-            <form class="form-horizontal" method="POST" action="#" id="myform">
-              {{ csrf_field() }}
-              <td><input type="hidden" name="beli" value="{{ $id }}"/></td>
-              <td>  
-                <select id="barang" class="form-control" name="barang" required>
-                  @foreach($masterbarangs as $key => $m)
-                  <option value = "{{ $m->id }}">
-                    {{ $m->namaBarang }}
-                  </option>
-                  @endforeach
-                </select> 
               </td>
-              <td>  
-               <input type="text" class="form-control" id="berat" name="berat" readonly="true">
-             </td>
-             <td>  
-               <input type="number" class="form-control" id="harga" name="harga">
-             </td>
-             <td> </td>
-             <td>
-              <button class="btn btn-sm btn-success" type="submit">
-                Simpan
-              </button>
-            </td>
-          </form>
-        </tr>
-        @endif
 
-      </tbody>
-    </table>
+            </tr>
+            @endforeach
+            @if($data->status!=1)
+
+            <tr>
+              <form class="form-horizontal" method="POST" action="#" id="myform">
+                {{ csrf_field() }}
+                <td><input type="hidden" name="beli" value="{{ $id }}"/></td>
+                <td>  
+                  <select id="barang" class="form-control" name="barang" required>
+                    @foreach($masterbarangs as $key => $m)
+                    <option value = "{{ $m->id }}">
+                      {{ $m->namaBarang }}
+                    </option>
+                    @endforeach
+                  </select> 
+                </td>
+                <td>  
+                 <input type="text" class="form-control" id="berat" name="berat" readonly="true">
+               </td>
+               <td>  
+                 <input type="number" class="form-control" id="harga" name="harga">
+               </td>
+               <td> </td>
+               <td>
+                <button class="btn btn-sm btn-success" type="submit">
+                  Simpan
+                </button>
+              </td>
+            </form>
+          </tr>
+          @else
+          <tr>
+              <td colspan="4" align="right" >
+                TOTAL : 
+              </td>
+              <td align="right">
+                {{ "Rp. ".number_format($total, 2, ',', '.') }}
+              </td>
+              <td>
+                
+              </td>
+             </tr>
+          @endif
+
+        </tbody>
+      </table>
+    </div>
+    <!-- /.box-body -->
   </div>
-  <!-- /.box-body -->
-</div>
-<!-- /.box -->
+  <!-- /.box -->
 </div>
 <!-- /.col -->
 </div>
@@ -125,63 +164,6 @@
 <!-- /.content -->
 
 </div>
-
-<!-- Modal -->
-<!-- <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    Modal content-->
-    <div class="modal-content">
-      <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
-        {{ csrf_field() }}
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Pilih Proses</h4>
-        </div>
-
-        <div class="modal-body">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="name">Berat Barang</label>
-              <input type="hidden" name="pberat" id="pberat">
-              <input type="number" name="jumlahBarang" id="jumlahBarang" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label for="name">Nama Barang</label>
-              <select id="id_barang" class="form-control" name="id_barang" required>
-                @foreach($masterbarangs as $key => $m)
-                @if($m->namaBarang!="Raw")
-                <option value = "{{ $m->id }}">
-                  {{ $m->namaBarang }}
-                </option>
-                @endif
-                @endforeach
-              </select> 
-            </div>
-
-            <div class="form-group">
-              <label for="name">Jenis Proses</label>
-              <select id="status" class="form-control" name="status" required>
-                <option value ="1">
-                  Sortir
-                </option>
-              </select>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button class="btn btn-sm btn-success" type="submit">Simpan</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-
-      </form>
-    </div>
-
-  </div>
-</div> -->
 
 <!-- /.content-wrapper -->
 <footer class="main-footer">

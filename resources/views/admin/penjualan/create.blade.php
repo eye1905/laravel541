@@ -215,9 +215,9 @@
     $.ajax({ type: 'GET',
       url: "{{ url('penjualan/getharga') }}"+"/"+idbrg, /*KALO SUDAH DAPET IDBARANGNYA DIKIRIM KE URL INI BUAT NYARI HARGA JUAL BARANGNYA*/
       success: function (data){
-
+        
         console.log(data);
-
+        
         $('.harga, .berat, .diskon').on('keyup keydown change',function(){ /*KALO KOLOM HARGA, BERAT, DISKON DIRUBAH MAKA FUNCTIONNYA BARU JALAN*/
 
           var harga = data;

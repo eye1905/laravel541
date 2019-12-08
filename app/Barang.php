@@ -20,7 +20,7 @@ class Barang extends Model
    	}
       public function getbarang()
     {
-      $sql = "select id,stok from barangs";
+      $sql = "select id,stok,harga,hpp from barangs";
       $a_data = DB::select($sql);
       return $a_data;
     }
