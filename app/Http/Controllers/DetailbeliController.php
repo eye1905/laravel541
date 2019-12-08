@@ -101,6 +101,7 @@ class DetailbeliController extends Controller
         $data["masterdetailbelis"] = Detailbeli::where("id_beli", $id)->get();
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
         $data["masterkaryawans"] = User::all();
+        $data["mastersuppliers"] = self::toList(Supplier::all(), 'id');
         $data["id"]             = $id;
 
         return view('admin.detailbeli.index', $data);

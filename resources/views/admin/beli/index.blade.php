@@ -75,7 +75,7 @@
              <tr>
                <td>{{ $key+1 }}</td>
                <td>{{ $m->noNotaBeli }}</td>
-               <td>{{ $m->tglBeli }}</td>
+               <td>{{ date("d - m - Y", strtotime($m->tglBeli)) }}</td>
                <td>{{ $mastersuppliers[$m->id_suppliers]["namaSupplier"] }}</td>
                <td>{{ $masterkaryawans[$m->id_users]["namaKaryawan"] }}</td>
                <td>

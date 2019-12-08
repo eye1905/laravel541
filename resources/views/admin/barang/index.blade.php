@@ -48,7 +48,7 @@
                  <td>{{ $m->namaBarang }}</td>
                  <td>{{ $m->stok }}</td>
                  <td>{{ $m->satuan }}</td>
-                 <td>{{ $m->harga }}</td>
+                 <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.')}}</td>
                  <td> 
                   {{ "Barang Siap Jual" }}
                 </td>
