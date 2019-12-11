@@ -43,8 +43,8 @@
                <tr>
                  <td>{{ $key+1 }}</td>
                  <td>{{ $m->namaBarang }}</td>
-                 <td>{{ $m->stok }}</td>
                  <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
+                 <td>{{ $m->stok }}</td>
                </tr>
                @endif
                @endforeach
