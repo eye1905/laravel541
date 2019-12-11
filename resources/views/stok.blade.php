@@ -78,7 +78,7 @@
                <th>No.</th>
                <th>Nama Barang</th>
                <th>Harga</th>
-               <th>Isi</th>
+               <th>Jumlah</th>
                <th>
                  Tambah
                </th>
