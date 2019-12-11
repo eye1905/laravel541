@@ -28,6 +28,7 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::post('detailbeli/updateharga', 'DetailbeliController@updateharga');
 	Route::post('filter', 'BeliController@filter');
 	Route::get('getBarang', 'BarangController@getBarang');
+	Route::get('currency', 'BarangController@currency');
 
 	Route::resource('proses', 'ProsesController');
 	Route::get('proses/pengeringan/{id?}/{id1?}', 'ProsesController@pengeringan');
@@ -52,4 +53,9 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::resource('detailjual', 'DetailjualController');
 	Route::post('detailjual/update', 'DetailjualController@update');
 	Route::get('penjualan/create/{id?}', 'JualController@create');
+});
+
+Route::group(['prefix' => '/front'], function() {
+	Route::get('/', 'FrontController@index')->name('front');
+	Route::get('/currency', 'FrontController@index')->name('front');
 });

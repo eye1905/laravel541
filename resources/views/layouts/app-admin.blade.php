@@ -115,7 +115,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu" data-widget="tree">
             <li class="header">DAFTAR MENU</li>
-
+            
             <li class="active">
               <a href="{{ url('/home') }}">
                 <i class="fa fa-dashboard"></i> <span>Beranda</span>

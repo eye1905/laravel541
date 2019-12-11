@@ -131,5 +131,38 @@ class BarangController extends Controller
 
         echo json_encode($html);
     }
+
+    public function currency()
+    {
+        echo $this->get_currency('USD', 'IDR', 1);
+    }
+
+    public function get_currency($from_Currency, $to_Currency, $amount) {
+        const string fromCurrency = $from_Currency;
+        const string toCurrency =  $to_Currency;
+        const double amount = $amount;
+        // For other currency symbols see http://finance.yahoo.com/currency-converter/
+        // Clear the output editor //optional use, AFAIK
+        Output.Clear();
+
+        // Construct URL to query the Yahoo! Finance API
+        const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
+        string url = String.Format(urlPattern, fromCurrency, toCurrency);
+
+        // Get response as string
+        string response = new WebClient().DownloadString(url);
+
+        // Convert string to number
+        double exchangeRate =
+            double.Parse(response, System.Globalization.CultureInfo.InvariantCulture);
+
+        // Output the result
+        Output.Text = String.Format("{0} {1} = {2} {3}",
+                                    amount, fromCurrency,
+                                    amount * exchangeRate, toCurrency);
+        
+        die();
+        return round($data[0], 2);
+    }
 }
 
