@@ -14,7 +14,6 @@
 
 Auth::routes();
 Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
-	Route::get('/', 'HomeController@index')->name('home');
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	Route::resource('karyawan', 'KaryawanController');
@@ -55,7 +54,7 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::get('penjualan/create/{id?}', 'JualController@create');
 });
 
-Route::group(['prefix' => '/front'], function() {
+Route::group(['prefix' => '/'], function() {
 	Route::get('/', 'FrontController@index')->name('front');
 	Route::get('/currency', 'FrontController@index')->name('front');
 });

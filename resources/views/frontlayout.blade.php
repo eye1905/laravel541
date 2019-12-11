@@ -92,6 +92,12 @@
               </a>
             </li>
 
+            <li class="">
+              <a href="{{ url('/login') }}">
+                <i class="fa fa-lock"></i> <span>Login</span>
+              </a>
+            </li>
+
           </ul>
         </section>
         <!-- /.sidebar -->
