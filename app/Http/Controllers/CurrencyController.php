@@ -13,10 +13,9 @@ class CurrencyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
+    {   
+        $data = $this->getData("https://kurs.web.id/api/v1/bca");
+    }   
     /**
      * Show the form for creating a new resource.
      *
@@ -24,9 +23,26 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        //
+        
     }
+   
+    public function getData($url)
+    {   
+        $options = array(
+          CURLOPT_CUSTOMREQUEST  =>"GET",    // Atur type request, get atau post
+          CURLOPT_POST           =>false,    // Atur menjadi GET
+          CURLOPT_FOLLOWLOCATION => true,    // Follow redirect aktif
+          CURLOPT_CONNECTTIMEOUT => 120,     // Atur koneksi timeout
+          CURLOPT_TIMEOUT        => 120,     // Atur response timeout
+          );
 
+          $ch      = curl_init( $url );          // Inisialisasi Curl
+          curl_setopt_array( $ch, $options );    // Set Opsi
+          $content = curl_exec( $ch );           // Eksekusi Curl
+          curl_close( $ch );                     // Stop atau tutup script
+
+          return $content;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +51,7 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

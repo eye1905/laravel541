@@ -56,5 +56,7 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 
 Route::group(['prefix' => '/'], function() {
 	Route::get('/', 'FrontController@index')->name('front');
-	Route::get('/currency', 'FrontController@index')->name('front');
+	Route::post('/store', 'FrontController@store')->name('front.add');
+	Route::get('/currency', 'CurrencyController@index')->name('front');
+	Route::get('/barang/show/{id}', 'BarangController@show')->name('barang.show');
 });

@@ -61,9 +61,11 @@ class BarangController extends Controller
      * @param  \App\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function show(Barang $barang)
+    public function show($id)
     {
-        //
+        $masterbarangs = Barang::find($id);
+       
+        return json_encode($masterbarangs);
     }
 
     /**
@@ -138,31 +140,31 @@ class BarangController extends Controller
     }
 
     public function get_currency($from_Currency, $to_Currency, $amount) {
-        const string fromCurrency = $from_Currency;
-        const string toCurrency =  $to_Currency;
-        const double amount = $amount;
-        // For other currency symbols see http://finance.yahoo.com/currency-converter/
-        // Clear the output editor //optional use, AFAIK
-        Output.Clear();
+        // const string fromCurrency = $from_Currency;
+        // const string toCurrency =  $to_Currency;
+        // const double amount = $amount;
+        // // For other currency symbols see http://finance.yahoo.com/currency-converter/
+        // // Clear the output editor //optional use, AFAIK
+        // Output.Clear();
 
-        // Construct URL to query the Yahoo! Finance API
-        const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
-        string url = String.Format(urlPattern, fromCurrency, toCurrency);
+        // // Construct URL to query the Yahoo! Finance API
+        // const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
+        // string url = String.Format(urlPattern, fromCurrency, toCurrency);
 
-        // Get response as string
-        string response = new WebClient().DownloadString(url);
+        // // Get response as string
+        // string response = new WebClient().DownloadString(url);
 
-        // Convert string to number
-        double exchangeRate =
-            double.Parse(response, System.Globalization.CultureInfo.InvariantCulture);
+        // // Convert string to number
+        // double exchangeRate =
+        //     double.Parse(response, System.Globalization.CultureInfo.InvariantCulture);
 
-        // Output the result
-        Output.Text = String.Format("{0} {1} = {2} {3}",
-                                    amount, fromCurrency,
-                                    amount * exchangeRate, toCurrency);
+        // // Output the result
+        // Output.Text = String.Format("{0} {1} = {2} {3}",
+        //                             amount, fromCurrency,
+        //                             amount * exchangeRate, toCurrency);
         
-        die();
-        return round($data[0], 2);
+        // die();
+        // return round($data[0], 2);
     }
 }
 
