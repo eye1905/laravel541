@@ -121,13 +121,14 @@
 
             <tr>
               <td>
-                <select class="form-control">
+                <select class="form-control" id="mata-uang" name="mata-uang">
                   <option> -- Pilih Mata Uang --</option>
-                  <option value="1">USD</option>
-                  <option value="2">RMB</option>
+                  @foreach($kurs as $key => $val)
+                  <option value="{{ $val["Jual"] }}">{{ $key }}</option>
+                  @endforeach
                 </select>
               </td>
-                  
+              
               <td>
                 <button class="btn btn-sm btn-primary" onclick="getCount()">
                     <i class="fa fa-dollars"></i> Conversi
@@ -190,7 +191,7 @@
         if(obj.stok<$("#isi").val()){
 
             alert("Stock Barang tidak Cukup");
-            
+
         }else{
           var jumlah = parseInt(obj.harga)*parseInt($("#isi").val());
 
@@ -205,7 +206,8 @@
   }
 
   function getCount() {
-    var tot = parseInt(total)*14000;
+    var tot = parseFloat(total)/parseFloat($("#mata-uang").val());
+    
     $("#total").val(tot);
   }
 </script>
