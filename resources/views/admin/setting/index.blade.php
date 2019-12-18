@@ -54,7 +54,7 @@
               <form class="form-horizontal" method="POST" action="{{ url('setting') }}" id="myform">
                  {{ csrf_field() }}
               <td><input type='hidden' name='id_setting' id='id_setting'></td>
-              <td> <input type='number' name='setting' id='setting' class='form-control'> </td>
+              <td> <input type='number' name='setting' id='setting' class='form-control' required> </td>
               <td> <button type='submit' class='btn btn-sm btn-success'> Simpan </button> </td>
             </form>
           </tr>

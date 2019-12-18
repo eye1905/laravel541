@@ -248,7 +248,7 @@
                             </select> 
                           </td>
                           <td>  
-                           <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang">
+                           <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" required>
                          </td>
                          <td>  
                          </td>

@@ -140,7 +140,7 @@
                     </datalist>
                   </td>
                   <td>
-                    <input type="number" name="berat[]" class="form-control berat" id="berat" required>
+                    <input type="number" step="any" name="berat[]" class="form-control berat" id="berat" required>
                   </td>
                   <td>
                     <input type="number" name="harga[]" class="form-control harga" id="harga" required readonly>
@@ -157,7 +157,7 @@
 
               <div class="form-group">
                 <label>Diskon</label><br>
-                <input type="number" id="diskon" main-footer="0" max="100" style="border-radius: 0; box-shadow: none; border-color: #d2d6de; width: 30%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc;" min="0" max="100" class="diskon" name="diskon" required placeholder="Masukkan nilai diskon disini"> %
+                <input type="number" id="diskon" main-footer="0" max="100" style="border-radius: 0; box-shadow: none; border-color: #d2d6de; width: 30%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc;" min="0" max="100" class="diskon" name="diskon" placeholder="Masukkan nilai diskon disini"> %
 
                 @if ($errors->has('diskon'))
                 <span class="help-block">
@@ -244,7 +244,7 @@
 
           var subtotal = harga * brt;
 
-          $(this).closest('tr').find('td:nth-child(4)').find('input').val(subtotal);
+          $(this).closest('tr').find('td:nth-child(4)').find('input').val(subtotal.toFixed(0));
           calculateSum(diskon);
 
         });

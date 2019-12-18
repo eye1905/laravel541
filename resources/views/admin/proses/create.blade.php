@@ -37,7 +37,7 @@
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('id_karyawan') ? ' has-error' : '' }}">
-                    <label for="tglProses" class="col-md-4 control-label">Tanggal Proses</label>
+                    <label for="tglProses" class="col-md-4 control-label">Tanggal Terima</label>
 
                     <div class="col-md-6">
                         <input id="tglProses" type="text" class="form-control" name="tglProses" value="{{ old('tglProses') }}" required autofocus readonly="true">
