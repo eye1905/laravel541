@@ -81,7 +81,7 @@
             <li class="header">DAFTAR MENU</li>
             
             <li class="active">
-              <a href="{{ url('/front') }}">
+              <a href="{{ url('/') }}">
                 <i class="fa fa-dashboard"></i> <span>Stok Barang</span>
               </a>
             </li>

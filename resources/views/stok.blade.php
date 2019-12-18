@@ -72,12 +72,12 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-          <table class="table table-bordered table-striped">
+          <table class="table table-bordered table-striped" id="table-barang">
             <thead>
               <tr>
-               <th>No.</th>
                <th>Nama Barang</th>
                <th>Harga</th>
+               <th>Qty</th>
                <th>Jumlah</th>
                <th>
                  Tambah
@@ -87,32 +87,57 @@
 
            <tbody>
             <tr>
-              <td></td>
               <td>
-                <select class="form-control" id="barang[]" name="barang[]">
+                <select class="form-control" id="barang" name="barang">
                   <option>-- Pilih Barang ---</option>
                   @foreach($masterbarangs as $key => $value)
+                  @if($value->namaBarang!="Raw")
                   <option value="{{ $value->id }}">{{ $value->namaBarang }}</option>
+                  @endif
                   @endforeach
                 </select>
               </td>
+              <td></td>
               <td>
-                  
+                <input type="text" name="isi" id="isi" class="form-control" placeholder="Masukan Jumlah">
               </td>
+              <td></td>
               <td>
-                <input type="text" name="isi[]" id="isi[]" class="form-control" placeholder="Masukan Jumlah">
-              </td>
-              <td>
-                <button class="btn btn-sm btn-success">
+                <button class="btn btn-sm btn-success" type="button" onclick="addData()">
                   <i class="fa fa-plus"></i> Tambah
                 </button>
               </td>
             </tr>
+          </tbody>
+        </table>
 
+        <table class="table table-bordered table-striped">
+          <tbody>
             <tr>
               <td></td>
-              <td colspan="2" class="text-right"><b>Total :</b> </td>
-              <td></td>
+              <td><b>Total :</b></td>
+              <td><label id="label"></label></td>
+            </tr>
+
+            <tr>
+              <td>
+                <select class="form-control" id="mata-uang" name="mata-uang">
+                  <option> -- Pilih Mata Uang --</option>
+                  @foreach($kurs as $key => $val)
+                  <option value="{{ $val["Jual"] }}">{{ $key }}</option>
+                  @endforeach
+                </select>
+              </td>
+              
+              <td>
+                <button class="btn btn-sm btn-primary" onclick="getCount()">
+                    <i class="fa fa-dollars"></i> Conversi
+                  </button>
+              </td>
+                  
+              <td>
+                  <input type="text" name="total" id="total" class="form-control" placeholder="Total Conversi">
+              </td>
             </tr>
           </tbody>
         </table>
@@ -139,6 +164,10 @@
 @section('script')
 
 <script>
+  var total = 0;
+  var harga = <?php echo json_encode($masterbarangs, JSON_FORCE_OBJECT); ?>;
+  var jumlah = 0;
+
   $(function () {
     $('#example1').DataTable({
       'paging'      : true,
@@ -148,8 +177,39 @@
       'info'        : true,
       'autoWidth'   : true
     })
+  });
+
+  function addData() {
+    $.ajax({
+      type: "GET",
+      url: '{{ url('barang/show') }}'+'/'+$("#barang").val(),
+      data: $(this).serialize(),
+      success: function(data)
+      {   
+        var obj = JSON.parse(data);
+
+        if(obj.stok<$("#isi").val()){
+
+            alert("Stock Barang tidak Cukup");
+
+        }else{
+          var jumlah = parseInt(obj.harga)*parseInt($("#isi").val());
+
+          total += jumlah;
+
+          $("#table-barang").append('<tr><td>'+$("#barang option:selected").text()+'</td><td>'+obj.harga+'</td><td>'+$("#isi").val()+'</td><td>'+jumlah+'</td><td></td></tr');
+
+          $("#label").html(total);
+        }
+      }
+    });
+  }
+
+  function getCount() {
+    var tot = parseFloat(total)/parseFloat($("#mata-uang").val());
     
-  })
+    $("#total").val(tot);
+  }
 </script>
 @endsection
 @endsection

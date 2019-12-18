@@ -13,10 +13,13 @@ class CurrencyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
+    {   
+        $kurs = $this->getData("http://www.adisurya.net/kurs-bca/get");
 
+        $data["kurs"] = $kurs["Data"];
+        
+        return view("admin.currency", $data);
+    }   
     /**
      * Show the form for creating a new resource.
      *
@@ -24,9 +27,25 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
+    public function getData($url)
+    {   
+        $ch = curl_init();
+        // Will return the response, if false it print the response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Set the url
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // Execute
+        $result=curl_exec($ch);
+        // Closing
+        curl_close($ch);
+
+        $data = json_decode($result, true);
+
+        return $data;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +54,7 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
