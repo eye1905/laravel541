@@ -114,7 +114,7 @@
                 {{ csrf_field() }}
                 <td><input type="hidden" name="beli" value="{{ $id }}"/></td>
                 <td>  
-                  <select id="barang" class="form-control" name="barang" required>
+                  <select id="barang" readonly class="form-control" name="barang" required>
                     @foreach($masterbarangs as $key => $m)
                     <option value = "{{ $m->id }}">
                       {{ $m->namaBarang }}
@@ -123,10 +123,10 @@
                   </select> 
                 </td>
                 <td>  
-                 <input type="text" class="form-control" id="berat" name="berat" readonly="true">
+                 <input type="text" readonly class="form-control" id="berat" name="berat" required>
                </td>
                <td>  
-                 <input type="number" class="form-control" id="harga" name="harga">
+                 <input type="number" class="form-control" id="harga" name="harga" required>
                </td>
                <td> </td>
                <td>

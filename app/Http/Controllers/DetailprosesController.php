@@ -53,18 +53,24 @@ class DetailprosesController extends Controller
         //dd($detailproses);
         /// cek untuk ambil barang dan proses raw
         $detail = DetailProses::where("id_proses", $detailproses->id_proses)->where("id_barang", $detailproses->id_barang)->get()->toArray();
-        if (count($detail)==1) {
+        if (count($detail)==1) 
+        {
             $data = array('jumlahBarang' => $request->jumlahBarang+$detail[0]["jumlahBarang"]);
             
             DetailProses::where("iddetail", $detail[0]["iddetail"])->update($data);
 
             return redirect()->back()->with('success', 'Jumlah Barang Sudah Ditambahkan');
-        }else{
+        }
+        else
+        {
             $cek = DetailProses::where("id_proses", $detailproses->id_proses)->where("id_barang", $detailproses->id_barang)->where("status", $detailproses->status)->get()->toArray();
 
-            if (count($cek)>0) {
+            if (count($cek)>0) 
+            {
                 return redirect()->back()->with('error', 'Proses Barang Sudah Ada');
-            }else{
+            }
+            else
+            {
                 DB::beginTransaction();
                 $detailproses->save();
                 DB::commit();

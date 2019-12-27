@@ -181,7 +181,7 @@
                 <th style="width:55%">Diskon :</th>
                 <td>
                   @if($jual->statusBayar == 0)
-                  <input type="number" id="diskon" min="0" max="100" style="border-radius: 0; box-shadow: none; border-color: #d2d6de; width: 50%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc;" class="diskon" name="diskon" required value="{{ $jual->diskon }}"> %
+                  <input type="number" id="diskon" min="0" max="100" style="border-radius: 0; box-shadow: none; border-color: #d2d6de; width: 50%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc;" class="diskon" name="diskon" value="{{ $jual->diskon }}"> %
                   @elseif($jual->statusBayar == 1)
                   <p class="pull-right">{{ $jual->diskon }} %</p>
                   @endif
