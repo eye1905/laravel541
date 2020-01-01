@@ -15,7 +15,7 @@ class CurrencyController extends Controller
     public function index()
     {   
         $kurs = $this->getData("http://www.adisurya.net/kurs-bca/get");
-
+        
         $data["kurs"] = $kurs["Data"];
         
         return view("admin.currency", $data);

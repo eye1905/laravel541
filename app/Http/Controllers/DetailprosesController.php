@@ -141,7 +141,7 @@ class DetailprosesController extends Controller
             "6" => "Sortir", 
             "7" => "Selesai Sortir", 
             "8"=> "Pengeringan");
-
+        
         $data["detail"] = $a_data;
 
         $data["id"]     = $id;

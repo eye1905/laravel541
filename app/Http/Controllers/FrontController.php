@@ -17,7 +17,16 @@ class FrontController extends Controller
         $data["masterbarangs"] = Barang::all();
         $kurs = $this->getData("http://www.adisurya.net/kurs-bca/get");
 
-        $data["kurs"] = $kurs["Data"];
+        $kur = [];
+        foreach ($kurs["Data"] as $key => $value) {
+            if($key=="CNH"){
+                $key = "RMB";
+            }
+
+            $kur[$key] = $value; 
+        }
+
+        $data["kurs"] =  $kur;
 
         return view("stok", $data);
     }
