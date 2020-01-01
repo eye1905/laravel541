@@ -36,14 +36,15 @@
             <br>
             <p style="margin-left:10px;">
               @php
-              $total = 0;
+                $total = 0;
               @endphp
+
               @foreach($masterbarangs as $key => $val)
-              @foreach($barang as $key1 => $val1)
-              @if($val->id == $val1->id_barang)
-              {{ $val->namaBarang." : ".$val1->jumlah }} <br>
-              @endif
-              @endforeach
+                @foreach($barang as $key1 => $val1)
+                  @if($val->id == $val1->id_barang)
+                    {{ $val->namaBarang." : ".$val1->jumlah }} <br>
+                  @endif
+                @endforeach
               @endforeach
             </p>
           </div>

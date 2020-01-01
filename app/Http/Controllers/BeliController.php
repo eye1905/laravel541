@@ -31,12 +31,14 @@ class BeliController extends Controller
     public function index()
 
     {
-     $data["masterbelis"] = Beli::all();
+
+     $data["masterbelis"] = Beli::where('status', '=', '0')->get();
      $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
      $data["masterkaryawans"] = self::toList(User::all(), "id");
 
      return view('admin.beli.index', $data);
- }
+
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -45,12 +47,14 @@ class BeliController extends Controller
      */
     public function create()
     {
+
      $data["masterbelis"] = Beli::all();
      $data["mastersuppliers"] = Supplier::all();
      $data["masterkaryawans"] = User::all();
           //var_dump($data["mastersuppliers"]);die;
      return view('admin.beli.create', $data);
- }
+
+    }
 
     /**
      * Store a newly created resource in storage.

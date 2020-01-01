@@ -6,10 +6,10 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Daftar Barang
+      List Items
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('barang') }}" class="active"><i class="fa fa-dashboard"></i> Daftar Barang</a></li>
+      <li><a href="{{ url('barang') }}" class="active"><i class="fa fa-dashboard"></i> List Items</a></li>
     </ol>
   </section>
 
@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Daftar Barang</h3>
+            <h3 class="box-title">List Items</h3>
             @if(session('status'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('status')}}
@@ -32,9 +32,9 @@
               <thead>
                 <tr>
                  <th>No.</th>
-                 <th>Nama Barang</th>
-                 <th>Harga</th>
-                 <th>Stok</th>
+                 <th>Items Name</th>
+                 <th>Price</th>
+                 <th>Stock (Kg)</th>
                </tr>
              </thead>
              <tbody>
@@ -63,7 +63,7 @@
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title">Keranjang</h3>
+          <h3 class="box-title">Cart</h3>
           @if(session('status'))
           <div style="background-color:green; color:white;font-weight: bold">
             {{session('status')}}
@@ -75,12 +75,12 @@
           <table class="table table-bordered table-striped" id="table-barang">
             <thead>
               <tr>
-               <th>Nama Barang</th>
-               <th>Harga</th>
+               <th>Items Name</th>
+               <th>Price</th>
                <th>Qty</th>
-               <th>Jumlah</th>
+               <th>Sub Total</th>
                <th>
-                 Tambah
+                 Add
                </th>
              </tr>
            </thead>
@@ -89,7 +89,7 @@
             <tr>
               <td>
                 <select class="form-control" id="barang" name="barang">
-                  <option>-- Pilih Barang ---</option>
+                  <option>-- Choose Item ---</option>
                   @foreach($masterbarangs as $key => $value)
                   @if($value->namaBarang!="Raw")
                   <option value="{{ $value->id }}">{{ $value->namaBarang }}</option>
@@ -99,12 +99,12 @@
               </td>
               <td></td>
               <td>
-                <input type="text" name="isi" id="isi" class="form-control" placeholder="Masukan Jumlah">
+                <input type="text" name="isi" id="isi" class="form-control" placeholder="Fill The Amount">
               </td>
               <td></td>
               <td>
                 <button class="btn btn-sm btn-success" type="button" onclick="addData()">
-                  <i class="fa fa-plus"></i> Tambah
+                  <i class="fa fa-plus"></i> Add
                 </button>
               </td>
             </tr>
@@ -122,21 +122,23 @@
             <tr>
               <td>
                 <select class="form-control" id="mata-uang" name="mata-uang">
-                  <option> -- Pilih Mata Uang --</option>
+                  <option> -- Choose Currency --</option>
+
                   @foreach($kurs as $key => $val)
                   <option value="{{ $val["Jual"] }}">{{ $key }}</option>
                   @endforeach
+                  
                 </select>
               </td>
               
               <td>
                 <button class="btn btn-sm btn-primary" onclick="getCount()">
-                    <i class="fa fa-dollars"></i> Conversi
+                    <i class="fa fa-dollars"></i> Convert
                   </button>
               </td>
                   
               <td>
-                  <input type="text" name="total" id="total" class="form-control" placeholder="Total Conversi">
+                  <input type="text" readonly name="total" id="total" class="form-control" placeholder="Total Conversion">
               </td>
             </tr>
           </tbody>

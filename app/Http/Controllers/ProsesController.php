@@ -19,11 +19,14 @@ class ProsesController extends Controller
      */
     public function index()
     {
-         $data["masterbelis"] = Proses::all();
+         $data["masterproses"] = Proses::all();
+
+         //$data["masterproses"] = Proses::join('suppliers as s', 's.id', '=', 'proses.id_suppliers')->where('s.namaSupplier', '=', 'Ziyad')->get();
          $data["mastersuppliers"] = self::toList(Supplier::select("id", "namaSupplier")->get(), "id");
          $data["masterkaryawans"] = self::toList(User::select("id", "namaKaryawan")->get(), "id");
 
          //dd($data);
+         /*return $data["masterproses"];*/
          return view('admin.proses.index', $data);
     }
 

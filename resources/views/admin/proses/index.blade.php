@@ -35,14 +35,14 @@
                  <th>Tanggal Proses</th>
                  <th>Supplier</th>
                  <th>Karyawan</th>
-                 <td>Status Proses</td>
+                 <th>Status Proses</th>
                  <th>Opsi</th>
                </tr>
              </thead>
-             <tbody>
+             <tbody>  
 
 
-               @foreach ($masterbelis as $key => $m)
+               @foreach ($masterproses as $key => $m)
                <tr>
                  <td>{{ $key+1 }}</td>
                  <td>{{ date("d - m - Y", strtotime($m->tglProses)) }}</td>

@@ -46,7 +46,7 @@
 <!-- Google Font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-red-light sidebar-mini">
 
   <div class="wrapper">
 
@@ -78,23 +78,17 @@
         <section class="sidebar">
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">DAFTAR MENU</li>
+            <li class="header">MENU</li>
             
-            <li class="active">
+            <li class="{{Request::segment(1)==''?'active':''}}">
               <a href="{{ url('/') }}">
-                <i class="fa fa-dashboard"></i> <span>Stok Barang</span>
+                <i class="fa fa-dashboard"></i> <span>Items</span>
               </a>
             </li>
 
-            <li class="">
+            <li class="{{Request::segment(1)=='currency'?'active':''}}">
               <a href="{{ url('/currency') }}">
                 <i class="fa fa-dollar"></i> <span>Currency</span>
-              </a>
-            </li>
-
-            <li class="">
-              <a href="{{ url('/login') }}">
-                <i class="fa fa-lock"></i> <span>Login</span>
               </a>
             </li>
 

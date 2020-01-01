@@ -326,6 +326,8 @@
     </body>
     @yield('script')
 
+    <!-- POP UP CEK STOK BARANG YANG HAMPIR HABIS -->
+
     <script type="text/javascript">
      @if(Route::currentRouteName()=="home")
       $(window).on('load',function(){
@@ -344,7 +346,7 @@
               $("#modalku").append("<tr><td>"+key+"</td><td>"+value.nama+"</td><td>"+value.stok+"</td><td>"+value.satuan+"</td></tr>");
             });
           }else{
-              $("#modalku").append("<tr><td colspan='4' class='text-center'>Stok Barang Sudah Penuh</td></tr>");
+              $("#modalku").append("<tr><td  class='text-center'>Stok Barang Sudah Penuh</td></tr>");
           }
 
         }

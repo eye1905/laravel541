@@ -99,12 +99,14 @@ class DetailprosesController extends Controller
     public function edit($id)
     {
         $data["data"] = Proses::whereId($id)->firstOrFail();
+
         $tingkat = Detailproses::select("detailproses.iddetail","detailproses.jumlahBarang","detailproses.id_proses", "detailproses.id_barang","detailproses.status", DB::raw("coalesce(HystoriRaw.jumlah, null) as jumlah"), DB::raw("coalesce(detailproses.parent, 1) as parent"), "detailproses.created_at")
         ->where("id_proses", $id)
         ->leftjoin("HystoriRaw", "detailproses.iddetail", "=", "HystoriRaw.iddetail")
         ->orderBy("detailproses.iddetail", "asc")
         ->orderBy("detailproses.status", "asc")
         ->get();
+
 
         $a_data = [];
         foreach ($tingkat as $key => $value) {
@@ -144,6 +146,7 @@ class DetailprosesController extends Controller
 
         $data["id"]     = $id;
         $data["masterbarangs"] = self::toList(Barang::all(), 'id');
+        /*$data["masterbarangs"] = self::toList(Barang::where('namaBarang','=','Kaki')->get(), 'id');*/
         $data["barang"] = DB::select("select id_barang,sum(jumlahBarang) as jumlah from detailproses where id_proses='".$id."' and 
             (status='4' or status='0' or status='5') group by id_barang");
         
