@@ -129,7 +129,8 @@ class DetailprosesController extends Controller
             if ($value->status==4) {
                 $a_data["tingkat4"][$key] = $value;
             }
-        }   
+        }  
+
        // dd($a_data);
         $data["status"] = array(
             "0" => "Barang Masuk", 
@@ -370,8 +371,8 @@ public function endsortir(Request $request)
     // update status
     $total = DetailProses::where("iddetail", $request->e_idproses)->sum("jumlahBarang");
     $jumlah = DetailProses::where("parent", $request->e_idproses)->sum("jumlahBarang");
-    
-    if ($jumlah>=$sisa) {
+        
+    if ($jumlah>=$total) {
         $update = array('status' => 6);
         DetailProses::where("iddetail", $request->e_idproses)->update($update);
     }
