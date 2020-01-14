@@ -35,7 +35,7 @@ class JualController extends Controller
 
     public function index()
     {
-        $data["masterjual"] = Jual::where('tglPesan', '=',);
+        $data["masterjual"] = Jual::all();
         $data["masterkonsumen"] = self::toList(Konsumen::select("id", "namaKonsumen")->get(), "id");
         $data["masterkaryawans"] = self::toList(User::all(), "id");
 

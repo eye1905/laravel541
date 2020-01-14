@@ -32,7 +32,7 @@ class BeliController extends Controller
 
     {
 
-     $data["masterbelis"] = Beli::where('status', '=', '0')->get();
+     $data["masterbelis"] = Beli::all();
      $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
      $data["masterkaryawans"] = self::toList(User::all(), "id");
 

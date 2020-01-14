@@ -18,9 +18,11 @@ class FrontController extends Controller
         $kurs = $this->getData("http://www.adisurya.net/kurs-bca/get");
 
         $kur = [];
-        foreach ($kurs["Data"] as $key => $value) {
-            if($key=="CNH"){
-                $key = "RMB";
+        foreach ($kurs["Data"] as $key => $value) 
+        {
+            if($value=="CNH")
+            {
+                $value = "RMB";
             }
 
             $kur[$key] = $value; 
