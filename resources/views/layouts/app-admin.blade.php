@@ -116,7 +116,7 @@
           <ul class="sidebar-menu" data-widget="tree">
             <li class="header">DAFTAR MENU</li>
             
-            <li class="active">
+            <li class="@if(Request::segment(1)=="home") {{ "active" }} @endif">
               <a href="{{ url('/home') }}">
                 <i class="fa fa-dashboard"></i> <span>Beranda</span>
               </a>
