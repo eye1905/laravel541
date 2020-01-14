@@ -309,4 +309,16 @@ class JualController extends Controller
     {
         
     }
+
+    public function cetak($nota)
+    {  
+        $data["jual"] = Jual::where("noNotaJual", $nota)->first();
+        $data["detailjual"] = Detailjual::where("id_jual", $nota)->get();
+        $data["masterbarangs"]   = self::toList(Barang::all(), 'id');
+        $data["masterkaryawans"] = User::all();
+        $data["id"]             = $nota;
+        $data["total"] = collect(\DB::select("SELECT IFNULL(SUM(beratJual*harga),0) as total FROM detailjuals WHERE id_jual='$nota'"))->first();
+
+        return view("admin.penjualan.cetak", $data);
+    }
 }

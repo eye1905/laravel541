@@ -180,9 +180,9 @@
               <tr>
                 <th style="width:55%">Diskon :</th>
                 <td>
-                  @if($jual->statusBayar == 0)
+                  @if($jual->statusNota == 0)
                   <input type="number" id="diskon" min="0" max="100" style="border-radius: 0; box-shadow: none; border-color: #d2d6de; width: 50%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc;" class="diskon" name="diskon" value="{{ $jual->diskon }}"> %
-                  @elseif($jual->statusBayar == 1)
+                  @elseif($jual->statusNota == 1)
                   <p class="pull-right">{{ $jual->diskon }} %</p>
                   @endif
                 </td>
@@ -198,18 +198,7 @@
                 <th>Status Bayar :</th>
                 @if($jual->statusBayar == 0)
                 <td>
-                  <div class="form-group">
-                    <select id="statusBayar" class="form-control" name="statusBayar" required>
-                      <option value="0">Belum Lunas</option>
-                      <option value="1">Lunas</option>
-                    </select>
-
-                    @if ($errors->has('statusBayar'))
-                    <span class="help-block">
-                      <strong>{{ $errors->first('statusBayar') }}</strong>
-                    </span>
-                    @endif
-                  </div>
+                  Pembayaran Belum Lunas
                 </td>
                 @elseif($jual->statusBayar == 1)
                 <td>
@@ -230,7 +219,7 @@
       <div class="row no-print">
         <div class="col-xs-12">
           @if($jual->statusNota == 1)
-          <a href="#" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+          <a href="{{ url('penjualan/cetak/'.$jual->noNotaJual) }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
           @endif
 
           @if($jual->statusNota == 0)

@@ -52,6 +52,7 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::resource('detailjual', 'DetailjualController');
 	Route::post('detailjual/update', 'DetailjualController@update');
 	Route::get('penjualan/create/{id?}', 'JualController@create');
+	Route::get('penjualan/cetak/{id}', 'JualController@cetak')->name('cetakjual');
 });
 
     Route::group(['prefix' => '/'], function() {
