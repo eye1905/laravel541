@@ -83,7 +83,7 @@
                <tr>
                 <td>{{ $key+1 }}</td>
                 <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                <td>{{ $m->berat }}</td>
+                <td>{{ number_format($m->berat, 0, ',', '.') }}</td>
                 <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
                 <td>{{ "Rp. ".number_format($m->subTotal, 2, ',', '.') }}</td>
                 <!-- jika harga barang kosong -->
