@@ -56,7 +56,7 @@ class KonsumenController extends Controller
         $namaKonsumen = $request->get('namaKonsumen');
         $alamat = $request->get('alamat');
         $noTelp = $request->get('noTelp');
-
+        
         $masterkonsumens = new Konsumen();
         $masterkonsumens->namaKonsumen=$namaKonsumen;
         $masterkonsumens->alamat=$alamat;

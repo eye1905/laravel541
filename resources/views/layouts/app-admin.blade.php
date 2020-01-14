@@ -123,7 +123,7 @@
             </li>
 
             @if(Auth::user()->jabatan==1 or Auth::user()->jabatan==2)
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="supplier") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-handshake-o"></i>
                 <span>Supplier</span>
@@ -137,7 +137,7 @@
               </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="beli") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Pembelian</span>
@@ -152,7 +152,7 @@
             </li>
             @endif
 
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="barang") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-archive"></i>
                 <span>Barang</span>
@@ -166,7 +166,7 @@
               </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="proses") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-hourglass-start"></i>
                 <span>Proses</span>
@@ -181,7 +181,7 @@
             </li>
 
              @if(Auth::user()->jabatan==1 or Auth::user()->jabatan==2)
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="karyawan") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-id-badge"></i>
                 <span>Karyawan</span>
@@ -195,7 +195,7 @@
               </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="setting") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-cog"></i>
                 <span>Kelola Profit</span>
@@ -209,7 +209,7 @@
               </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="penjualan") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-book"></i>
                 <span>Penjualan</span>
@@ -223,7 +223,7 @@
               </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview @if(Request::segment(1)=="konsumen") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-users"></i>
                 <span>Konsumen</span>
