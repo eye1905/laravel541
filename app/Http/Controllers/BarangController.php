@@ -122,7 +122,7 @@ class BarangController extends Controller
 
     public function getBarang()
     {
-        $data = Barang::where("stok", "<", "20")->get();
+        $data = Barang::where("stok", "<", "20")->where("namaBarang", "!=", "Raw")->get();
 
         $html = [];
         foreach ($data as $key => $value) {
