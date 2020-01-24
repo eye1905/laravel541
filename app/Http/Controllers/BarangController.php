@@ -42,13 +42,14 @@ class BarangController extends Controller
         $namaBarang = $request->get('namaBarang');
         $satuan = $request->get('satuan');
         $harga = $request->get('harga');
-
+        $deskripsi = $request->get('deskripsi');
 
         $masterbarangs = new Barang();
         $masterbarangs->namaBarang=$namaBarang;
         $masterbarangs->stok="0";
         $masterbarangs->satuan=$satuan;
         $masterbarangs->harga=$harga;
+        $masterbarangs->deskripsi=$deskripsi;
         $masterbarangs->status="1";
         $masterbarangs->save();
 
@@ -77,6 +78,7 @@ class BarangController extends Controller
     public function edit($id)
     {
         $masterbarangs = Barang::whereId($id)->firstOrFail();
+        //dd($masterbarangs);
         return view('admin.barang.edit',['masterbarangs' => $masterbarangs]);
     }
 
@@ -93,6 +95,7 @@ class BarangController extends Controller
       $satuan = $request->get('satuan');
       $harga = $request->get('harga');
       $stok = $request->get('stok');
+      $deskripsi = $request->get('deskripsi');
 
       $masterbarangs = Barang::whereId($id)->firstOrFail();
       $masterbarangs->namaBarang=$namaBarang;
@@ -101,6 +104,7 @@ class BarangController extends Controller
       $masterbarangs->harga=$harga;
       $masterbarangs->stok=$stok;
       $masterbarangs->status="1";
+      $masterbarangs->deskripsi=$deskripsi;
         //var_dump($masterbarangs);die;
       $masterbarangs->save();
 

@@ -37,6 +37,7 @@
                  <th>Satuan</th>
                  <th>Harga</th>
                  <th>Hpp</th>
+                 <th>Deskripsi</th>
                  <th>Status</th>
                  <th>Opsi</th>
                </tr>
@@ -51,6 +52,7 @@
                  <td>{{ $m->satuan }}</td>
                  <td>{{ "Rp. ".number_format($m->harga, 2, ',', '.') }}</td>
                  <td>{{ "Rp. ".number_format($m->hpp, 2, ',', '.') }}</td>
+                 <td>{{ $m->deskripsi }}</td>
                  <td> 
                   {{ "Barang Siap Jual" }}
                 </td>

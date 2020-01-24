@@ -179,7 +179,7 @@ class DetailprosesController extends Controller
     public function pengeringan(Request $request)
     {   
         $detail = DetailProses::where("iddetail", $request->idproses)->get()->first();
-
+        
         $history = (Double) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
         //dd($detail);
         DB::beginTransaction();
