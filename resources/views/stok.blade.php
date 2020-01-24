@@ -133,12 +133,12 @@
               
               <td>
                 <button class="btn btn-sm btn-primary" onclick="getCount()">
-                    <i class="fa fa-dollars"></i> Convert
-                  </button>
+                  <i class="fa fa-dollars"></i> Convert
+                </button>
               </td>
-                  
+
               <td>
-                  <input type="text" readonly name="total" id="total" class="form-control" placeholder="Total Conversion">
+                <input type="text" readonly name="total" id="total" class="form-control" placeholder="Total Conversion">
               </td>
             </tr>
           </tbody>
@@ -169,6 +169,7 @@
   var total = 0;
   var harga = <?php echo json_encode($masterbarangs, JSON_FORCE_OBJECT); ?>;
   var jumlah = 0;
+  var isi = 0;
 
   $(function () {
     $('#example1').DataTable({
@@ -189,19 +190,19 @@
       success: function(data)
       {   
         var obj = JSON.parse(data);
-
+        
         if(obj.stok<$("#isi").val()){
 
-            alert("Stock Barang tidak Cukup");
+          alert("Stock Barang tidak Cukup");
 
         }else{
           var jumlah = parseInt(obj.harga)*parseInt($("#isi").val());
 
           total += jumlah;
+          
+          $("#table-barang").append('<tr><td>'+$("#barang option:selected").text()+'</td><td>'+convertToRupiah(obj.harga)+'</td><td>'+$("#isi").val()+'</td><td>'+convertToRupiah(jumlah)+'</td><td></td></tr');
 
-          $("#table-barang").append('<tr><td>'+$("#barang option:selected").text()+'</td><td>'+obj.harga+'</td><td>'+$("#isi").val()+'</td><td>'+jumlah+'</td><td></td></tr');
-
-          $("#label").html(total);
+          $("#label").html(convertToRupiah(total));
         }
       }
     });
@@ -212,6 +213,23 @@
     
     $("#total").val(tot);
   }
+
+  function convertToRupiah(angka)
+  {
+    var rupiah = '';    
+    var angkarev = angka.toString().split('').reverse().join('');
+    for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+      return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+  }
+/**
+ * Usage example:
+ * alert(convertToRupiah(10000000)); -> "Rp. 10.000.000"
+ */
+ 
+ function convertToAngka(rupiah)
+ {
+  return parseInt(rupiah.replace(/,.*|[^0-9]/g, ''), 10);
+}
 </script>
 @endsection
 @endsection
