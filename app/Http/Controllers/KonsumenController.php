@@ -31,6 +31,7 @@ class KonsumenController extends Controller
 
     public function index()
     {
+        
        $masterkonsumens = Konsumen::all();
         return view('admin.konsumen.index',['masterkonsumens' => $masterkonsumens]);
     }
@@ -56,11 +57,13 @@ class KonsumenController extends Controller
         $namaKonsumen = $request->get('namaKonsumen');
         $alamat = $request->get('alamat');
         $noTelp = $request->get('noTelp');
+        //$norekening = $request->get('norekening');
         
         $masterkonsumens = new Konsumen();
         $masterkonsumens->namaKonsumen=$namaKonsumen;
         $masterkonsumens->alamat=$alamat;
         $masterkonsumens->noTelp=$noTelp;
+        //$masterkonsumens->norekening=$norekening;
 
         $masterkonsumens->save();
 
@@ -104,7 +107,7 @@ class KonsumenController extends Controller
         $masterkonsumens->namaKonsumen =$request->get('namaKonsumen');
         $masterkonsumens->alamat =$request->get('alamat');
         $masterkonsumens->noTelp =$request->get('noTelp');
-
+        //$masterkonsumens->norekening =$request->get('norekening');
         $masterkonsumens->save();
         return redirect('konsumen')->with('status', 'data konsumen berhasil diubah');
     }

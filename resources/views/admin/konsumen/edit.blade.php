@@ -50,6 +50,10 @@
                   <label>No.Telpon </label>
                   <input type="text" name="noTelp" class="form-control" value="{{ $masterkonsumens->noTelp }}"/>
                 </div>
+                 <!-- <div class="form-group">
+                  <label>No.Rekening </label>
+                  <input type="text" name="norekening" class="form-control" value="{{ $masterkonsumens->norekening }}"/>
+                </div> -->
               <!-- /.box-body -->
 
                 <div class="form-group">

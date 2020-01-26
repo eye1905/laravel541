@@ -141,7 +141,8 @@
                   <td>{{ $key+1 }}</td>
                   <td>
                     <input name="barang[]" value="{{ $m->id_barang }}" hidden="">
-                    {{ $masterbarangs[$m->id_barang]["namaBarang"] }}
+                    <p>{{ $m->barangs->namaBarang }}</p>
+                    <p>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</p>
                   </td>
                   <td>
                     <input name="berat[]" id="berat" class="berat" value="{{ $m->beratJual }}" hidden="">
@@ -247,6 +248,50 @@
   {
     window.print();
   }
+
+</script>
+
+<script type="text/javascript">
+
+  $(".harga, .diskon").on('keyup keydown',function(){
+
+    var hrg, brt, subtot, sum = 0;
+    brt  = Number($(this).closest('tr').find('td:nth-child(3)').find('input').val());
+    hrg = Number($(this).closest('tr').find('td:nth-child(4)').find('input').val());
+
+    subtot = brt*hrg;
+
+    var formatuang = subtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); /*INI BUAT NGASIH . SETIAP RIBUAN FORMAT UANG*/
+
+    Number($(this).closest('tr').find('td:nth-child(5)').html('<input name="subtotal[]" class="subtotal" id="subtotal" value="'+subtot+'" hidden="">Rp. <p class="pull-right" class="subtot" id="subtot">'+formatuang+',00</p>'));
+    calculateSum();
+  });
+</script>
+
+<script type="text/javascript">
+
+function calculateSum()
+{ 
+  var sum = 0;
+  var diskon = 0;
+  var total = 0;
+  diskon = $(".diskon").val();
+
+  $(".subtotal").each(function () {
+    if (!isNaN(this.value) && this.value.length != 0) {
+      sum += parseFloat(this.value);
+    } 
+  });
+
+  total = sum-(diskon/100*sum);
+
+  var formatuangbefore = sum.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); /*INI BUAT NGASIH . SETIAP RIBUAN FORMAT UANG*/
+
+  var formatuangafter = total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.'); /*INI BUAT NGASIH . SETIAP RIBUAN FORMAT UANG*/
+
+  $("#totalsebelum").html('<p class="pull-right" id="totalsebelum">'+formatuangbefore+',00</p>');
+  $("#total").html('<input name="total" value="'+total+'" hidden="">Rp. <p class="pull-right">'+formatuangafter+',00</p>');
+}
 
 </script>
 

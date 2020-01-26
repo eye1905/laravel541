@@ -31,6 +31,7 @@ class BeliController extends Controller
     public function index()
 
     {
+     //$data["masterbelis"] = Beli::where('id_suppliers', '=', '3')->get(); 
 
      $data["masterbelis"] = Beli::all();
      $data["mastersuppliers"] = self::toList(Supplier::all(), "id");
