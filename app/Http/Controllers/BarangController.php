@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\HistoryStok;
+use DB;
 
 class BarangController extends Controller
 {   
@@ -44,6 +46,7 @@ class BarangController extends Controller
         $harga = $request->get('harga');
         $deskripsi = $request->get('deskripsi');
 
+        DB::beginTransaction();
         $masterbarangs = new Barang();
         $masterbarangs->namaBarang=$namaBarang;
         $masterbarangs->stok="0";
@@ -52,6 +55,7 @@ class BarangController extends Controller
         $masterbarangs->deskripsi=$deskripsi;
         $masterbarangs->status="1";
         $masterbarangs->save();
+        DB::commit();
 
         return redirect('barang')->with('Data Barang Berhasil Ditambahkan !');
     }
@@ -100,6 +104,7 @@ class BarangController extends Controller
       $masterbarangs = Barang::whereId($id)->firstOrFail();
       $masterbarangs->namaBarang=$namaBarang;
 
+      DB::beginTransaction();
       $masterbarangs->satuan=$satuan;
       $masterbarangs->harga=$harga;
       $masterbarangs->stok=$stok;
@@ -108,6 +113,13 @@ class BarangController extends Controller
         //var_dump($masterbarangs);die;
       $masterbarangs->save();
 
+      $history = new HistoryStok();
+      $history->id_barang = $id;
+      $history->stok_baru = $masterbarangs->stok;
+      $history->deskripsi = $masterbarangs->deskripsi;
+      $history->save();
+      
+      DB::commit();
       return redirect('barang')->with('Data Barang Berhasil Diubah !');
   }
 

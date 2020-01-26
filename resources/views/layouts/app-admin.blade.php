@@ -152,7 +152,7 @@
             </li>
             @endif
 
-            <li class="treeview @if(Request::segment(1)=="barang") {{ "active" }} @endif">
+            <li class="treeview @if(Request::segment(1)=="barang" or Request::segment(1)=="history") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-archive"></i>
                 <span>Barang</span>
@@ -163,10 +163,11 @@
               <ul class="treeview-menu">
                 <li><a href="{{ url('barang') }}"><i class="fa fa-archive"></i>Data Barang</a></li>
                 <li><a href="{{ url('barang/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Barang </a></li>
+                <li><a href="{{ url('history') }}"><i class="fa fa-plus-square-o"></i>Input History Barang </a></li>
               </ul>
             </li>
 
-            <li class="treeview @if(Request::segment(1)=="proses") {{ "active" }} @endif">
+            <li class="treeview @if(Request::segment(1)=="proses" or Request::segment(1)=="settingproses") {{ "active" }} @endif">
               <a href="#">
                 <i class="fa fa-hourglass-start"></i>
                 <span>Proses</span>
@@ -177,6 +178,7 @@
               <ul class="treeview-menu">
                 <li><a href="{{ url('proses') }}"><i class="fa fa-hourglass-start"></i>Data Proses</a></li>
                 <li><a href="{{ url('proses/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Proses </a></li>
+                <li><a href="{{ url('settingproses') }}"><i class="fa fa-plus-square-o"></i>Input Setting Proses </a></li>
               </ul>
             </li>
 

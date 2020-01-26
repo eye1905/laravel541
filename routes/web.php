@@ -19,7 +19,14 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::resource('karyawan', 'KaryawanController');
 	Route::resource('supplier', 'SupplierController');
 	Route::resource('konsumen', 'KonsumenController');
+
 	Route::resource('barang', 'BarangController');
+
+	Route::get('history', 'HistoryStokController@index');
+	Route::post('history/store', 'HistoryStokController@store');
+	Route::post('history/update', 'HistoryStokController@update');
+	Route::get('history/delete/{id}', 'HistoryStokController@destroy');
+	
 	Route::resource('beli', 'BeliController');
 	Route::resource('detailbeli', 'DetailbeliController');
 	Route::get('detailbeli/tutup/{id?}', 'DetailbeliController@tutup');
@@ -34,6 +41,10 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	
 	Route::get('proses/delete/{id}', 'ProsesController@destroy');
 
+	Route::get('settingproses', 'SettingProsesController@index');
+	Route::post('settingproses/store', 'SettingProsesController@store');
+	Route::post('settingproses/update', 'SettingProsesController@update');
+
 	Route::resource('detailproses', 'DetailprosesController');
 	Route::post('addproses', 'DetailbeliController@addproses'); 
 	Route::post('pengeringan', 'DetailprosesController@pengeringan'); 
@@ -41,6 +52,7 @@ Route::group(['prefix' => '/',  'middleware' => 'auth'], function() {
 	Route::post('endsortir', 'DetailprosesController@endsortir'); 
 	Route::post('endpengeringan', 'DetailprosesController@endpengeringan');
 	Route::get('endproses/{id}', 'DetailprosesController@endproses');
+
 	Route::resource('setting', 'SettingPenjualan');
 	Route::post('setting/update', 'SettingPenjualan@update');
 

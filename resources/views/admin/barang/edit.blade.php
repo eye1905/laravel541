@@ -69,8 +69,12 @@
                     <label for="harga" class="col-md-4 control-label">Stok Barang</label>
 
                     <div class="col-md-6">
+                        @if(Auth::user()->jabatan==2)
+                        <input id="stok" type="number" class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
+                        @else
                         <input id="stok" type="number" readonly class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
 
+                        @endif
                         @if ($errors->has('stok'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('stok') }}</strong>
