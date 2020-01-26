@@ -36,15 +36,15 @@
             <br>
             <p style="margin-left:10px;">
               @php
-                $total = 0;
+              $total = 0;
               @endphp
 
               @foreach($masterbarangs as $key => $val)
-                @foreach($barang as $key1 => $val1)
-                  @if($val->id == $val1->id_barang)
-                    {{ $val->namaBarang." : ".$val1->jumlah }} <br>
-                  @endif
-                @endforeach
+              @foreach($barang as $key1 => $val1)
+              @if($val->id == $val1->id_barang)
+              {{ $val->namaBarang." : ".$val1->jumlah }} <br>
+              @endif
+              @endforeach
               @endforeach
             </p>
           </div>
@@ -61,62 +61,62 @@
                   <th>Barang</th>
                   <th>Berat (Kg)</th>
                   {{-- <th>Id</th>
-                  <th>Parent</th> --}}
-                  <th>Sisa</th>
-                  <th>Status</th>
-                  <th>Tanggal Proses</th>
-                  <th>Opsi</th>
-                </tr>
-              </thead>
-              @php
-              $jumlah = 0;
-              @endphp
+                    <th>Parent</th> --}}
+                    <th>Sisa</th>
+                    <th>Status</th>
+                    <th>Tanggal Proses</th>
+                    <th>Opsi</th>
+                  </tr>
+                </thead>
+                @php
+                $jumlah = 0;
+                @endphp
 
-              @if(isset($detail["tingkat0"]))
-              @foreach($detail["tingkat0"] as $key => $m)
-              @php
-              $jumlah =$m->jumlah-$m->jumlahBarang;
-              @endphp
-              
-              <tr>
-                <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
-                <td>{{ $m->jumlahBarang }}</td>
+                @if(isset($detail["tingkat0"]))
+                @foreach($detail["tingkat0"] as $key => $m)
+                @php
+                $jumlah =$m->jumlah-$m->jumlahBarang;
+                @endphp
+
+                <tr>
+                  <td>{{ $masterbarangs[$m->id_barang]["namaBarang"] }}</td>
+                  <td>{{ $m->jumlahBarang }}</td>
                {{--  <td>{{ $m->iddetail }}</td>
-                <td>{{ $m->parent }}</td> --}}
-                <td>{{ $m->jumlah }}</td>
-                <td>{{ $status[$m->status] }}</td>
-                <td>{{ date("d-m-Y H:i:s", strtotime($m->created_at)) }}</td>
-                <td>
-                  @if($data->status==0)
-                      @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0)
-                      <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
-                        Sortir 
-                      </button>
-                      @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==5)
+               <td>{{ $m->parent }}</td> --}}
+               <td>{{ $m->jumlah }}</td>
+               <td>{{ $status[$m->status] }}</td>
+               <td>{{ date("d-m-Y H:i:s", strtotime($m->created_at)) }}</td>
+               <td>
+                @if($data->status==0)
+                @if($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==0)
+                <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#sortirModal" onclick="getSortir({{ $m->iddetail }}, {{ $m->id_barang}})" >
+                  Sortir 
+                </button>
+                @elseif($masterbarangs[$m->id_barang]["namaBarang"]=="Raw" and $m->status==5)
 
-                      @else
-                      <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
-                          <span class="caret"></span></button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Pengeringan</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Selesai Pengeringan</a></li>
-                          </ul>
-                        </div>  
-                      </td>
-                      @endif
-                  @endif
+                @else
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Pengeringan</a></li>
+                      <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $m->iddetail }}, {{ $m->id_barang}})">Selesai Pengeringan</a></li>
+                    </ul>
+                  </div>  
                 </td>
-              </tr>
-              @if(isset($detail["tingkat1"]))
-              @foreach($detail["tingkat1"] as $key1 => $value1)
-              @if($m->iddetail==$value1->parent)
-              @php
-              $jumlah =$value1->jumlah-$value1->jumlahBarang;
-              @endphp
-              <tr>
-                <td style="padding-left:3%">{{ $masterbarangs[$value1->id_barang]["namaBarang"] }}</td>
-                <td>{{ $value1->jumlahBarang }}</td>
+                @endif
+                @endif
+              </td>
+            </tr>
+            @if(isset($detail["tingkat1"]))
+            @foreach($detail["tingkat1"] as $key1 => $value1)
+            @if($m->iddetail==$value1->parent)
+            @php
+            $jumlah =$value1->jumlah-$value1->jumlahBarang;
+            @endphp
+            <tr>
+              <td style="padding-left:3%">{{ $masterbarangs[$value1->id_barang]["namaBarang"] }}</td>
+              <td>{{ $value1->jumlahBarang }}</td>
                 {{-- <td>{{ $value1->iddetail }}</td>
                 <td>{{ $value1->parent }}</td> --}}
                 <td>{{ $value1->jumlah }}</td>
@@ -124,13 +124,13 @@
                 <td>{{ date("d-m-Y H:i:s", strtotime($value1->created_at)) }}</td>
                 <td>
                   @if($data->status==0)
-                      @if($value1->status==1)
-                        <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value1->iddetail }}, {{ $value1->id_barang}})" >
-                          Selesai Sortir
-                        </button>
-                      @else
+                  @if($value1->status==1)
+                  <button class="btn btn-sm btn-warning" type="button" data-toggle="modal" data-target="#EndsortirModal" onclick="endSortir({{ $value1->iddetail }}, {{ $value1->id_barang}})" >
+                    Selesai Sortir
+                  </button>
+                  @else
 
-                      @endif
+                  @endif
                   @endif
                 </td>
               </tr>
@@ -147,18 +147,18 @@
                 <td>{{ date("d-m-Y H:i:s", strtotime($value2->created_at)) }}</td>
                 <td>
                   @if($data->status==0)
-                      @if($value2->status==2)
-                      <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
-                          <span class="caret"></span></button>
-                          <ul class="dropdown-menu">
-                            <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Pengeringan</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Selesai Pengeringan</a></li>
-                          </ul>
-                        </div> 
-                        @else
+                  @if($value2->status==2)
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#"  data-toggle="modal" data-target="#exampleModal" onclick="getpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Pengeringan</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value2->iddetail }}, {{ $value2->id_barang}})">Selesai Pengeringan</a></li>
+                      </ul>
+                    </div> 
+                    @else
 
-                        @endif 
+                    @endif 
                     @endif
                   </td>
                 </tr>
@@ -176,17 +176,17 @@
                   <td>{{ date("d-m-Y H:i:s", strtotime($value3->created_at)) }}</td>
                   <td>
                     @if($data->status==0)
-                      @if($value3->status==3)
-                        <div class="dropdown">
-                          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
-                            <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
+                    @if($value3->status==3)
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
 
-                              <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})">Selesai Pengeringan</a></li>
+                          <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value3->iddetail }}, {{ $value3->id_barang}})">Selesai Pengeringan</a></li>
 
-                            </ul>
-                          </div>
-                        @endif
+                        </ul>
+                      </div>
+                      @endif
                       @endif
                     </td>
                   </tr>
@@ -204,23 +204,23 @@
                     <td>{{ date("d-m-Y H:i:s", strtotime($value4->created_at)) }}</td>
                     <td>
                       @if($data->status==0)
-                        @if($value4->status==3)
-                          <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
-                              <span class="caret"></span></button>
-                              <ul class="dropdown-menu">
+                      @if($value4->status==3)
+                      <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pengeringan
+                          <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
 
-                                <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value4->iddetail }}, {{ $value4->id_barang}})">Selesai Pengeringan</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#EndKeringrModal" onclick="endpengeringan({{ $value4->iddetail }}, {{ $value4->id_barang}})">Selesai Pengeringan</a></li>
 
-                              </ul>
-                            </div>
-                          @endif
+                          </ul>
+                        </div>
+                        @endif
                         @endif
                       </td>
                     </tr>
-                      @endif
-                      @endforeach
-                      @endif
+                    @endif
+                    @endforeach
+                    @endif
 
                     @endif
                     @endforeach
@@ -236,32 +236,32 @@
                     @endif
                     @if($data->status==0)
                     <tr>
-                        <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
-                          {{ csrf_field() }}
-                          <td>  
-                            <input type="hidden" name="id_proses" value="{{ $id }}"/>
-                            <select id="barang" class="form-control" name="barang" required>
-                              @foreach($masterbarangs as $key => $m)
-                              <option value = "{{ $m->id }}">
-                                {{ $m->namaBarang }}
-                              </option>
-                              @endforeach
-                            </select> 
-                          </td>
-                          <td>  
-                           <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" required>
-                         </td>
-                         <td>  
-                         </td>
-                         <td> </td>
-                         <td>
-                          <button class="btn btn-sm btn-success" type="submit">
-                            Simpan
-                          </button>
+                      <form class="form-horizontal" method="POST" action="{{ url('detailproses') }}">
+                        {{ csrf_field() }}
+                        <td>  
+                          <input type="hidden" name="id_proses" value="{{ $id }}"/>
+                          <select id="barang" class="form-control" name="barang" required>
+                            @foreach($masterbarangs as $key => $m)
+                            <option value = "{{ $m->id }}">
+                              {{ $m->namaBarang }}
+                            </option>
+                            @endforeach
+                          </select> 
                         </td>
-                      </form>
-                    </tr>
-                    @endif
+                        <td>  
+                         <input type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" required>
+                       </td>
+                       <td>  
+                       </td>
+                       <td> </td>
+                       <td>
+                        <button class="btn btn-sm btn-success" type="submit">
+                          Simpan
+                        </button>
+                      </td>
+                    </form>
+                  </tr>
+                  @endif
                 </table>
               </div>
               <!-- /.box-body -->
@@ -284,7 +284,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="{{ url('pengeringan') }}" method="POST">
+            <form action="{{ url('pengeringan') }}" method="POST" id="form-pengeringan">
               {{ csrf_field() }}
               <div class="modal-body">
                 Jumlah :
@@ -294,7 +294,7 @@
                 <input type="hidden" id="parent" name="parent">
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Simpan</button>
+                <button type="button" class="btn btn-success" id="btn-kering">Simpan</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>
@@ -312,7 +312,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="{{ url('sortir') }}" method="POST">
+            <form action="{{ url('sortir') }}" method="POST" id="form-sortir">
               {{ csrf_field() }}
               <div class="modal-body">
                 Jumlah :
@@ -322,15 +322,14 @@
                 <input type="hidden" id="s_parent" name="s_parent">
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Simpan</button>
+                <button type="button" class="btn btn-success" id="btn-sortir">Simpan</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-
-
+      
       <div class="modal fade" id="EndsortirModal" tabindex="-1" role="dialog" aria-labelledby="EndsortirModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -418,6 +417,25 @@
   //   })
 
   // });
+
+  $("#btn-kering").click(function(){
+    if(confirm("Apakah anda yakin ingin pengeringan barang ?")){
+      $("#form-pengeringan").submit();
+    }
+    else{
+      location.reload(true);
+    }
+  });
+
+  $("#btn-sortir").click(function(){
+    if(confirm("Apakah anda yakin ingin sortir barang ?")){
+      $("#form-sortir").submit();
+    }
+    else{
+      location.reload(true);
+    }
+  });
+
   function getpengeringan (id, barang) {
    $("#idproses").val(id);
    $("#idbarang").val(barang);

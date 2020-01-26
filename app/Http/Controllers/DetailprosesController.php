@@ -12,6 +12,7 @@ use App\Detailbeli;
 use App\HistorySortir;
 use App\HistoryPengeringan;
 use App\HistoryRaw;
+use App\SettingProses;
 
 class DetailprosesController extends Controller
 {
@@ -179,7 +180,7 @@ class DetailprosesController extends Controller
     public function pengeringan(Request $request)
     {   
         $detail = DetailProses::where("iddetail", $request->idproses)->get()->first();
-
+        
         $history = (Double) HistoryPengeringan::where("iddetail", $request->idproses)->sum("jumlah");
         //dd($detail);
         DB::beginTransaction();
@@ -517,11 +518,13 @@ public function endproses($id)
     }
 }
 
-public function getPersen($jumlah)
-{
-    $percen =   $jumlah*10/100;
-    $percen = $jumlah-$percen;
+    public function getPersen($jumlah)
+    {
+        $jumalh = SettingProses::select()->first();
 
-    return $percen;
-}
+        $percen =   $jumlah*$jumlah->persen/100;
+        $percen = $jumlah-$percen;
+
+        return $percen;
+    }
 }

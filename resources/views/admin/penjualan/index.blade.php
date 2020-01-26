@@ -26,7 +26,54 @@
             </div>
             @endif
           </div>
-          <!-- /.box-header -->
+          <!-- /.box-header -->{{-- 
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="mulai" class="col-md-4 control-label">Tanggal Mulai</label>
+
+              <div class="col-md-6">
+                <input id="mulai" type="date" class="form-control" name="mulai" value="{{ old('mulai') }}" required autofocus>
+
+                @if ($errors->has('mulai'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('mulai') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="akhir" class="col-md-4 control-label">Tanggal Selesai</label>
+
+              <div class="col-md-6">
+                <input id="akhir" type="date" class="form-control" name="akhir" value="{{ old('akhir') }}" required autofocus>
+
+                @if ($errors->has('akhir'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('akhir') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
+          </div>
+          
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <div class="col-md-6">
+                <input id="mulai" type="date" class="form-control" name="mulai" value="{{ old('mulai') }}" required autofocus>
+
+                @if ($errors->has('mulai'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('mulai') }}</strong>
+                </span>
+                @endif
+              </div>
+            </div>
+          </div>
+ --}}
           <div class="box-body">
             <table id="example1" class="table table-bordered table-striped">
               <thead>
@@ -62,20 +109,20 @@
                 @elseif($m->statusBayar == 1)
                 <td><span class="label label-success">Lunas</span></td>
                 @endif
-      					
+
                 <td>
                   {{-- <a class="btn btn-success" href="{!! action('JualController@edit', $m->id) !!}">Ubah</a> --}}
 
                   <a class="btn btn-primary" href="{!! action('JualController@detail', $m->id) !!}">Detail</a>
                   @if($m->statusBayar == 0)
-                    <a class="btn btn-success" href="{!! action('JualController@updatebayar', $m->id) !!}" onclick="return confirm('Anda yakin untuk mengubah nota ini menjadi lunas?');">Ubah Jadi Lunas</a>
+                  <a class="btn btn-success" href="{!! action('JualController@updatebayar', $m->id) !!}" onclick="return confirm('Anda yakin untuk mengubah nota ini menjadi lunas?');">Ubah Jadi Lunas</a>
 
                     {{-- <form role="form" action="{{ route('penjualan.updatebayar', $m->id) }}" method="POST" enctype="multipart/form-data">
                     {{ method_field("PUT") }} 
                     {!! csrf_field() !!}
                       <input type="submit" class="btn btn-success pull-right" onclick="return confirm('Anda yakin untuk mengubah nota ini menjadi lunas?');" value="Ubah Jadi Lunas" name="submit">
                     </form> --}}
-                  @endif
+                    @endif
 
                   {{-- <form method="POST" action="{!! action('JualController@destroy', $m->id) !!}" onsubmit = "return confirm('Anda yakin untuk menghapus data ini?');">
                       {{ csrf_field() }}
@@ -84,20 +131,20 @@
                     </form> --}}
                   </td>
 
-                  </tr>
+                </tr>
                 @endforeach
-        </tbody>
-      </table>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
     </div>
-    <!-- /.box-body -->
-  </div>
-  <!-- /.box -->
-</div>
-<!-- /.col -->
-</div>
-<!-- /.row -->
-</section>
-<!-- /.content -->
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
 
 </div>
 <!-- /.content-wrapper -->

@@ -33,7 +33,7 @@
             @foreach ($errors ->all() as $error)
               <h4 style="color: red">{{ $error }}</h4>
             @endforeach
-            <form role="form" action="{{ route('barang.update', $masterbarangs->id) }}" method="POST" enctype="multipart/form-data">
+            <form role="form" class="form-horizontal" action="{{ route('barang.update', $masterbarangs->id) }}" method="POST" enctype="multipart/form-data">
                {{ method_field("PUT") }} 
               {{ csrf_field() }} 
 
@@ -69,8 +69,12 @@
                     <label for="harga" class="col-md-4 control-label">Stok Barang</label>
 
                     <div class="col-md-6">
+                        @if(Auth::user()->jabatan==2)
+                        <input id="stok" type="number" class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
+                        @else
                         <input id="stok" type="number" readonly class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
 
+                        @endif
                         @if ($errors->has('stok'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('stok') }}</strong>
@@ -98,7 +102,19 @@
                     </div>
                 </div>
 
-               
+                <div class="form-group{{ $errors->has('deskripsi') ? ' has-error' : '' }}">
+                    <label for="deskripsi" class="col-md-4 control-label">Deskripsi Barang</label>
+
+                    <div class="col-md-6">
+                      <textarea class="form-control" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" required autofocus>{{ $masterbarangs->deskripsi }}
+                      </textarea>
+                        @if ($errors->has('deskripsi'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('deskripsi') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">

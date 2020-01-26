@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\HistoryStok;
+use DB;
 
 class BarangController extends Controller
 {   
@@ -43,15 +45,18 @@ class BarangController extends Controller
         $namaBarang = $request->get('namaBarang');
         $satuan = $request->get('satuan');
         $harga = $request->get('harga');
+        $deskripsi = $request->get('deskripsi');
 
-
+        DB::beginTransaction();
         $masterbarangs = new Barang();
         $masterbarangs->namaBarang=$namaBarang;
         $masterbarangs->stok="0";
         $masterbarangs->satuan=$satuan;
         $masterbarangs->harga=$harga;
+        $masterbarangs->deskripsi=$deskripsi;
         $masterbarangs->status="1";
         $masterbarangs->save();
+        DB::commit();
 
         return redirect('barang')->with('Data Barang Berhasil Ditambahkan !');
     }
@@ -78,6 +83,7 @@ class BarangController extends Controller
     public function edit($id)
     {
         $masterbarangs = Barang::whereId($id)->firstOrFail();
+        //dd($masterbarangs);
         return view('admin.barang.edit',['masterbarangs' => $masterbarangs]);
     }
 
@@ -94,17 +100,27 @@ class BarangController extends Controller
       $satuan = $request->get('satuan');
       $harga = $request->get('harga');
       $stok = $request->get('stok');
+      $deskripsi = $request->get('deskripsi');
 
       $masterbarangs = Barang::whereId($id)->firstOrFail();
       $masterbarangs->namaBarang=$namaBarang;
 
+      DB::beginTransaction();
       $masterbarangs->satuan=$satuan;
       $masterbarangs->harga=$harga;
       $masterbarangs->stok=$stok;
       $masterbarangs->status="1";
+      $masterbarangs->deskripsi=$deskripsi;
         //var_dump($masterbarangs);die;
       $masterbarangs->save();
 
+      $history = new HistoryStok();
+      $history->id_barang = $id;
+      $history->stok_baru = $masterbarangs->stok;
+      $history->deskripsi = $masterbarangs->deskripsi;
+      $history->save();
+      
+      DB::commit();
       return redirect('barang')->with('Data Barang Berhasil Diubah !');
   }
 

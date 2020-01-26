@@ -33,6 +33,7 @@
             @foreach ($errors ->all() as $error)
               <h4 style="color: red">{{ $error }}</h4>
             @endforeach
+            
              <form class="form-horizontal" method="POST" action="{{ url('barang') }}">
                 {{ csrf_field() }}
 
@@ -83,6 +84,18 @@
                     </div>
                 </div>
 
+                 <div class="form-group{{ $errors->has('deskripsi') ? ' has-error' : '' }}">
+                    <label for="deskripsi" class="col-md-4 control-label">Deskripsi Barang</label>
+
+                    <div class="col-md-6">
+                      <textarea class="form-control" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" required autofocus></textarea>
+                        @if ($errors->has('deskripsi'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('deskripsi') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
