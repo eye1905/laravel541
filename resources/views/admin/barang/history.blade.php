@@ -33,6 +33,7 @@
                 <tr>
                  <th>No.</th>
                  <th>Barang</th>
+                 <th>Stok Lama</th>
                  <th>Stok Baru</th>
                  <th>Tanggal Update</th>
                  <th>Deskripsi</th>
@@ -43,6 +44,7 @@
               <tr>
                 <td>{{ $key+1 }}</td>
                 <td>{{ $value->barang->namaBarang }}</td>
+                <td>{{ $value->stok_awal }}</td>
                 <td>{{ $value->stok_baru }}</td>
                 <td>{{ $value->tanggal }}</td>
                 <td>{{ $value->deskripsi }}</td>
@@ -103,15 +105,6 @@
     })
     
   });
-
-  function pilih(id, setting) {
-    //alert(setting);
-    $("#myform").attr('action', "{{ url('history/update') }}");
-    $("#id_stok").val(id);
-    $("#idbarang").val(id_barang);
-    $("#stok").val(stok);
-    $("#deskripsi").val(deskripsi);
-  }
 
 </script>
 @endsection

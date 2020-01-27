@@ -102,9 +102,11 @@ class BarangController extends Controller
       $stok = $request->get('stok');
       $deskripsi = $request->get('deskripsi');
 
-      $masterbarangs = Barang::whereId($id)->firstOrFail();
-      $masterbarangs->namaBarang=$namaBarang;
+      $stok_awal = 0;
 
+      $masterbarangs = Barang::whereId($id)->firstOrFail();
+      $stok_awal = $masterbarangs->stok;
+      $masterbarangs->namaBarang=$namaBarang;
       DB::beginTransaction();
       $masterbarangs->satuan=$satuan;
       $masterbarangs->harga=$harga;
@@ -116,6 +118,7 @@ class BarangController extends Controller
 
       $history = new HistoryStok();
       $history->id_barang = $id;
+      $history->stok_awal = $stok_awal;
       $history->stok_baru = $masterbarangs->stok;
       $history->deskripsi = $masterbarangs->deskripsi;
       $history->save();
