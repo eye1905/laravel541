@@ -16,7 +16,7 @@ class HistoryStokController extends Controller
      */
     public function index()
     {
-        $data["data"] = HistoryStok::with("barang")->get();
+        $data["data"] = HistoryStok::with("barang")->orderBy("tanggal", "desc")->get();
         
         return view("admin.barang.history", $data);
     }
