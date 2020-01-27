@@ -35,6 +35,8 @@ class JualController extends Controller
 
     public function index()
     {
+        //$data["masterjual"] = Jual::whereMonth('juals.created_at', '1')->join('konsumens', 'juals.id_konsumen', '=', 'konsumens.id')->where('konsumens.namaKonsumen', '=', 'Tiara')->get();
+
         $data["masterjual"] = Jual::all();
         $data["masterkonsumen"] = self::toList(Konsumen::select("id", "namaKonsumen")->get(), "id");
         $data["masterkaryawans"] = self::toList(User::all(), "id");

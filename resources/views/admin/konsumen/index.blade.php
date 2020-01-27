@@ -35,6 +35,7 @@
 					<th>Nama Konsumen</th>
 					<th>Alamat</th>
 					<th>No.Telpon</th>
+          <!-- <th>No.Rekening</th> -->
           <th>Edit</th>
           <th>Hapus</th>
 				</tr>
@@ -46,6 +47,7 @@
 					<td>{{ $m->namaKonsumen }}</td>
 					<td>{{ $m->alamat }}</td>
 					<td>{{ $m->noTelp }}</td>
+          <!-- <td>{{ $m->norekening }}</td> -->
 					<td><a class="btn btn-success" href="{!! action('KonsumenController@edit', $m->id) !!}">Edit</a></td>
           <td>
            

@@ -59,7 +59,7 @@
               <thead>
                 <tr>
                   <th>Barang</th>
-                  <th>Berat</th>
+                  <th>Berat (Kg)</th>
                   {{-- <th>Id</th>
                     <th>Parent</th> --}}
                     <th>Sisa</th>

@@ -38,17 +38,22 @@
               <div class="box-body">
                 <div class="form-group">
                   <label>Nama Konsumen</label>
-                  <input type="text" name="namaKonsumen" class="form-control">
+                  <input type="text" name="namaKonsumen" class="form-control" required>
                   <p class="help-block"></p>
                 </div>
                 <div class="form-group">
                   <label>Alamat</label>
-                  <input type="text" name="alamat" class="form-control">
+                  <input type="text" name="alamat" class="form-control" required>
                 </div>
                 <div class="form-group">
                   <label>No. Telpon</label>
-                  <input type="text" name="noTelp" class="form-control">
+                  <input type="text" name="noTelp" class="form-control" required>
                 </div>
+                <!-- <div class="form-group">
+                  <label>No. Rekening</label>
+                  <input type="text" name="norekening" class="form-control">
+                </div> -->
+
               <!-- /.box-body -->
 
                 <div class="form-group">

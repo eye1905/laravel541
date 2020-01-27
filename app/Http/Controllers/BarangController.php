@@ -18,6 +18,7 @@ class BarangController extends Controller
 
     public function index()
     {
+        //$masterbarangs = Barang::where('namaBarang', '=', 'Kaki')->get();
         $masterbarangs = Barang::all();
 
         return view('admin.barang.index',['masterbarangs' => $masterbarangs]);
@@ -31,7 +32,7 @@ class BarangController extends Controller
     public function create()
     {
      return view('admin.barang.create');
- }
+    }
 
     /**
      * Store a newly created resource in storage.

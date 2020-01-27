@@ -42,10 +42,7 @@
                   <label>Nama Karyawan</label>
                   <input type="text" name="namaKaryawan" class="form-control" value="{{ $masterkaryawans->namaKaryawan }}"/>
                 </div>
-            	  <!-- <div class="form-group">
-                  <label>Jabatan </label>
-                  <input type="text" name="jabatan" class="form-control" value="{{ $masterkaryawans->jabatan }}"/>
-                </div> -->
+            	
                  <div class="form-group{{ $errors->has('jabatan') ? ' has-error' : '' }}">
                             <label for="jabatan" class="col-md-4 control-label">Jabatan</label>
 
@@ -55,7 +52,9 @@
                                   <option value = "2">Direktur</option>
                                   <option value = "3">Pegawai Gudang</option>
                                 </select>
-
+                               <!--  <input type="radio" name="jabatan" value="1"> Pegawai Keuangan<br>
+                                <input type="radio" name="jabatan" value="2"> Direktur<br>
+                                <input type="radio" name="jabatan" value="3"> Pegawai Gudang<br> -->
                                 @if ($errors->has('jabatan'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('jabatan') }}</strong>

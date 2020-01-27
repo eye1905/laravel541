@@ -65,7 +65,7 @@
                 <tr>
                  <th>No.</th>
                  <th>Barang</th>
-                 <th>Berat</th>
+                 <th>Berat (Kg)</th>
                  <th>Harga</th>
                  <th>Sub Total</th>
                  <th>Opsi</th>
