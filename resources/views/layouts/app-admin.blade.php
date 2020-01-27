@@ -163,7 +163,7 @@
               <ul class="treeview-menu">
                 <li><a href="{{ url('barang') }}"><i class="fa fa-archive"></i>Data Barang</a></li>
                 <li><a href="{{ url('barang/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Barang </a></li>
-                <li><a href="{{ url('history') }}"><i class="fa fa-plus-square-o"></i>Input History Barang </a></li>
+                <li><a href="{{ url('history') }}"><i class="fa fa-book"></i> Riwayat Penyusutan Barang </a></li>
               </ul>
             </li>
 
@@ -178,7 +178,7 @@
               <ul class="treeview-menu">
                 <li><a href="{{ url('proses') }}"><i class="fa fa-hourglass-start"></i>Data Proses</a></li>
                 <li><a href="{{ url('proses/create') }}"><i class="fa fa-plus-square-o"></i>Input Data Proses </a></li>
-                <li><a href="{{ url('settingproses') }}"><i class="fa fa-plus-square-o"></i>Input Setting Proses </a></li>
+                <li><a href="{{ url('settingproses') }}"><i class="fa fa-cog"></i> Kelola Penyusutan </a></li>
               </ul>
             </li>
 
@@ -253,14 +253,14 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Data Stock Barang Akan Habis</h4>
+              <h4 class="modal-title">Data Stok Barang Akan Habis</h4>
             </div>
             <div class="modal-body">
               <table class="table table-striped table-responsive">
                 <thead>
                   <th>No</th>
                   <th>Nama Barang</th>
-                  <th>Stock </th>
+                  <th>Stok </th>
                   <th>Satuan</th>
                 </thead>
                 <tbody id="modalku">

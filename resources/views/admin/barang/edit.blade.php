@@ -70,9 +70,9 @@
 
                     <div class="col-md-6">
                         @if(Auth::user()->jabatan==2)
-                        <input id="stok" type="number" class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
+                        <input id="stok" type="text" class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
                         @else
-                        <input id="stok" type="number" readonly class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
+                        <input id="stok" type="text" readonly class="form-control" name="stok" value="{{ $masterbarangs->stok }}" required autofocus>
 
                         @endif
                         @if ($errors->has('stok'))

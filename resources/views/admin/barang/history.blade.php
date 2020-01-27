@@ -6,10 +6,10 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      History Stock Barang
+      Riwayat Stok Barang
     </h1>
     <ol class="breadcrumb">
-      <li><a href="{{ url('setting') }}" class="active"><i class="fa fa-dashboard"></i> Stock Barang</a></li>
+      <li><a href="{{ url('setting') }}" class="active"><i class="fa fa-dashboard"></i> Riwayat Stok Barang</a></li>
     </ol>
   </section>
 
@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Stock Barang</h3>
+            <h3 class="box-title">Stok Barang</h3>
             @if(session('status'))
             <div style="background-color:green; color:white;font-weight: bold">
               {{session('status')}}
